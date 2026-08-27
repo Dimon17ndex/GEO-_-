@@ -22,13 +22,32 @@
                 }
             }
 
-            // Логика переключения вкладок
+            // Функция для мягкой двойной вибрации
+            function triggerHaptic() {
+                if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+                    const haptic = window.Telegram.WebApp.HapticFeedback;
+                    // Первый легкий удар
+                    haptic.impactOccurred('light');
+                    // Второй еле ощутимый удар через небольшую паузу для эффекта «двойной» вибрации
+                    setTimeout(() => {
+                        haptic.impactOccurred('light');
+                    }, 70);
+                } else if (navigator.vibrate) {
+                    // Запасной вариант для браузера (две короткие вибрации)
+                    navigator.vibrate([15, 40, 15]);
+                }
+            }
+
+            // Логика переключения вкладок с вибрацией
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
 
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const targetTab = btn.getAttribute('data-tab');
+
+                    // Срабатывание вибрации при нажатии
+                    triggerHaptic();
 
                     tabBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
