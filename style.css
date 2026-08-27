@@ -567,14 +567,7 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 }
 
 .logo-icon {
-    height: auto;
-    max-width: 20px; /* Уменьшили с 28px до 20px */
-    width: 100%;
-    opacity: 0;
-    z-index: 3;
-    flex-shrink: 0;
-    animation: planetFlyIn 1.8s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
-    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    max-width: 15px !important;
 }
 
 .text-right {
