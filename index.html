@@ -78,16 +78,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 35px;
+            gap: 20px;
             width: 100%;
-            max-width: 800px;
+            max-width: 400px;
+            padding: 0 15px;
+            box-sizing: border-box;
             z-index: 2;
         }
 
         .db-brand-block {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             opacity: 0;
             filter: blur(10px);
             transform: translateY(-10px);
@@ -102,8 +104,8 @@
         }
 
         .db-logo-icon {
-            width: 90px;  
-            height: 90px;
+            width: 32px !important;  
+            height: 32px !important;
             object-fit: contain;
         }
 
@@ -111,7 +113,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 8px;
+            gap: 4px;
         }
 
         .db-main-title, .success-message {
@@ -122,37 +124,37 @@
 
         .db-main-title {
             color: #ffffff;
-            font-size: 32px; 
+            font-size: 14px !important; 
             font-weight: 900;
             line-height: 1;
-            letter-spacing: 1px;
+            letter-spacing: -0.5px;
             text-align: left;
         }
 
         .success-message {
             color: #00ff6e; 
-            font-size: 24px;
+            font-size: 16px;
             font-weight: 700;
-            letter-spacing: 2.5px;
+            letter-spacing: 2px;
             width: 100%;
             text-align: center;
         }
 
         .db-subtitle-badge {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            padding: 5px 14px;
+            background: #ffffff;
+            border: none;
+            padding: 2px 6px !important;
             border-radius: 50px;
             display: inline-block;
         }
 
         .db-subtitle-badge span {
             font-family: 'Montserrat', sans-serif;
-            font-size: 10px; 
-            font-weight: 500;
+            font-size: 7px !important; 
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #ffffff;
+            letter-spacing: 0.5px !important;
+            color: #000000;
             display: block;
             line-height: 1;
         }
@@ -214,34 +216,6 @@
         .app-banners-container.banner-active {
             display: block !important; 
         }
-
-        .dashboard-content-wrapper {
-    max-width: 400px;
-    padding: 0 15px;
-    box-sizing: border-box;
-}
-
-.db-brand-block {
-    gap: 12px;
-}
-
-.db-logo-icon {
-    width: 60px !important;
-    height: 60px !important;
-}
-
-.db-main-title {
-    font-size: 24px !important;
-}
-
-.db-subtitle-badge {
-    padding: 4px 10px !important;
-}
-
-.db-subtitle-badge span {
-    font-size: 8px !important;
-    letter-spacing: 1px !important;
-}
     </style>
 </head>
 <body>
@@ -272,13 +246,15 @@
         </div>
     </div>
 
-    <!-- Дашборд сессии (исправлена структура тегов) -->
+    <!-- Дашборд сессии -->
     <div class="session-dashboard" id="session-dashboard">
         <div class="dashboard-content-wrapper">
             <div class="db-brand-block">
                 <img src="images/geo_logo.png" alt="Geo Logo" class="db-logo-icon">
                 <div class="db-text-right">
-                    <h1 class="db-main-title" id="db-animate-title">GEОГРАФИЯ</h1>
+                    <h1 class="db-main-title" id="db-animate-title">
+                        <span>G</span><span>E</span><span>O</span><span>Г</span><span>Р</span><span>А</span><span>Ф</span><span>И</span><span>Я</span>
+                    </h1>
                     <div class="db-subtitle-badge">
                         <span>наука • образование • естествознание</span>
                     </div>
