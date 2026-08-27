@@ -2,24 +2,80 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GEOГРАФИЯ</title>
-    <link rel="icon" type="image/png" href="images/favicon.png">
-
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
-    <script>
-        (function() {
-            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            const isSmallScreen = window.innerWidth <= 768;
-            
-            if (isMobileDevice || isSmallScreen) {
-                window.location.replace("mobile.html");
-            } else {
-                window.location.replace("pc.html");
-            }
-        })();
-    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #fff);
+            color: var(--tg-theme-text-color, #000);
+        }
+        h1 { margin: 0 0 12px; }
+        .user-info { color: #666; font-size: 0.9rem; }
+
+        /* Блоки для разных версий */
+        .mobile-view, .desktop-view { display: none; }
+
+        /* Показываем нужную версию по ширине экрана */
+        @media (max-width: 768px) {
+            .mobile-view { display: block; }
+        }
+        @media (min-width: 769px) {
+            .desktop-view { display: block; }
+        }
+    </style>
 </head>
-<body style="background: #000;"></body>
+<body>
+    <!-- Мобильная версия -->
+    <div class="mobile-view">
+        <h1>GEOГРАФИЯ (Mobile)</h1>
+        <p class="user-info" id="info">Загрузка...</p>
+        <button id="action-btn">Нажать</button>
+    </div>
+
+    <!-- Десктопная версия -->
+    <div class="desktop-view">
+        <h1>GEOГРАФИЯ (Desktop)</h1>
+        <p class="user-info" id="info-pc">Загрузка...</p>
+        <button id="action-btn-pc">Нажать (PC)</button>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        // Данные пользователя
+        const user = tg.initDataUnsafe?.user;
+        const infoEl = document.getElementById('info');
+        const infoPcEl = document.getElementById('info-pc');
+
+        if (user) {
+            const name = `${user.first_name} ${user.last_name || ''}`.trim();
+            if (infoEl) infoEl.textContent = `Привет, ${name}! (Mobile)`;
+            if (infoPcEl) infoPcEl.textContent = `Привет, ${name}! (Desktop)`;
+        } else {
+            if (infoEl) infoEl.textContent = 'Пользователь не авторизован (нормально в тестах).';
+            if (infoPcEl) infoPcEl.textContent = 'Пользователь не авторизован.';
+        }
+
+        // Обработчики кнопок
+        const btn = document.getElementById('action-btn');
+        if (btn) {
+            btn.addEventListener('click', () => {
+                tg.sendData('mobile_click');
+            });
+        }
+
+        const btnPc = document.getElementById('action-btn-pc');
+        if (btnPc) {
+            btnPc.addEventListener('click', () => {
+                tg.sendData('desktop_click');
+            });
+        }
+    </script>
+</body>
 </html>
