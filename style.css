@@ -646,24 +646,32 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     pointer-events: auto; /* Разрешаем ховер для самого текста внутри обертки */
 }
 
-@media screen and (max-width: 768px) {
-    /* Принудительно выстраиваем блоки в строку на мобильных */
-    .brand-block, 
+@media screen and (max-width: 480px) {
+    .dashboard-content-wrapper {
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+    
     .db-brand-block {
-        flex-direction: row !important;
-        align-items: center;
-        gap: 12px;
+        gap: 8px;
     }
 
-    /* Уменьшаем логотип дашборда, чтобы он влез в экран */
     .db-logo-icon {
-        max-width: 50px !important;
-        width: 100% !important;
+        width: 50px !important;
+        height: 50px !important;
     }
 
-    /* Уменьшаем гигантский заголовок дашборда под мобилки */
     .db-main-title {
-        font-size: 26px !important;
+        font-size: 20px !important;
+    }
+
+    .db-subtitle-badge {
+        padding: 3px 8px !important;
+    }
+
+    .db-subtitle-badge span {
+        font-size: 7.5px !important;
+        letter-spacing: 0.5px !important;
     }
 }
 
