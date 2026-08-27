@@ -234,8 +234,6 @@
 
     <div class="shadow-layer"></div>
 
-    <img src="images/zaporozge_gerb.png" alt="Zaporozhye Big Gerb" class="bg-blur-gerb">
-
     <div id="bg-wave-container"></div>
 
     <div class="settings-trigger-zone" id="settings-btn">
@@ -271,8 +269,6 @@
             </div>
         </div>
     </div>
-
-    <div id="click-prompt" class="prompt-text">Нажмите на экран</div>
 
     <div class="main-container">
         <div class="brand-block">
@@ -313,12 +309,8 @@
         </div>
 
         <div class="bottom-credits-wrapper">
-            <p class="bottom-credits" id="wave-text">проект Запорожской области</p>
+            <p class="bottom-credits" id="wave-text"></p>
         </div>
-    </div>
-
-    <div class="corner-icon-floating-wrapper">
-        <img src="images/zaporoge_icon.png" alt="Zaporozhye Icon" class="corner-icon">
     </div>
 
     <div class="session-dashboard" id="session-dashboard">
@@ -379,17 +371,15 @@
         const textContainer = document.getElementById('wave-text');
         const waveContainer = document.getElementById('bg-wave-container');
         const logoElement = document.getElementById('main-logo');
-        const promptElement = document.getElementById('click-prompt');
         const volumeStatusLabel = document.getElementById('volume-status-label');
         const intensitySlider = document.getElementById('wave-intensity-slider');
         const intensityValueLabel = document.getElementById('intensity-value');
         const textInput = document.getElementById('user-text-input');
         const inputContainer = document.querySelector('.input-container-box');
         
-        let initialText = "проект Запорожской области";
+        let initialText = "";
         let isWaveTriggered = false;
         let isTextHovered = false; 
-        let hasUserClicked = false; 
         let intensityPercent = 20;
         let isClickAllowed = false;
         let isSecretTextActive = false; 
@@ -488,39 +478,6 @@
 
         setTimeout(() => { spawnAmbientWave(); }, 3500);
 
-        const bgMusic = new Audio('audio/melody_start.mp3');
-        bgMusic.volume = 0.4; 
-        let musicStarted = false;
-
-        function playMusic() {
-            if (musicStarted || bgMusic.muted) return;
-            bgMusic.play().then(() => { musicStarted = true; }).catch(err => {});
-        }
-
-        bgMusic.addEventListener('ended', () => {
-            setTimeout(() => { if (!bgMusic.muted) bgMusic.play(); }, 5000); 
-        });
-
-        function showClickPrompt() {
-            if (hasUserClicked || !promptElement) return; 
-            const corners = [
-                { top: '60px', left: '60px', bottom: 'auto', right: 'auto' },     
-                { bottom: '120px', left: '60px', top: 'auto', right: 'auto' },    
-                { bottom: '150px', right: '60px', top: 'auto', left: 'auto' }     
-            ];
-            const randomIndex = Math.floor(Math.random() * corners.length);
-            const chosenCorner = corners[randomIndex];
-            promptElement.style.top = chosenCorner.top;
-            promptElement.style.bottom = chosenCorner.bottom;
-            promptElement.style.left = chosenCorner.left;
-            promptElement.style.right = chosenCorner.right;
-            if (randomIndex === 2) promptElement.classList.add('in-bottom-right');
-            else promptElement.classList.remove('in-bottom-right');
-            promptElement.classList.add('animate-prompt');
-        }
-
-        setTimeout(() => { if (!hasUserClicked) showClickPrompt(); }, 4500); 
-
         if (textInput) {
             textInput.addEventListener('mousedown', (e) => { e.stopPropagation(); });
             textInput.addEventListener('keydown', (e) => { e.stopPropagation(); });
@@ -529,21 +486,6 @@
         document.body.addEventListener('mousedown', (e) => {
             if (!isClickAllowed) return;
             if (e.target.closest('#settings-btn') || e.target.closest('.settings-trigger-zone') || e.target.closest('.dev-console')) return;
-
-            if (!hasUserClicked && promptElement) {
-                hasUserClicked = true;
-                const computedStyle = window.getComputedStyle(promptElement);
-                promptElement.style.opacity = computedStyle.opacity;
-                promptElement.style.filter = computedStyle.filter;
-                promptElement.style.transform = computedStyle.transform;
-                promptElement.classList.remove('animate-prompt');
-                void promptElement.offsetWidth;
-                promptElement.style.transition = 'opacity 2.5s ease-in-out, filter 2.5s ease-in-out, transform 2.5s ease-in-out';
-                promptElement.style.opacity = '0';
-                promptElement.style.filter = 'blur(15px)';
-                promptElement.style.transform = 'rotate(-4deg) translateY(15px)';
-                setTimeout(() => { promptElement.style.display = 'none'; }, 2500);
-            }
 
             if (inputContainer && !inputContainer.classList.contains('active')) {
                 if (!e.target.closest('.bottom-credits-wrapper')) {
@@ -574,7 +516,6 @@
                 }
             }
 
-            playMusic();
             createBackgroundRipple(e.clientX, e.clientY, 'bg-click-ripple');
         });
 
@@ -586,14 +527,12 @@
             volumeBtn.addEventListener('click', (e) => {
                 e.stopPropagation(); 
                 isMuted = !isMuted;
-                bgMusic.muted = isMuted;
                 if (isMuted) {
                     volumeStatusLabel.classList.add('muted-mode');
                     volumeIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15" stroke-width="1.5"></line><line x1="17" y1="9" x2="23" y2="15" stroke-width="1.5"></line>`;
                 } else {
                     volumeStatusLabel.classList.remove('muted-mode');
                     volumeIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path class="volume-wave-1" d="M19.07 4.93a10 10 0 0 1 0 14.14"></path><path class="volume-wave-2" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>`;
-                    playMusic();
                 }
             });
         }
@@ -664,12 +603,9 @@
 
                     if (response.ok && data.success) {
                         const mainContainer = document.querySelector('.main-container');
-                        const cornerWrapper = document.querySelector('.corner-icon-floating-wrapper');
                         const dashboardOverlay = document.getElementById('session-dashboard');
 
                         if (mainContainer) mainContainer.classList.add('fade-out-element');
-                        if (cornerWrapper) cornerWrapper.classList.add('fade-out-element');
-                        if (promptElement) promptElement.classList.add('fade-out-element');
                         
                         if (dashboardOverlay) {
                             dashboardOverlay.style.display = 'flex';
