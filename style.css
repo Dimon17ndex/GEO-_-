@@ -560,14 +560,14 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .brand-block {
     display: flex;
     align-items: center; /* Центрирует логотип и текст строго по вертикали в одну строку */
-    gap: 15px; 
-    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-    animation: mainFloat 6s ease-in-out infinite;
+    gap: 10px; /* уменьшаем расстояние между логотипом и текстом */
+    transform: scale(0.75); /* уменьшает весь блок целиком на 25% */
+    transform-origin: center;
 }
 
 .logo-icon {
     height: auto;
-    max-width: 60px; /* Уменьшили размер логотипа, чтобы он аккуратно смотрелся в строчку */
+    max-width: 45px; /* уменьшаем размер иконки логотипа */
     width: 100%; 
     opacity: 0;
     z-index: 3;
@@ -587,7 +587,7 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .main-title {
     margin: 0;
     font-family: 'Unbounded', sans-serif;
-    font-size: 32px; /* Уменьшили размер шрифта названия под одну строку */
+    font-size: 24px; /* уменьшаем размер текста названия */
     font-weight: 900; 
     letter-spacing: -0.5px; 
     line-height: 1;
@@ -613,13 +613,13 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .main-title span:nth-child(9) { animation-delay: 1.8s, 1.8s; }
 
 .subtitle-badge {
-    margin-top: 15px;
+    margin-top: 10px;
     background-color: #ffffff;
     color: #000000;
-    padding: 8px 24px;
+    padding: 6px 16px; /* уменьшаем отступы белой плашки */
     border-radius: 50px; 
     font-weight: 700;
-    font-size: 16px;
+    font-size: 12px; /* уменьшаем текст внутри плашки */
     letter-spacing: 1px;
     opacity: 0;
     animation: fadeInElement 1.2s ease-out 2.2s forwards; 
@@ -646,32 +646,24 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     pointer-events: auto; /* Разрешаем ховер для самого текста внутри обертки */
 }
 
-@media screen and (max-width: 480px) {
-    .dashboard-content-wrapper {
-        padding: 0 15px;
-        box-sizing: border-box;
-    }
-    
+@media screen and (max-width: 768px) {
+    /* Принудительно выстраиваем блоки в строку на мобильных */
+    .brand-block, 
     .db-brand-block {
-        gap: 8px;
+        flex-direction: row !important;
+        align-items: center;
+        gap: 12px;
     }
 
+    /* Уменьшаем логотип дашборда, чтобы он влез в экран */
     .db-logo-icon {
-        width: 50px !important;
-        height: 50px !important;
+        max-width: 50px !important;
+        width: 100% !important;
     }
 
+    /* Уменьшаем гигантский заголовок дашборда под мобилки */
     .db-main-title {
-        font-size: 20px !important;
-    }
-
-    .db-subtitle-badge {
-        padding: 3px 8px !important;
-    }
-
-    .db-subtitle-badge span {
-        font-size: 7.5px !important;
-        letter-spacing: 0.5px !important;
+        font-size: 26px !important;
     }
 }
 
