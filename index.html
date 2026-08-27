@@ -23,14 +23,55 @@
 </head>
 <body>
     <div class="mobile-wrapper">
+        <!-- Шапка с логотипом и названием -->
         <header class="mobile-header">
             <div class="logo-wrapper">
                 <img src="images/geo_logo.png" alt="Geo Logo" class="logo">
             </div>
-            <h1>GEOГРАФИЯ</h1>
+            <h1>Стикеры и эмодзи</h1>
+            <p class="header-desc">
+                С помощью этого бота можно создавать новые наборы или управлять ими. <span class="accent-link">Подробнее</span>
+            </p>
         </header>
-        <main class="mobile-content">
-            <p>Мобильная версия (Mobile-First)</p>
+
+        <!-- Блок поиска и переключения вида -->
+        <div class="search-section">
+            <div class="search-bar">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="text" placeholder="Поиск" autocomplete="off">
+            </div>
+            <button class="view-toggle-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+            </button>
+        </div>
+
+        <!-- Вкладки -->
+        <div class="tabs-row">
+            <button class="tab-btn">Стикеры</button>
+            <button class="tab-btn active">Эмодзи</button>
+        </div>
+
+        <!-- Список элементов -->
+        <main class="list-container">
+            <div class="list-item action-item">
+                <div class="item-icon-box plus-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                </div>
+                <div class="item-info">
+                    <span class="item-title primary-color">Создать набор эмодзи</span>
+                </div>
+            </div>
+
+            <div class="list-item">
+                <div class="item-icon-box">
+                    <img src="images/geo_logo.png" alt="Geo" class="list-logo">
+                </div>
+                <div class="item-info">
+                    <span class="item-title">GEOГРАФИЯ</span>
+                    <span class="item-subtitle">t.me/addemoji/GEO_RUS_GRAFIA_STICK</span>
+                </div>
+                <button class="item-menu-btn">•••</button>
+            </div>
         </main>
     </div>
 </body>
