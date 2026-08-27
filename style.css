@@ -568,7 +568,7 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 
 .logo-icon {
     height: auto;
-    max-width: 42px; /* Базовый размер иконки для ПК */
+    max-width: 28px; /* Уменьшили с 42px до 28px (или поставьте нужное значение) */
     width: 100%;
     opacity: 0;
     z-index: 3;
@@ -589,12 +589,12 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .main-title {
     margin: 0;
     font-family: 'Unbounded', sans-serif;
-    font-size: clamp(15px, 5.5vw, 20px); /* Динамический шрифт под разные экраны */
+    font-size: clamp(12px, 4vw, 16px); /* Уменьшили размер текста */
     font-weight: 900;
     letter-spacing: -0.5px;
     line-height: 1;
     display: flex;
-    white-space: nowrap; /* Защищает текст от переноса по словам */
+    white-space: nowrap;
 }
 
 .main-title span {
@@ -630,28 +630,16 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 }
 
 @media screen and (max-width: 768px) {
-    .brand-block {
-        gap: 8px; /* Уменьшаем отступ между иконкой и текстом на смартфонах */
-        max-width: 95vw;
-    }
-
     .logo-icon {
-        max-width: 32px; /* Компактный размер иконки для мобильных устройств */
-    }
-
-    .db-brand-block {
-        flex-direction: row !important;
-        align-items: center;
-        gap: 12px;
+        max-width: 24px; /* Компактный размер иконки на мобилках */
     }
 
     .db-logo-icon {
-        max-width: 50px !important;
-        width: 100% !important;
+        max-width: 100px !important;
     }
 
     .db-main-title {
-        font-size: 26px !important;
+        font-size: 24px !important;
     }
 }
 
