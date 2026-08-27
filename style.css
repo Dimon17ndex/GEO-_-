@@ -539,7 +539,7 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 }
 
 /* ==========================================================================
-   6. ГЛАВНЫЙ КОНТЕНТ (ЦЕНТРИРОВАНИЕ)
+   6. ГЛАВНЫЙ КОНТЕНТ (ЦЕНТРИРОВАНИЕ И АДАПТИВ)
    ========================================================================== */
 .main-container {
     position: fixed;
@@ -553,14 +553,14 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     z-index: 3; 
     pointer-events: none;
     box-sizing: border-box;
-    padding: 20px;
+    padding: 15px;
     transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .brand-block {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     max-width: 100%;
     box-sizing: border-box;
     transform: none;
@@ -568,10 +568,11 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 
 .logo-icon {
     height: auto;
-    max-width: 38px;
+    max-width: 42px; /* Базовый размер иконки для ПК */
     width: 100%;
     opacity: 0;
     z-index: 3;
+    flex-shrink: 0;
     animation: planetFlyIn 1.8s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -582,17 +583,18 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     align-items: flex-start;
     z-index: 4; 
     position: relative;
-    flex-shrink: 0; 
+    min-width: 0; /* Важно для корректного сжатия flex-элементов */
 }
 
 .main-title {
     margin: 0;
     font-family: 'Unbounded', sans-serif;
-    font-size: 20px;
+    font-size: clamp(15px, 5.5vw, 20px); /* Динамический шрифт под разные экраны */
     font-weight: 900;
     letter-spacing: -0.5px;
     line-height: 1;
     display: flex;
+    white-space: nowrap; /* Защищает текст от переноса по словам */
 }
 
 .main-title span {
@@ -617,52 +619,37 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     margin-top: 6px;
     background-color: #ffffff;
     color: #000000;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 50px;
     font-weight: 700;
-    font-size: 9px;
+    font-size: clamp(7px, 2.1vw, 9px); /* Плавное уменьшение плашки */
     letter-spacing: 0.5px;
     opacity: 0;
+    white-space: nowrap;
     animation: fadeInElement 1.2s ease-out 2.2s forwards;
 }
 
-.bottom-credits-wrapper {
-    position: absolute;
-    bottom: 50px;
-    z-index: 5;
-    pointer-events: none; 
-    cursor: pointer;
-    opacity: 0;
-    animation: fadeInElement 1.5s ease-out 2.7s forwards,
-               enablePointerEvents 0s linear 4.2s forwards; 
-}
-
-.bottom-credits {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 1px;
-    display: inline-block;
-    white-space: nowrap;
-    pointer-events: auto; /* Разрешаем ховер для самого текста внутри обертки */
-}
-
 @media screen and (max-width: 768px) {
-    /* Принудительно выстраиваем блоки в строку на мобильных */
-    .brand-block, 
+    .brand-block {
+        gap: 8px; /* Уменьшаем отступ между иконкой и текстом на смартфонах */
+        max-width: 95vw;
+    }
+
+    .logo-icon {
+        max-width: 32px; /* Компактный размер иконки для мобильных устройств */
+    }
+
     .db-brand-block {
         flex-direction: row !important;
         align-items: center;
         gap: 12px;
     }
 
-    /* Уменьшаем логотип дашборда, чтобы он влез в экран */
     .db-logo-icon {
         max-width: 50px !important;
         width: 100% !important;
     }
 
-    /* Уменьшаем гигантский заголовок дашборда под мобилки */
     .db-main-title {
         font-size: 26px !important;
     }
