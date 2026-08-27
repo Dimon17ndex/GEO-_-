@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GEOГРАФИЯ</title>
+    <link rel="stylesheet" href="styles.css">
+    
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
@@ -13,34 +15,60 @@
             background-color: var(--tg-theme-bg-color, #fff);
             color: var(--tg-theme-text-color, #000);
         }
-        h1 { margin: 0 0 12px; }
-        .user-info { color: #666; font-size: 0.9rem; }
-
-        /* Блоки для разных версий */
-        .mobile-view, .desktop-view { display: none; }
-
-        /* Показываем нужную версию по ширине экрана */
-        @media (max-width: 768px) {
-            .mobile-view { display: block; }
+        
+        .main-container {
+            max-width: 100%;
+            padding: 20px;
         }
-        @media (min-width: 769px) {
-            .desktop-view { display: block; }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 12px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Мобильная версия -->
-    <div class="mobile-view">
-        <h1>GEOГРАФИЯ (Mobile)</h1>
-        <p class="user-info" id="info">Загрузка...</p>
-        <button id="action-btn">Нажать</button>
-    </div>
-
-    <!-- Десктопная версия -->
-    <div class="desktop-view">
-        <h1>GEOГРАФИЯ (Desktop)</h1>
-        <p class="user-info" id="info-pc">Загрузка...</p>
-        <button id="action-btn-pc">Нажать (PC)</button>
+    <div class="main-container">
+        <h1>GEOГРАФИЯ</h1>
+        
+        <div class="project-info">
+            <p>наука • образование • естествознание</p>
+            <p>проект Запорожской области</p>
+        </div>
+        
+        <div class="settings">
+            <h2>Настройки</h2>
+            <div class="setting">
+                <label>
+                    <input type="checkbox" id="music-toggle">
+                    Музыка: <span id="music-status">on</span> / off
+                </label>
+            </div>
+            
+            <div class="setting">
+                <label>
+                    Интенсивность эмбиентных волн: 
+                    <input type="range" min="0" max="100" value="20">
+                    <span id="intensity-value">20%</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="auth-section">
+            <h2>Авторизация</h2>
+            <div class="auth-box">
+                <p>ТРЕБУЕТСЯ АВТОРИЗАЦИЯ</p>
+                <input type="password" id="password-input" placeholder="PASS">
+                <button id="auth-button">Войти</button>
+                <p class="auth-message" id="auth-status">[SYSTEM] Доступ разрешен. Сессия активна.</p>
+            </div>
+        </div>
+        
+        <div class="console">
+            <h2>DEV CONSOLE v1.0</h2>
+            <p>Нажмите на экран</p>
+        </div>
     </div>
 
     <script>
@@ -48,34 +76,29 @@
         tg.ready();
         tg.expand();
 
-        // Данные пользователя
-        const user = tg.initDataUnsafe?.user;
-        const infoEl = document.getElementById('info');
-        const infoPcEl = document.getElementById('info-pc');
+        // Обработка авторизации
+        document.getElementById('auth-button').addEventListener('click', () => {
+            const password = document.getElementById('password-input').value;
+            if (password === 'your-secret-password') {
+                document.getElementById('auth-status').innerText = '[SYSTEM] Доступ разрешен. Сессия активна.';
+            } else {
+                document.getElementById('auth-status').innerText = '[ERROR] Неверный пароль.';
+            }
+        });
 
-        if (user) {
-            const name = `${user.first_name} ${user.last_name || ''}`.trim();
-            if (infoEl) infoEl.textContent = `Привет, ${name}! (Mobile)`;
-            if (infoPcEl) infoPcEl.textContent = `Привет, ${name}! (Desktop)`;
-        } else {
-            if (infoEl) infoEl.textContent = 'Пользователь не авторизован (нормально в тестах).';
-            if (infoPcEl) infoPcEl.textContent = 'Пользователь не авторизован.';
-        }
+        // Обработка музыки
+        const musicToggle = document.getElementById('music-toggle');
+        musicToggle.addEventListener('change', () => {
+            const status = musicToggle.checked ? 'on' : 'off';
+            document.getElementById('music-status').innerText = status;
+        });
 
-        // Обработчики кнопок
-        const btn = document.getElementById('action-btn');
-        if (btn) {
-            btn.addEventListener('click', () => {
-                tg.sendData('mobile_click');
-            });
-        }
-
-        const btnPc = document.getElementById('action-btn-pc');
-        if (btnPc) {
-            btnPc.addEventListener('click', () => {
-                tg.sendData('desktop_click');
-            });
-        }
+        // Обработка интенсивности
+        const intensityRange = document.querySelector('input[type="range"]');
+        intensityRange.addEventListener('input', () => {
+            const value = intensityRange.value;
+            document.getElementById('intensity-value').innerText = `${value}%`;
+        });
     </script>
 </body>
 </html>
