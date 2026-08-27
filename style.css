@@ -554,23 +554,23 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     z-index: 3; 
     pointer-events: none;
     box-sizing: border-box;
-    padding: 5vw;
+    padding: 20px;
     transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .brand-block {
     display: flex;
     align-items: center;
-    gap: 2vw; /* Отступ между иконкой и текстом подстраивается под ширину экрана */
-    max-width: 95vw;
+    gap: 8px;
+    max-width: 100%;
     box-sizing: border-box;
+    transform: none;
 }
 
 .logo-icon {
     height: auto;
-    width: 11vw; /* Размер логотипа теперь зависит от ширины экрана (примерно 45-50px на смартфонах) */
-    min-width: 35px;
-    max-width: 50px;
+    max-width: 38px;
+    width: 100%;
     opacity: 0;
     z-index: 3;
     animation: planetFlyIn 1.8s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
@@ -583,18 +583,26 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     align-items: flex-start;
     z-index: 4; 
     position: relative;
-    flex-shrink: 1; /* Позволяет блоку сжиматься при нехватке места */
+    flex-shrink: 0; 
 }
 
 .main-title {
     margin: 0;
     font-family: 'Unbounded', sans-serif;
-    font-size: clamp(18px, 5.5vw, 24px); /* Автоматический размер: не меньше 18px, не больше 24px */
-    font-weight: 900; 
-    letter-spacing: -0.5px; 
+    font-size: clamp(16px, 5vw, 20px); /* Автоматически уменьшается на узких экранах */
+    font-weight: 900;
+    letter-spacing: -0.5px;
     line-height: 1;
-    display: flex; 
-    white-space: nowrap; /* Запрещаем названию переноситься на новую строку */
+    display: flex;
+    white-space: nowrap; /* Не дает названию переноситься */
+}
+
+.main-title span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: letterGlitchIn 0.5s linear forwards, 
+                letterFlyUp 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .main-title span:nth-child(1) { animation-delay: 1.0s, 1.0s; }
@@ -608,16 +616,16 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .main-title span:nth-child(9) { animation-delay: 1.8s, 1.8s; }
 
 .subtitle-badge {
-    margin-top: 1.5vh;
+    margin-top: 6px;
     background-color: #ffffff;
     color: #000000;
-    padding: 0.6vh 2vw; 
-    border-radius: 50px; 
+    padding: 4px 10px;
+    border-radius: 50px;
     font-weight: 700;
-    font-size: clamp(8px, 2.2vw, 10px); /* Размер шрифта плашки плавно адаптируется */
+    font-size: clamp(7px, 2vw, 9px); /* Плавное уменьшение текста плашки */
     letter-spacing: 0.5px;
     opacity: 0;
-    animation: fadeInElement 1.2s ease-out 2.2s forwards; 
+    animation: fadeInElement 1.2s ease-out 2.2s forwards;
     white-space: nowrap;
 }
 
@@ -643,23 +651,16 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 }
 
 @media screen and (max-width: 768px) {
-    /* Принудительно выстраиваем блоки в строку на мобильных */
     .brand-block, 
     .db-brand-block {
         flex-direction: row !important;
         align-items: center;
-        gap: 12px;
+        gap: 8px;
+        max-width: 92vw; /* Защита от выхода за рамки экрана телефона */
     }
 
-    /* Уменьшаем логотип дашборда, чтобы он влез в экран */
-    .db-logo-icon {
-        max-width: 50px !important;
-        width: 100% !important;
-    }
-
-    /* Уменьшаем гигантский заголовок дашборда под мобилки */
-    .db-main-title {
-        font-size: 26px !important;
+    .logo-icon {
+        max-width: 32px !important; /* Компактный размер иконки для мобилок */
     }
 }
 
