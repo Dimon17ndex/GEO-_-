@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEOГРАФИЯ</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <script>
+        (function() {
+            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isSmallScreen = window.innerWidth <= 768;
+            
+            if (isMobileDevice || isSmallScreen) {
+                window.location.replace("mobile.html");
+            } else {
+                window.location.replace("pc.html");
+            }
+        })();
+    </script>
+</head>
+<body style="background: #000;"></body>
+</html>
