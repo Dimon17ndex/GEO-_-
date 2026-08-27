@@ -559,8 +559,8 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 
 .brand-block {
     display: flex;
-    align-items: center;
-    gap: 15px; /* Уменьшили отступ между логотипом и текстом */
+    align-items: center; /* Центрирует логотип и текст строго по вертикали в одну строку */
+    gap: 15px; 
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
     animation: mainFloat 6s ease-in-out infinite;
 }
@@ -649,10 +649,11 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 @media screen and (max-width: 768px) {
     .brand-block, 
     .db-brand-block {
-        flex-direction: row; /* Держит логотип и текст в одной строке */
+        flex-direction: row; /* Держит логотип и текст в одном ряду на мобильных */
         align-items: center;
         gap: 10px;
     }
+}
 
     .logo-icon, 
     .db-logo-icon {
