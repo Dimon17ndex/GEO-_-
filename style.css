@@ -27,8 +27,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* Смещение выше центра */
-    transform: translateY(-8vh);
+    /* Подняли еще выше от центра */
+    transform: translateY(-14vh);
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     text-align: center;
 }
@@ -37,26 +37,25 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
 }
 
-/* Обертка логотипа (темный круг с тенью) */
+/* Обертка логотипа (темный круг с тенью, без обводки) */
 .logo-wrapper {
-    width: 88px;
-    height: 88px;
-    background: #111111;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    width: 96px;
+    height: 96px;
+    background: #121212;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 
-                0 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.7), 
+                0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .logo {
-    width: 52px;
-    height: 52px;
+    width: 62px; /* Увеличили размер логотипа внутри круга */
+    height: 62px;
     object-fit: contain;
 }
 
