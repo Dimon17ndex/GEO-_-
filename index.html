@@ -16,49 +16,71 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* --- ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ФОНА И ВОЛН --- */
+        /* --- ПЕРЕОПРЕДЕЛЯЕМ СТИЛИ ДЛЯ ЧИСТОГО ФОНА --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            background: #0a0a0a;
+        html, body {
+            width: 100%;
             min-height: 100vh;
+            background: #0a0a0a !important;
             overflow: hidden;
             font-family: 'Montserrat', sans-serif;
             color: #fff;
             position: relative;
         }
 
-        /* Фоновый герб - используем класс из style.css */
+        body {
+            background: #0a0a0a !important;
+        }
+
+        /* Скрываем всё лишнее из style.css */
+        .main-container,
+        .brand-block,
+        .input-container-box,
+        .settings-trigger-zone,
+        .corner-icon-floating-wrapper,
+        .app-banners-container,
+        .dev-console,
+        .shadow-layer,
+        .prompt-text,
+        .session-dashboard,
+        .bottom-credits-wrapper {
+            display: none !important;
+        }
+
+        /* Фоновый герб */
         .bg-blur-gerb {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80vw;
-            max-width: 800px;
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(2px);
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 80vw !important;
+            max-width: 800px !important;
+            opacity: 0.05 !important;
+            pointer-events: none !important;
+            z-index: 0 !important;
+            filter: blur(2px) !important;
+            display: block !important;
         }
 
         /* Волновой контейнер */
         #bg-wave-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            pointer-events: none !important;
+            z-index: 1 !important;
+            overflow: hidden !important;
+            display: block !important;
         }
 
-        /* Ripple эффекты - используем классы из style.css */
+        /* Ripple эффекты */
         .bg-wave-ripple,
         .bg-click-ripple,
         .bg-ambient-ripple,
@@ -105,33 +127,34 @@
             100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
         }
 
-        /* Версия - используем класс из style.css */
+        /* Версия */
         .version-badge {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) scale(0.8);
-            padding: 6px 18px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 50px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 9px;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.15);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            z-index: 9998;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            position: fixed !important;
+            bottom: 20px !important;
+            left: 50% !important;
+            transform: translateX(-50%) scale(0.8) !important;
+            padding: 6px 18px !important;
+            background: rgba(0, 0, 0, 0.6) !important;
+            backdrop-filter: blur(8px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 50px !important;
+            font-family: 'Montserrat', sans-serif !important;
+            font-size: 9px !important;
+            font-weight: 400 !important;
+            color: rgba(255, 255, 255, 0.15) !important;
+            letter-spacing: 1px !important;
+            text-transform: uppercase !important;
+            z-index: 9998 !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transition: opacity 0.4s ease, transform 0.4s ease !important;
+            display: block !important;
         }
 
         .version-badge.visible,
         .version-badge.show {
-            opacity: 1;
-            transform: translateX(-50%) scale(1);
+            opacity: 1 !important;
+            transform: translateX(-50%) scale(1) !important;
         }
 
         /* --- СТИЛИ ДЛЯ TELEGRAM WEB APP --- */
@@ -143,8 +166,8 @@
         /* Адаптация для мобильных */
         @media (max-width: 768px) {
             .bg-blur-gerb {
-                width: 90vw;
-                opacity: 0.05;
+                width: 90vw !important;
+                opacity: 0.08 !important;
             }
         }
     </style>
@@ -164,13 +187,9 @@
         // --- ИНИЦИАЛИЗАЦИЯ TELEGRAM WEB APP ---
         const tg = window.Telegram?.WebApp;
         if (tg) {
-            // Разворачиваем на весь экран
             tg.expand();
-            
-            // Добавляем класс для стилей Telegram
             document.body.classList.add('tg-webapp');
             
-            // Применяем тему Telegram
             const theme = tg.themeParams;
             if (theme) {
                 document.documentElement.style.setProperty('--tg-theme-bg-color', theme.bg_color || '#0a0a0a');
@@ -179,10 +198,8 @@
                 document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', theme.secondary_bg_color || 'rgba(255,255,255,0.03)');
             }
 
-            // Сообщаем Telegram, что приложение готово
             tg.ready();
 
-            // Получаем данные пользователя
             const user = tg.initDataUnsafe?.user;
             if (user) {
                 console.log('✅ Telegram User:', user);
@@ -191,12 +208,10 @@
                 console.log('👤 Username:', user.username || 'нет');
             }
 
-            // Функция для отправки данных в бот
             window.sendToTelegram = function(data) {
                 tg.sendData(JSON.stringify(data));
             };
 
-            // Функция для закрытия приложения
             window.closeTelegramApp = function() {
                 tg.close();
             };
@@ -206,7 +221,7 @@
 
         // --- ЛОГИКА ВОЛН ---
         const waveContainer = document.getElementById('bg-wave-container');
-        let intensityPercent = 30; // Начальная интенсивность
+        let intensityPercent = 30;
         let isTextHovered = false;
 
         function createBackgroundRipple(x, y, className, duration = 1500) {
@@ -219,14 +234,14 @@
             setTimeout(() => { ripple.remove(); }, duration);
         }
 
-        // Стартовый ripple в центре
+        // Стартовый ripple
         setTimeout(() => {
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
             createBackgroundRipple(centerX, centerY, 'bg-click-ripple');
         }, 1000);
 
-        // Ambient волны (случайные)
+        // Ambient волны
         function spawnAmbientWave() {
             if (intensityPercent === 0) { 
                 setTimeout(spawnAmbientWave, 2000); 
@@ -262,7 +277,7 @@
             createBackgroundRipple(e.clientX, e.clientY, 'bg-click-ripple');
         });
 
-        // --- ЛОГИКА ОТОБРАЖЕНИЯ ПЛАШКИ ВЕРСИИ ПО 5 КЛИКАМ ---
+        // --- ЛОГИКА ПЛАШКИ ВЕРСИИ ПО 5 КЛИКАМ ---
         (function() {
             const vBadge = document.getElementById('version-badge');
             let clickCount = 0;
@@ -270,7 +285,6 @@
             let badgeHideTimer = null;
 
             document.addEventListener('click', (e) => {
-                // Игнорируем клики по инпутам и кнопкам
                 if (e.target.closest('input') || e.target.closest('button')) {
                     return;
                 }
@@ -297,13 +311,9 @@
             });
         })();
 
-        // --- УПРАВЛЕНИЕ ИНТЕНСИВНОСТЬЮ (можно добавить позже) ---
-        // Можно добавить слайдер для управления интенсивностью волн
-
         console.log('✅ GEOГРАФИЯ загружена!');
         console.log('🌊 Интенсивность волн:', intensityPercent + '%');
         
-        // Отправляем данные в Telegram, если приложение открыто в нем
         if (tg) {
             tg.sendData(JSON.stringify({
                 action: 'app_loaded',
