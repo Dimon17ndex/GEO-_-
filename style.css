@@ -568,7 +568,7 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 
 .logo-icon {
     height: auto;
-    max-width: 14px; /* Уменьшено */
+    max-width: 10px; /* Сильно уменьшено */
     width: 100%;
     opacity: 0;
     z-index: 3;
@@ -589,7 +589,7 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .main-title {
     margin: 0;
     font-family: 'Unbounded', sans-serif;
-    font-size: clamp(8px, 2.5vw, 11px); /* Уменьшили минимальный и максимальный размер */
+    font-size: clamp(6px, 2vw, 9px); /* Уменьшенный размер шрифта */
     font-weight: 900;
     letter-spacing: -0.5px;
     line-height: 1;
@@ -616,14 +616,14 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .main-title span:nth-child(9) { animation-delay: 1.8s, 1.8s; }
 
 .subtitle-badge {
-    margin-top: 6px;
+    margin-top: 4px;
     background-color: #ffffff;
     color: #000000;
-    padding: 2px 6px; /* Уменьшили внутренние отступы */
+    padding: 1px 4px; /* Компактные отступы */
     border-radius: 50px;
     font-weight: 700;
-    font-size: clamp(6px, 1.8vw, 8px); /* Уменьшили шрифтовой диапазон плашки */
-    letter-spacing: 0.5px;
+    font-size: clamp(5px, 1.4vw, 7px); /* Миниатюрный размер текста на плашке */
+    letter-spacing: 0.3px;
     opacity: 0;
     white-space: nowrap;
     animation: fadeInElement 1.2s ease-out 2.2s forwards;
