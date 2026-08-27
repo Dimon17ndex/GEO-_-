@@ -568,7 +568,7 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 
 .logo-icon {
     height: auto;
-    max-width: 28px; /* Уменьшили с 42px до 28px (или поставьте нужное значение) */
+    max-width: 20px; /* Уменьшили с 28px до 20px */
     width: 100%;
     opacity: 0;
     z-index: 3;
@@ -589,7 +589,7 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .main-title {
     margin: 0;
     font-family: 'Unbounded', sans-serif;
-    font-size: clamp(12px, 4vw, 16px); /* Уменьшили размер текста */
+    font-size: clamp(10px, 3vw, 13px); /* Уменьшили диапазон шрифта */
     font-weight: 900;
     letter-spacing: -0.5px;
     line-height: 1;
@@ -631,15 +631,15 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 
 @media screen and (max-width: 768px) {
     .logo-icon {
-        max-width: 24px; /* Компактный размер иконки на мобилках */
+        max-width: 18px; /* Компактный размер иконки на мобилках */
     }
 
     .db-logo-icon {
-        max-width: 100px !important;
+        max-width: 90px !important;
     }
 
     .db-main-title {
-        font-size: 24px !important;
+        font-size: 22px !important;
     }
 }
 
