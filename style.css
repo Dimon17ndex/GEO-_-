@@ -651,7 +651,11 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 }
 
 @media screen and (max-width: 768px) {
-    .brand-block, 
+    .brand-block {
+        transform: scale(0.7); /* Уменьшает весь блок целиком на 30% на мобилках */
+        transform-origin: center;
+    }
+     
     .db-brand-block {
         flex-direction: row !important;
         align-items: center;
