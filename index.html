@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GEOГРАФИЯ</title>
 
+    <!-- 1. ПОДКЛЮЧАЕМ СКРИПТ TELEGRAM WEB APP -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <script>
+        // Инициализация Telegram Web App
         window.addEventListener('DOMContentLoaded', () => {
             if (window.Telegram && window.Telegram.WebApp) {
                 const tg = window.Telegram.WebApp;
-                tg.ready();
-                tg.expand();
+                tg.ready(); // Сообщаем Telegram, что приложение готово
+                tg.expand(); // Растягиваем на весь экран
+                
+                // Опционально: можно использовать цвета темы Telegram
                 document.documentElement.style.setProperty('--tg-bg-color', tg.backgroundColor);
             }
         });
@@ -45,6 +49,31 @@
             background: transparent !important;
         }
 
+        .session-dashboard::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            transform: translate(-50%, 50%) scale(1);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 255, 110, 0.5) 0%, rgba(0, 255, 0, 0) 70%);
+            pointer-events: none;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .session-dashboard.show-framework::before {
+            animation: fullscreenGreenBlast 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        @keyframes fullscreenGreenBlast {
+            0% { transform: translate(-50%, 50%) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translate(-50%, 50%) scale(250); opacity: 0; }
+        }
+
         .dashboard-content-wrapper {
             display: flex;
             flex-direction: column;
@@ -65,6 +94,13 @@
             transition: opacity 0.6s ease-out, filter 0.8s ease-out, transform 0.6s ease-out;
         }
 
+        .session-dashboard.show-framework .db-brand-block {
+            opacity: 1;
+            filter: blur(0px);
+            transform: translateY(0);
+            transition-delay: 0.2s;
+        }
+
         .db-logo-icon {
             width: 90px;  
             height: 90px;
@@ -78,6 +114,12 @@
             gap: 8px;
         }
 
+        .db-main-title, .success-message {
+            font-family: 'Unbounded', sans-serif;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
         .db-main-title {
             color: #ffffff;
             font-size: 32px; 
@@ -85,9 +127,15 @@
             line-height: 1;
             letter-spacing: 1px;
             text-align: left;
-            font-family: 'Unbounded', sans-serif;
-            margin: 0;
-            text-transform: uppercase;
+        }
+
+        .success-message {
+            color: #00ff6e; 
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            width: 100%;
+            text-align: center;
         }
 
         .db-subtitle-badge {
@@ -109,68 +157,62 @@
             line-height: 1;
         }
 
-        /* Уменьшенные стили для основного блока с логотипом */
-        .main-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        .brand-block {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transform: scale(0.75); /* Уменьшаем общий размер блока на 25% */
-            transform-origin: center;
-        }
-
-        .logo-icon {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-        }
-
-        .text-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 6px;
-        }
-
-        .main-title {
-            font-family: 'Unbounded', sans-serif;
-            margin: 0;
-            text-transform: uppercase;
-            color: #ffffff;
-            font-size: 26px;
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: 1px;
-        }
-
-        .subtitle-badge {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            padding: 4px 10px;
-            border-radius: 50px;
+        .db-main-title span, .success-message span {
             display: inline-block;
+            opacity: 0;
+            filter: blur(8px);
+            transform: scale(1.4) translateY(-10px);
+            animation-duration: 0.5s;
+            animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation-fill-mode: forwards;
         }
 
-        .subtitle-badge span {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 8px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: #ffffff;
-            display: block;
-            line-height: 1;
+        .session-dashboard.show-framework .db-main-title span {
+            animation-name: assembleLetterSimple;
+        }
+
+        .session-dashboard.show-framework .success-message span {
+            animation-name: assembleLetterGreen;
+        }
+
+        @keyframes assembleLetterSimple {
+            0% { opacity: 0; filter: blur(8px); transform: scale(1.4) translateY(-10px); }
+            100% { opacity: 1; filter: blur(0px); transform: scale(1) translateY(0); }
+        }
+
+        @keyframes assembleLetterGreen {
+            0% { opacity: 0; filter: blur(8px); transform: scale(1.4) translateY(-10px); text-shadow: 0 0 20px rgba(0, 255, 110, 1); }
+            100% { opacity: 1; filter: blur(0px); transform: scale(1) translateY(0); text-shadow: 0 0 10px rgba(0, 255, 110, 0.3); }
+        }
+
+        .session-dashboard.fade-out-fast {
+            opacity: 0;
+            filter: blur(10px);
+            transform: scale(0.95);
+            transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        body.page-fade-out {
+            opacity: 0;
+            filter: blur(10px);
+            transition: opacity 1.4s ease, filter 1.4s ease;
+            pointer-events: none;
+        }
+
+        .fade-out-element {
+            opacity: 0 !important;
+            filter: blur(15px) !important;
+            transform: translateY(-20px) !important;
+            pointer-events: none !important;
+            transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s ease !important;
         }
 
         .app-banners-container {
             display: none; 
+        }
+
+        .app-banners-container.banner-active {
+            display: block !important; 
         }
     </style>
 </head>
@@ -212,6 +254,14 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="success-message-wrapper">
+                <div class="success-message" id="db-animate-message">Вы успешно вошли в сессию</div>
+                <svg class="success-checkmark" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="23" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
         </div>
     </div>
 
@@ -245,5 +295,21 @@
     <div class="version-badge" id="version-badge">TG-WEB-VERSION</div>
 
     <script src="console.js" defer></script>
+
+    <script>
+        // --- ЛОГИКА ИНТЕРФЕЙСА ---
+        function prepareDashboardSpans(elementId, startDelay) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const text = el.innerText;
+            el.innerHTML = '';
+            Array.from(text).forEach((char, index) => {
+                const span = document.createElement('span');
+                if (char === ' ') { span.innerHTML = '&nbsp;'; } else { span.innerText = char; }
+                span.style.animationDelay = `${startDelay + (index * 0.04)}s`;
+                el.appendChild(span);
+            });
+        }
+    </script>
 </body>
 </html>
