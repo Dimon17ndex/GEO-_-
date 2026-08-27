@@ -629,20 +629,6 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     animation: fadeInElement 1.2s ease-out 2.2s forwards;
 }
 
-@media screen and (max-width: 768px) {
-    .logo-icon {
-        max-width: 18px; /* Компактный размер иконки на мобилках */
-    }
-
-    .db-logo-icon {
-        max-width: 90px !important;
-    }
-
-    .db-main-title {
-        font-size: 22px !important;
-    }
-}
-
 /* ==========================================================================
    7. ИКОНКА В НИЖНЕМ ПРАВОМ УГЛУ И ЕЁ ВЗАИМОДЕЙСТВИЯ
    ========================================================================== */
