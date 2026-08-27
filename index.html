@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GEOГРАФИЯ</title>
-    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Подключаем ваши стили -->
+    <link rel="stylesheet" href="style.css">
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* Базовые стили для совместимости */
         body {
             margin: 0;
-            padding: 16px;
+            padding: 20px;
             font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--tg-theme-bg-color, #fff);
             color: var(--tg-theme-text-color, #000);
@@ -35,6 +38,11 @@
         <div class="project-info">
             <p>наука • образование • естествознание</p>
             <p>проект Запорожской области</p>
+        </div>
+        
+        <div class="console-header">
+            <h2>DEV CONSOLE v1.0</h2>
+            <button class="close-button">×</button>
         </div>
         
         <div class="settings">
@@ -66,7 +74,6 @@
         </div>
         
         <div class="console">
-            <h2>DEV CONSOLE v1.0</h2>
             <p>Нажмите на экран</p>
         </div>
     </div>
@@ -80,7 +87,7 @@
         document.getElementById('auth-button').addEventListener('click', () => {
             const password = document.getElementById('password-input').value;
             if (password === 'your-secret-password') {
-                document.getElementById('auth-status').innerText = '[SYSTEM] Доступ разрешен. Сессия активна.';
+                document.getElementById('auth-status').innerText = '[SYSTEM] Доступ разрешён. Сессия активна.';
             } else {
                 document.getElementById('auth-status').innerText = '[ERROR] Неверный пароль.';
             }
@@ -98,6 +105,12 @@
         intensityRange.addEventListener('input', () => {
             const value = intensityRange.value;
             document.getElementById('intensity-value').innerText = `${value}%`;
+        });
+
+        // Обработка клика по экрану
+        document.querySelector('.console').addEventListener('click', () => {
+            alert('Экран активирован! Добро пожаловать в DEV CONSOLE.');
+            // Здесь можно добавить логику после клика
         });
     </script>
 </body>
