@@ -29,19 +29,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
     
     <!-- Подключаем наш мобильный стиль -->
-    <link rel="stylesheet" href="style_14.css?v=4">
+    <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
-
-    <script src="shortcuts-system.js" defer></script>
-
-    <!-- Баннер раннего доступа -->
-    <div class="app-banners-container">
-        <div class="app-banner banner-warning">
-            <span class="banner-icon">🛠</span>
-            <span>MOBILE EDITION • РАЗРАБОТКА</span>
-        </div>
-    </div>
 
     <div class="shadow-layer"></div>
     <div id="bg-wave-container"></div>
@@ -59,71 +49,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Поля ввода для мобильной сессии -->
-        <div class="input-container-box" id="input-box">
-            <input type="text" class="custom-input" id="session-input" placeholder="Введите код доступа..." autocomplete="off">
-            <div class="input-underline"></div>
-            <button type="button" class="input-submit-btn" id="session-submit-btn">
-                <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                <svg class="icon-loading" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-                <svg class="icon-error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </button>
-        </div>
-    </div>
-
-    <!-- Дашборд сессии (Успешный вход) -->
-    <div class="session-dashboard" id="session-dashboard">
-        <div class="dashboard-content-wrapper">
-            <div class="db-brand-block">
-                <img src="images/geo_logo.png" alt="Geo Logo" class="db-logo-icon">
-                <div class="db-text-right">
-                    <h1 class="db-main-title" id="db-animate-title">
-                        <span>G</span><span>E</span><span>O</span><span>Г</span><span>Р</span><span>А</span><span>Ф</span><span>И</span><span>Я</span>
-                    </h1>
-                </div>
-            </div>
-            
-            <div class="success-message-wrapper">
-                <div class="success-message" id="db-animate-message">Сессия активна</div>
-                <svg class="success-checkmark" viewBox="0 0 52 52">
-                    <circle class="checkmark-circle" cx="26" cy="26" r="23" fill="none"/>
-                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                </svg>
-            </div>
-        </div>
-    </div>
-
-    <!-- Мобильная консоль разработчика -->
-    <div class="dev-console" id="dev-console">
-        <div class="console-header">
-            <span>DEV CONSOLE (MOBILE)</span>
-            <button type="button" class="console-close" id="console-close-btn">&times;</button>
-        </div>
-        <div id="console-auth-screen" class="console-auth-container">
-            <p class="auth-title">ТРЕБУЕТСЯ ДОСТУП</p>
-            <div class="console-input-row">
-                <span class="console-prompt">KEY&gt;</span>
-                <input type="password" id="console-pass-input" placeholder="Пароль..." autocomplete="new-password">
-                <button type="button" id="console-auth-btn" class="console-btn">ОК</button>
-            </div>
-            <p id="console-auth-error" class="auth-error"></p>
-        </div>
-        <div id="console-main-screen" class="console-main-container" style="display: none;">
-            <div class="console-output" id="console-output">
-                <div class="log-item system">[SYSTEM] Мобильная среда инициализирована.</div>
-            </div>
-            <div class="console-input-row">
-                <span class="console-prompt">&gt;</span>
-                <input type="text" id="console-input" placeholder="Команда..." autocomplete="off">
-            </div>
-        </div>
-    </div>
-
-    <div class="version-badge visible" id="version-badge">TWA v1.0 MOBILE</div>
-
-    <script src="script.js" defer></script>
-    <script src="console.js" defer></script>
 
     <script>
         // Автоматический подъем интерфейса наверх после вступительной заставки
