@@ -2,236 +2,51 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>GEOГРАФИЯ</title>
 
-    <!-- 1. ПОДКЛЮЧАЕМ СКРИПТ TELEGRAM WEB APP -->
+    <!-- Подключаем Telegram Web App -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <script>
-        // Инициализация Telegram Web App
         window.addEventListener('DOMContentLoaded', () => {
             if (window.Telegram && window.Telegram.WebApp) {
                 const tg = window.Telegram.WebApp;
-                tg.ready(); // Сообщаем Telegram, что приложение готово
-                tg.expand(); // Растягиваем на весь экран
-                
-                // Опционально: можно использовать цвета темы Telegram
-                document.documentElement.style.setProperty('--tg-bg-color', tg.backgroundColor);
+                tg.ready();
+                tg.expand();
+                if (tg.setHeaderColor) {
+                    tg.setHeaderColor('#0b0b0b');
+                }
             }
         });
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js"></script>
-    <script src="console.js"></script>
 
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=3">
     
-    <style>
-        .session-dashboard {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 9999; 
-            pointer-events: none;
-            overflow: hidden;
-            display: none; 
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: transparent !important;
-        }
-
-        .session-dashboard::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 10px;
-            height: 10px;
-            transform: translate(-50%, 50%) scale(1);
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 255, 110, 0.5) 0%, rgba(0, 255, 0, 0) 70%);
-            pointer-events: none;
-            opacity: 0;
-            z-index: 1;
-        }
-
-        .session-dashboard.show-framework::before {
-            animation: fullscreenGreenBlast 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-        }
-
-        @keyframes fullscreenGreenBlast {
-            0% { transform: translate(-50%, 50%) scale(1); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translate(-50%, 50%) scale(250); opacity: 0; }
-        }
-
-        .dashboard-content-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            width: 100%;
-            max-width: 400px;
-            padding: 0 15px;
-            box-sizing: border-box;
-            z-index: 2;
-        }
-
-        .db-brand-block {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0;
-            filter: blur(10px);
-            transform: translateY(-10px);
-            transition: opacity 0.6s ease-out, filter 0.8s ease-out, transform 0.6s ease-out;
-        }
-
-        .session-dashboard.show-framework .db-brand-block {
-            opacity: 1;
-            filter: blur(0px);
-            transform: translateY(0);
-            transition-delay: 0.2s;
-        }
-
-        .db-logo-icon {
-            width: 32px !important;  
-            height: 32px !important;
-            object-fit: contain;
-        }
-
-        .db-text-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 4px;
-        }
-
-        .db-main-title, .success-message {
-            font-family: 'Unbounded', sans-serif;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .db-main-title {
-            color: #ffffff;
-            font-size: 14px !important; 
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: -0.5px;
-            text-align: left;
-        }
-
-        .success-message {
-            color: #00ff6e; 
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .db-subtitle-badge {
-            background: #ffffff;
-            border: none;
-            padding: 2px 6px !important;
-            border-radius: 50px;
-            display: inline-block;
-        }
-
-        .db-subtitle-badge span {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 7px !important; 
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px !important;
-            color: #000000;
-            display: block;
-            line-height: 1;
-        }
-
-        .db-main-title span, .success-message span {
-            display: inline-block;
-            opacity: 0;
-            filter: blur(8px);
-            transform: scale(1.4) translateY(-10px);
-            animation-duration: 0.5s;
-            animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation-fill-mode: forwards;
-        }
-
-        .session-dashboard.show-framework .db-main-title span {
-            animation-name: assembleLetterSimple;
-        }
-
-        .session-dashboard.show-framework .success-message span {
-            animation-name: assembleLetterGreen;
-        }
-
-        @keyframes assembleLetterSimple {
-            0% { opacity: 0; filter: blur(8px); transform: scale(1.4) translateY(-10px); }
-            100% { opacity: 1; filter: blur(0px); transform: scale(1) translateY(0); }
-        }
-
-        @keyframes assembleLetterGreen {
-            0% { opacity: 0; filter: blur(8px); transform: scale(1.4) translateY(-10px); text-shadow: 0 0 20px rgba(0, 255, 110, 1); }
-            100% { opacity: 1; filter: blur(0px); transform: scale(1) translateY(0); text-shadow: 0 0 10px rgba(0, 255, 110, 0.3); }
-        }
-
-        .session-dashboard.fade-out-fast {
-            opacity: 0;
-            filter: blur(10px);
-            transform: scale(0.95);
-            transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out, transform 0.5s ease-in-out;
-        }
-
-        body.page-fade-out {
-            opacity: 0;
-            filter: blur(10px);
-            transition: opacity 1.4s ease, filter 1.4s ease;
-            pointer-events: none;
-        }
-
-        .fade-out-element {
-            opacity: 0 !important;
-            filter: blur(15px) !important;
-            transform: translateY(-20px) !important;
-            pointer-events: none !important;
-            transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s ease !important;
-        }
-
-        .app-banners-container {
-            display: none; 
-        }
-
-        .app-banners-container.banner-active {
-            display: block !important; 
-        }
-    </style>
+    <!-- Подключаем наш мобильный стиль -->
+    <link rel="stylesheet" href="style_14.css?v=4">
 </head>
 <body>
 
     <script src="shortcuts-system.js" defer></script>
 
+    <!-- Баннер раннего доступа -->
     <div class="app-banners-container">
         <div class="app-banner banner-warning">
             <span class="banner-icon">🛠</span>
-            <span>Ведется разработка сайта в раннем доступе</span>
+            <span>MOBILE EDITION • РАЗРАБОТКА</span>
         </div>
     </div>
 
     <div class="shadow-layer"></div>
+    <div id="bg-wave-container"></div>
 
-    <!-- Главный экран -->
+    <!-- Главный мобильный экран -->
     <div class="main-container">
         <div class="brand-block">
             <img src="images/geo_logo.png" alt="Geo Logo" class="logo-icon" id="main-logo">
@@ -244,9 +59,20 @@
                 </div>
             </div>
         </div>
+
+        <!-- Поля ввода для мобильной сессии -->
+        <div class="input-container-box" id="input-box">
+            <input type="text" class="custom-input" id="session-input" placeholder="Введите код доступа..." autocomplete="off">
+            <div class="input-underline"></div>
+            <button type="button" class="input-submit-btn" id="session-submit-btn">
+                <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg class="icon-loading" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                <svg class="icon-error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+        </div>
     </div>
 
-    <!-- Дашборд сессии -->
+    <!-- Дашборд сессии (Успешный вход) -->
     <div class="session-dashboard" id="session-dashboard">
         <div class="dashboard-content-wrapper">
             <div class="db-brand-block">
@@ -255,14 +81,11 @@
                     <h1 class="db-main-title" id="db-animate-title">
                         <span>G</span><span>E</span><span>O</span><span>Г</span><span>Р</span><span>А</span><span>Ф</span><span>И</span><span>Я</span>
                     </h1>
-                    <div class="db-subtitle-badge">
-                        <span>наука • образование • естествознание</span>
-                    </div>
                 </div>
             </div>
             
             <div class="success-message-wrapper">
-                <div class="success-message" id="db-animate-message">Вы успешно вошли в сессию</div>
+                <div class="success-message" id="db-animate-message">Сессия активна</div>
                 <svg class="success-checkmark" viewBox="0 0 52 52">
                     <circle class="checkmark-circle" cx="26" cy="26" r="23" fill="none"/>
                     <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
@@ -271,63 +94,50 @@
         </div>
     </div>
 
-    <!-- Консоль разработчика -->
-    <div class="dev-console">
+    <!-- Мобильная консоль разработчика -->
+    <div class="dev-console" id="dev-console">
         <div class="console-header">
-            <span>DEV CONSOLE v1.0</span>
+            <span>DEV CONSOLE (MOBILE)</span>
             <button type="button" class="console-close" id="console-close-btn">&times;</button>
         </div>
-
         <div id="console-auth-screen" class="console-auth-container">
-            <p class="auth-title">ТРЕБУЕТСЯ АВТОРИЗАЦИЯ</p>
+            <p class="auth-title">ТРЕБУЕТСЯ ДОСТУП</p>
             <div class="console-input-row">
-                <span class="console-prompt">PASS&gt;</span>
-                <input type="password" id="console-pass-input" placeholder="Введите пароль..." autocomplete="new-password">
-                <button type="button" id="console-auth-btn" class="console-btn">Войти</button>
+                <span class="console-prompt">KEY&gt;</span>
+                <input type="password" id="console-pass-input" placeholder="Пароль..." autocomplete="new-password">
+                <button type="button" id="console-auth-btn" class="console-btn">ОК</button>
             </div>
             <p id="console-auth-error" class="auth-error"></p>
         </div>
-
         <div id="console-main-screen" class="console-main-container" style="display: none;">
             <div class="console-output" id="console-output">
-                <div class="log-item system">[SYSTEM] Доступ разрешен. Сессия активна.</div>
+                <div class="log-item system">[SYSTEM] Мобильная среда инициализирована.</div>
             </div>
             <div class="console-input-row">
                 <span class="console-prompt">&gt;</span>
-                <input type="text" id="console-input" placeholder="Введите команду..." autocomplete="off">
+                <input type="text" id="console-input" placeholder="Команда..." autocomplete="off">
             </div>
         </div>
     </div>
 
-    <div class="version-badge" id="version-badge">TG-WEB-VERSION</div>
+    <div class="version-badge visible" id="version-badge">TWA v1.0 MOBILE</div>
 
+    <script src="script.js" defer></script>
     <script src="console.js" defer></script>
 
     <script>
-        // --- ЛОГИКА ИНТЕРФЕЙСА ---
-        function prepareDashboardSpans(elementId, startDelay) {
-            const el = document.getElementById(elementId);
-            if (!el) return;
-            const text = el.innerText;
-            el.innerHTML = '';
-            Array.from(text).forEach((char, index) => {
-                const span = document.createElement('span');
-                if (char === ' ') { span.innerHTML = '&nbsp;'; } else { span.innerText = char; }
-                span.style.animationDelay = `${startDelay + (index * 0.04)}s`;
-                el.appendChild(span);
-            });
-        }
-    </script>
-
-    <script>
+        // Автоматический подъем интерфейса наверх после вступительной заставки
         window.addEventListener('load', () => {
-            // Время окончания всех начальных анимаций (логотип + буквы + плашка) ~ 3.0 секунды
             setTimeout(() => {
                 const mainContainer = document.querySelector('.main-container');
+                const inputBox = document.getElementById('input-box');
                 if (mainContainer) {
                     mainContainer.classList.add('moved-to-top');
                 }
-            }, 3000); // 3000 мс = 3 секунды
+                if (inputBox) {
+                    inputBox.classList.add('active');
+                }
+            }, 3000);
         });
     </script>
 </body>
