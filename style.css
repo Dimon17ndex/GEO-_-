@@ -561,10 +561,11 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .brand-block {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    transform: none;
+    padding: 0 10px;
 }
 
 .logo-icon {
@@ -583,18 +584,19 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     align-items: flex-start;
     z-index: 4; 
     position: relative;
-    flex-shrink: 0; 
+    max-width: calc(100% - 48px); /* Ограничиваем ширину текстов по размеру иконки */
+    overflow: hidden; /* Скрываем то, что потенциально вылезет */
 }
 
 .main-title {
     margin: 0;
     font-family: 'Unbounded', sans-serif;
-    font-size: clamp(16px, 5vw, 20px); /* Автоматически уменьшается на узких экранах */
+    font-size: clamp(14px, 4.8vw, 20px); /* Динамический шрифт, который сам уменьшится на мобилке */
     font-weight: 900;
     letter-spacing: -0.5px;
     line-height: 1;
     display: flex;
-    white-space: nowrap; /* Не дает названию переноситься */
+    white-space: nowrap;
 }
 
 .main-title span {
@@ -622,11 +624,13 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     padding: 4px 10px;
     border-radius: 50px;
     font-weight: 700;
-    font-size: clamp(7px, 2vw, 9px); /* Плавное уменьшение текста плашки */
+    font-size: clamp(7px, 2vw, 9px);
     letter-spacing: 0.5px;
     opacity: 0;
     animation: fadeInElement 1.2s ease-out 2.2s forwards;
     white-space: nowrap;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .bottom-credits-wrapper {
