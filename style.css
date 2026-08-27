@@ -560,18 +560,19 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .brand-block {
     display: flex;
     align-items: center;
-    gap: 40px; 
+    gap: 15px; /* Уменьшили отступ между логотипом и текстом */
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
     animation: mainFloat 6s ease-in-out infinite;
 }
 
 .logo-icon {
     height: auto;
-    max-width: 240px; 
+    max-width: 60px; /* Уменьшили размер логотипа, чтобы он аккуратно смотрелся в строчку */
     width: 100%; 
     opacity: 0;
     z-index: 3;
     animation: planetFlyIn 1.8s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .text-right {
@@ -586,9 +587,9 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .main-title {
     margin: 0;
     font-family: 'Unbounded', sans-serif;
-    font-size: 64px; 
+    font-size: 32px; /* Уменьшили размер шрифта названия под одну строку */
     font-weight: 900; 
-    letter-spacing: -1px; 
+    letter-spacing: -0.5px; 
     line-height: 1;
     display: flex; 
 }
@@ -645,6 +646,17 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     pointer-events: auto; /* Разрешаем ховер для самого текста внутри обертки */
 }
 
+@media screen and (max-width: 768px) {
+    .logo-icon, 
+    .db-logo-icon {
+        max-width: 45px; /* Еще более компактный логотип для телефонов */
+    }
+
+    .main-title, 
+    .db-main-title {
+        font-size: 24px; /* Компактный заголовок для мобильных */
+    }
+}
 /* ==========================================================================
    7. ИКОНКА В НИЖНЕМ ПРАВОМ УГЛУ И ЕЁ ВЗАИМОДЕЙСТВИЯ
    ========================================================================== */
