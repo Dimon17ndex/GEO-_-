@@ -543,8 +543,7 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
    ========================================================================== */
 .main-container {
     position: fixed;
-    top: 0; 
-    left: 0;
+    top: 0; left: 0;
     width: 100%;
     height: 100%;
     display: flex;
@@ -561,11 +560,10 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 .brand-block {
     display: flex;
     align-items: center;
-    gap: 10px;
-    width: 100%;
+    gap: 8px;
     max-width: 100%;
     box-sizing: border-box;
-    padding: 0 10px;
+    transform: none;
 }
 
 .logo-icon {
@@ -584,19 +582,17 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     align-items: flex-start;
     z-index: 4; 
     position: relative;
-    max-width: calc(100% - 48px); /* Ограничиваем ширину текстов по размеру иконки */
-    overflow: hidden; /* Скрываем то, что потенциально вылезет */
+    flex-shrink: 0; 
 }
 
 .main-title {
     margin: 0;
     font-family: 'Unbounded', sans-serif;
-    font-size: clamp(14px, 4.8vw, 20px); /* Динамический шрифт, который сам уменьшится на мобилке */
+    font-size: 20px;
     font-weight: 900;
     letter-spacing: -0.5px;
     line-height: 1;
     display: flex;
-    white-space: nowrap;
 }
 
 .main-title span {
@@ -624,13 +620,10 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     padding: 4px 10px;
     border-radius: 50px;
     font-weight: 700;
-    font-size: clamp(7px, 2vw, 9px);
+    font-size: 9px;
     letter-spacing: 0.5px;
     opacity: 0;
     animation: fadeInElement 1.2s ease-out 2.2s forwards;
-    white-space: nowrap;
-    max-width: 100%;
-    box-sizing: border-box;
 }
 
 .bottom-credits-wrapper {
@@ -655,20 +648,23 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
 }
 
 @media screen and (max-width: 768px) {
-    .brand-block {
-        transform: scale(0.7); /* Уменьшает весь блок целиком на 30% на мобилках */
-        transform-origin: center;
-    }
-     
+    /* Принудительно выстраиваем блоки в строку на мобильных */
+    .brand-block, 
     .db-brand-block {
         flex-direction: row !important;
         align-items: center;
-        gap: 8px;
-        max-width: 92vw; /* Защита от выхода за рамки экрана телефона */
+        gap: 12px;
     }
 
-    .logo-icon {
-        max-width: 32px !important; /* Компактный размер иконки для мобилок */
+    /* Уменьшаем логотип дашборда, чтобы он влез в экран */
+    .db-logo-icon {
+        max-width: 50px !important;
+        width: 100% !important;
+    }
+
+    /* Уменьшаем гигантский заголовок дашборда под мобилки */
+    .db-main-title {
+        font-size: 26px !important;
     }
 }
 
