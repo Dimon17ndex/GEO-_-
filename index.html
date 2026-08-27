@@ -218,7 +218,7 @@
 </head>
 <body>
 
-<script src="shortcuts-system.js" defer></script>
+    <script src="shortcuts-system.js" defer></script>
 
     <div class="app-banners-container">
         <div class="app-banner banner-warning">
@@ -229,6 +229,7 @@
 
     <div class="shadow-layer"></div>
 
+    <!-- Главный экран -->
     <div class="main-container">
         <div class="brand-block">
             <img src="images/geo_logo.png" alt="Geo Logo" class="logo-icon" id="main-logo">
@@ -243,17 +244,18 @@
         </div>
     </div>
 
-    <div class="brand-block">
-    <img src="images/geo_logo.png" alt="Geo Logo" class="logo-icon" id="main-logo">
-    <div class="text-right">
-        <h1 class="main-title">
-            <span>G</span><span>E</span><span>О</span><span>Г</span><span>Р</span><span>А</span><span>Ф</span><span>И</span><span>Я</span>
-        </h1>
-        <div class="subtitle-badge">
-            <span>наука • образование • естествознание</span>
-        </div>
-    </div>
-</div>
+    <!-- Дашборд сессии (исправлена структура тегов) -->
+    <div class="session-dashboard" id="session-dashboard">
+        <div class="dashboard-content-wrapper">
+            <div class="db-brand-block">
+                <img src="images/geo_logo.png" alt="Geo Logo" class="db-logo-icon">
+                <div class="db-text-right">
+                    <h1 class="db-main-title" id="db-animate-title">GEОГРАФИЯ</h1>
+                    <div class="db-subtitle-badge">
+                        <span>наука • образование • естествознание</span>
+                    </div>
+                </div>
+            </div>
             
             <div class="success-message-wrapper">
                 <div class="success-message" id="db-animate-message">Вы успешно вошли в сессию</div>
@@ -265,6 +267,7 @@
         </div>
     </div>
 
+    <!-- Консоль разработчика -->
     <div class="dev-console">
         <div class="console-header">
             <span>DEV CONSOLE v1.0</span>
