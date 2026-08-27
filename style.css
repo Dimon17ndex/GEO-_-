@@ -8,38 +8,31 @@
 html, body {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
     user-select: none;
-    position: fixed;
-}
-
-body {
     background: radial-gradient(circle at center, #1C1C1C 0%, #070707 100%);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     color: #ffffff;
-    display: flex;
-    flex-direction: column;
 }
 
 .mobile-wrapper {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    transform: translateY(-14vh);
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    text-align: center;
+    padding: 24px 16px;
+    max-width: 480px;
+    margin: 0 auto;
 }
 
+/* Шапка */
 .mobile-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-/* Уменьшенный круг с менее интенсивной тенью */
 .logo-wrapper {
     width: 78px;
     height: 78px;
@@ -50,22 +43,198 @@ body {
     justify-content: center;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 
                 0 2px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 14px;
 }
 
 .logo {
-    width: 62px; /* Логотип остался прежнего размера */
+    width: 62px;
     height: 62px;
     object-fit: contain;
 }
 
 .mobile-header h1 {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
-    letter-spacing: -0.3px;
+    margin-bottom: 8px;
 }
 
-.mobile-content p {
+.header-desc {
+    font-size: 13px;
+    color: #9ca3af;
+    line-height: 1.4;
+    padding: 0 10px;
+}
+
+.accent-link {
+    color: #38bdf8;
+}
+
+/* Поиск */
+.search-section {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.search-bar {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    height: 40px;
+}
+
+.search-icon {
+    width: 18px;
+    height: 18px;
+    color: #9ca3af;
+    margin-right: 8px;
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
     font-size: 14px;
-    opacity: 0.8;
-    margin-top: 6px;
+    width: 100%;
+}
+
+.search-bar input::placeholder {
+    color: #9ca3af;
+}
+
+.view-toggle-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.06);
+    border: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+}
+
+.view-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Вкладки */
+.tabs-row {
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 12px;
+}
+
+.tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #9ca3af;
+    position: relative;
+    cursor: pointer;
+}
+
+.tab-btn.active {
+    color: #ffffff;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #38bdf8;
+}
+
+/* Список */
+.list-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.list-item {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.item-icon-box {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.list-logo {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.plus-box {
+    color: #38bdf8;
+}
+
+.plus-box svg {
+    width: 20px;
+    height: 20px;
+}
+
+.item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.item-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.primary-color {
+    color: #38bdf8;
+}
+
+.item-subtitle {
+    font-size: 12px;
+    color: #9ca3af;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+.item-menu-btn {
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 16px;
+    padding: 8px;
+    letter-spacing: 2px;
 }
