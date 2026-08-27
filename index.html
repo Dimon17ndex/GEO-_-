@@ -32,7 +32,7 @@
             position: relative;
         }
 
-        /* Фоновый герб */
+        /* Фоновый герб - используем класс из style.css */
         .bg-blur-gerb {
             position: fixed;
             top: 50%;
@@ -58,7 +58,7 @@
             overflow: hidden;
         }
 
-        /* Ripple эффекты */
+        /* Ripple эффекты - используем классы из style.css */
         .bg-wave-ripple,
         .bg-click-ripple,
         .bg-ambient-ripple,
@@ -105,7 +105,7 @@
             100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
         }
 
-        /* Версия */
+        /* Версия - используем класс из style.css */
         .version-badge {
             position: fixed;
             bottom: 20px;
@@ -139,13 +139,20 @@
             background: var(--tg-theme-bg-color, #0a0a0a) !important;
             color: var(--tg-theme-text-color, #ffffff) !important;
         }
+
+        /* Адаптация для мобильных */
+        @media (max-width: 768px) {
+            .bg-blur-gerb {
+                width: 90vw;
+                opacity: 0.05;
+            }
+        }
     </style>
 </head>
 <body>
 
     <!-- Фоновый герб -->
-    <img src="images/zaporozge_gerb.png" alt="Zaporozhye Big Gerb" class="bg-blur-gerb" 
-         onerror="this.style.display='none'; console.warn('⚠️ Изображение не найдено: zaporozge_gerb.png');">
+    <img src="images/zaporozge_gerb.png" alt="Zaporozhye Big Gerb" class="bg-blur-gerb">
 
     <!-- Волновой контейнер -->
     <div id="bg-wave-container"></div>
@@ -157,9 +164,13 @@
         // --- ИНИЦИАЛИЗАЦИЯ TELEGRAM WEB APP ---
         const tg = window.Telegram?.WebApp;
         if (tg) {
+            // Разворачиваем на весь экран
             tg.expand();
+            
+            // Добавляем класс для стилей Telegram
             document.body.classList.add('tg-webapp');
             
+            // Применяем тему Telegram
             const theme = tg.themeParams;
             if (theme) {
                 document.documentElement.style.setProperty('--tg-theme-bg-color', theme.bg_color || '#0a0a0a');
@@ -168,17 +179,34 @@
                 document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', theme.secondary_bg_color || 'rgba(255,255,255,0.03)');
             }
 
+            // Сообщаем Telegram, что приложение готово
             tg.ready();
 
+            // Получаем данные пользователя
             const user = tg.initDataUnsafe?.user;
             if (user) {
                 console.log('✅ Telegram User:', user);
+                console.log('👤 ID:', user.id);
+                console.log('📛 Name:', user.first_name, user.last_name || '');
+                console.log('👤 Username:', user.username || 'нет');
             }
+
+            // Функция для отправки данных в бот
+            window.sendToTelegram = function(data) {
+                tg.sendData(JSON.stringify(data));
+            };
+
+            // Функция для закрытия приложения
+            window.closeTelegramApp = function() {
+                tg.close();
+            };
+        } else {
+            console.log('ℹ️ Приложение открыто не в Telegram');
         }
 
         // --- ЛОГИКА ВОЛН ---
         const waveContainer = document.getElementById('bg-wave-container');
-        let intensityPercent = 20;
+        let intensityPercent = 30; // Начальная интенсивность
         let isTextHovered = false;
 
         function createBackgroundRipple(x, y, className, duration = 1500) {
@@ -191,17 +219,17 @@
             setTimeout(() => { ripple.remove(); }, duration);
         }
 
-        // Стартовый ripple
+        // Стартовый ripple в центре
         setTimeout(() => {
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
             createBackgroundRipple(centerX, centerY, 'bg-click-ripple');
         }, 1000);
 
-        // Ambient волны
+        // Ambient волны (случайные)
         function spawnAmbientWave() {
             if (intensityPercent === 0) { 
-                setTimeout(spawnAmbientWave, 1000); 
+                setTimeout(spawnAmbientWave, 2000); 
                 return; 
             }
             
@@ -221,8 +249,8 @@
             
             createBackgroundRipple(spawnX, spawnY, currentClassName, 3000);
             
-            const baseDelay = 500;
-            const maxAdditionalDelay = 8000; 
+            const baseDelay = 800;
+            const maxAdditionalDelay = 6000; 
             const factor = (100 - intensityPercent) / 100;
             setTimeout(spawnAmbientWave, baseDelay + (Math.random() * maxAdditionalDelay * factor));
         }
@@ -242,6 +270,7 @@
             let badgeHideTimer = null;
 
             document.addEventListener('click', (e) => {
+                // Игнорируем клики по инпутам и кнопкам
                 if (e.target.closest('input') || e.target.closest('button')) {
                     return;
                 }
@@ -268,7 +297,19 @@
             });
         })();
 
+        // --- УПРАВЛЕНИЕ ИНТЕНСИВНОСТЬЮ (можно добавить позже) ---
+        // Можно добавить слайдер для управления интенсивностью волн
+
         console.log('✅ GEOГРАФИЯ загружена!');
+        console.log('🌊 Интенсивность волн:', intensityPercent + '%');
+        
+        // Отправляем данные в Telegram, если приложение открыто в нем
+        if (tg) {
+            tg.sendData(JSON.stringify({
+                action: 'app_loaded',
+                user: tg.initDataUnsafe?.user
+            }));
+        }
     </script>
 
 </body>
