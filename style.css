@@ -629,6 +629,20 @@ body:has(.bottom-credits:hover) .prompt-text.in-bottom-right {
     animation: fadeInElement 1.2s ease-out 2.2s forwards;
 }
 
+@media screen and (max-width: 768px) {
+    .logo-icon {
+        max-width: 18px; /* Компактный размер иконки на мобилках */
+    }
+
+    .db-logo-icon {
+        max-width: 90px !important;
+    }
+
+    .db-main-title {
+        font-size: 22px !important;
+    }
+}
+
 /* ==========================================================================
    7. ИКОНКА В НИЖНЕМ ПРАВОМ УГЛУ И ЕЁ ВЗАИМОДЕЙСТВИЯ
    ========================================================================== */
@@ -1581,4 +1595,17 @@ body:has(.input-container-box.active) .logo-icon {
 .app-banner > span:first-child {
     display: inline-block;
     animation: iconSlowBlink 2.5s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   ПЕРЕМЕЩЕНИЕ БЛОКА К ВЕРХНЕМУ КРАЮ ПОСЛЕ АНИМАЦИИ
+   ========================================================================== */
+.main-container {
+    transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1), top 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Когда добавляется класс .moved-to-top, контейнер уходит вверх */
+.main-container.moved-to-top {
+    top: 30px !important; /* Отступ от верхнего края экрана */
+    justify-content: flex-start !important; /* Выравнивание по верху */
 }
