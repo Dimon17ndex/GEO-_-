@@ -163,7 +163,7 @@ html, body {
     left: 0;
     width: 100%;
     height: 2px;
-    background: #38bdf8;
+    background: #ffffff;
 }
 
 /* Списки (Вкладки контента) */
@@ -200,7 +200,7 @@ html, body {
 }
 
 .plus-box {
-    color: #38bdf8;
+    color: #ffffff;
 }
 
 .plus-box svg {
@@ -225,7 +225,7 @@ html, body {
 }
 
 .primary-color {
-    color: #38bdf8;
+    color: #ffffff;
 }
 
 .item-subtitle {
