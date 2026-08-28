@@ -31,21 +31,23 @@ html, body {
     align-items: center;
     text-align: center;
     margin-bottom: 20px;
-    position: relative; /* Обязательно для позиционирования кнопки профиля */
+    position: relative;
 }
 
-/* Кнопка "Мой geo.geo" вверху справа */
+/* Кнопка в стилистике квадрата с иконкой вверху справа */
 .profile-btn {
     position: absolute;
     top: 0;
     right: 0;
+    width: 40px;
+    height: 40px;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px; /* Скругление как у блоков с плюсом */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #ffffff;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 20px;
     text-decoration: none;
     transition: background 0.2s ease, border-color 0.2s ease;
 }
@@ -53,6 +55,11 @@ html, body {
 .profile-btn:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.25);
+}
+
+.profile-btn svg {
+    width: 20px;
+    height: 20px;
 }
 
 .logo-wrapper {
