@@ -47,13 +47,12 @@
                 tabsIndicator.style.left = btn.offsetLeft + 'px';
                 
                 if (instant) {
-                    // Возвращаем анимацию обратно после мгновенной расстановки
                     tabsIndicator.offsetHeight; // принудительный пересчет
                     tabsIndicator.style.transition = 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                 }
             }
 
-            // Инициализация позиции при загрузке без анимации, чтобы не было скачка
+            // Инициализация позиции при загрузке без анимации
             const activeBtn = document.querySelector('.tab-btn.active');
             if (activeBtn) {
                 moveIndicator(activeBtn, true);
@@ -106,6 +105,7 @@
 <body>
     <div class="mobile-wrapper">
         <header class="mobile-header">
+            <a href="#" class="profile-btn">Мой geo.geo</a>
             <div class="logo-wrapper">
                 <img src="images/geo_logo.png" alt="Geo Logo" class="logo">
             </div>
