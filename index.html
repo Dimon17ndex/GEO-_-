@@ -35,26 +35,43 @@
                 }
             }
 
-            // Логика переключения вкладок с вибрацией
+            // Логика переключения вкладок с плавной анимацией и блюром
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
 
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const targetTab = btn.getAttribute('data-tab');
+                    const targetTabId = btn.getAttribute('data-tab');
+                    const targetContent = document.getElementById(targetTabId);
+
+                    if (btn.classList.contains('active')) return;
 
                     triggerHaptic();
 
                     tabBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
 
-                    tabContents.forEach(content => {
-                        if (content.id === targetTab) {
-                            content.style.display = 'flex';
-                        } else {
-                            content.style.display = 'none';
-                        }
-                    });
+                    // Находим текущий активный контент
+                    const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex' || c.style.display === '');
+
+                    if (currentContent && currentContent !== targetContent) {
+                        // Запускаем эффект растворения и блюра для текущего контента
+                        currentContent.classList.add('fade-out');
+
+                        setTimeout(() => {
+                            currentContent.style.display = 'none';
+                            currentContent.classList.remove('fade-out');
+
+                            // Показываем новый контент с блюром и убираем его для плавно-четкого появления
+                            targetContent.style.display = 'flex';
+                            targetContent.classList.add('fade-out');
+                            
+                            // Принудительный пересчет стилей
+                            targetContent.offsetHeight;
+
+                            targetContent.classList.remove('fade-out');
+                        }, 200);
+                    }
                 });
             });
         });
