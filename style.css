@@ -151,12 +151,14 @@ html, body {
     color: #9ca3af;
     position: relative;
     cursor: pointer;
+    transition: color 0.3s ease;
 }
 
 .tab-btn.active {
     color: #ffffff;
 }
 
+/* Белая линия с плавной анимацией перемещения */
 .tab-btn.active::after {
     content: '';
     position: absolute;
@@ -167,9 +169,8 @@ html, body {
     background: #ffffff;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-}
 
-/* Списки (Вкладки контента) */
+/* Списки (Вкладки контента с анимацией блюра и растворения) */
 .tab-content {
     width: 100%;
     flex-direction: column;
