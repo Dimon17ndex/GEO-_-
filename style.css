@@ -138,7 +138,7 @@ html, body {
     display: flex;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 12px;
-    position: relative;
+    position: relative; /* Обязательно для позиционирования индикатора внутри */
 }
 
 .tab-btn {
@@ -183,6 +183,16 @@ html, body {
 .tab-content.fade-out {
     opacity: 0;
     filter: blur(8px);
+}
+
+/* Убираем старый псевдоэлемент ::after, заменяем его на отдельный блок .tabs-indicator */
+.tabs-indicator {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: #ffffff;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .list-item {
