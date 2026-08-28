@@ -39,16 +39,32 @@
             const tabsIndicator = document.querySelector('.tabs-indicator');
 
             // Функция для перемещения белой полоски под нужную кнопку
-            function moveIndicator(btn) {
+            function moveIndicator(btn, instant = false) {
+                if (instant) {
+                    tabsIndicator.style.transition = 'none';
+                }
                 tabsIndicator.style.width = btn.offsetWidth + 'px';
                 tabsIndicator.style.left = btn.offsetLeft + 'px';
+                
+                if (instant) {
+                    // Возвращаем анимацию обратно после мгновенной расстановки
+                    tabsIndicator.offsetHeight; // принудительный пересчет
+                    tabsIndicator.style.transition = 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                }
             }
 
-            // Инициализация позиции при загрузке (на активной кнопке)
+            // Инициализация позиции при загрузке без анимации, чтобы не было скачка
             const activeBtn = document.querySelector('.tab-btn.active');
             if (activeBtn) {
-                moveIndicator(activeBtn);
+                moveIndicator(activeBtn, true);
             }
+
+            // Дополнительная проверка после полной загрузки стилей/шрифтов
+            window.addEventListener('load', () => {
+                if (activeBtn) {
+                    moveIndicator(activeBtn, true);
+                }
+            });
 
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -59,14 +75,12 @@
 
                     triggerHaptic();
 
-                    // Переключаем активную кнопку
                     tabBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
 
-                    // Плавно двигаем полоску
-                    moveIndicator(btn);
+                    // Плавное перемещение полоски при клике
+                    moveIndicator(btn, false);
 
-                    // Находим текущий активный контент и анимируем смену
                     const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex' || c.style.display === '');
 
                     if (currentContent && currentContent !== targetContent) {
@@ -78,7 +92,7 @@
 
                             targetContent.style.display = 'flex';
                             targetContent.classList.add('fade-out');
-                            targetContent.offsetHeight; // принудительный рендеринг
+                            targetContent.offsetHeight; 
                             targetContent.classList.remove('fade-out');
                         }, 200);
                     }
