@@ -43,7 +43,7 @@ html, body {
     width: 40px;
     height: 40px;
     background: transparent;
-    border: None;
+    border: none;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -135,7 +135,7 @@ html, body {
     text-decoration: underline;
 }
 
-/* Синхронное появление всех элементов без каскада */
+/* Состояние появления остальных элементов */
 .collapsible-element {
     opacity: 1;
     filter: blur(0);
@@ -148,7 +148,7 @@ html, body {
     transition-delay: 0s;
 }
 
-/* Уход вниз (при включении авторизации): элементы скрываются быстро и синхронно */
+/* Уход элементов вниз при включении авторизации */
 .mobile-wrapper.auth-mode .search-section,
 .mobile-wrapper.auth-mode .tabs-row,
 .mobile-wrapper.auth-mode .tab-content {
@@ -187,8 +187,8 @@ html, body {
 
 .search-bar input {
     background: transparent;
-    border: None;
-    outline: None;
+    border: none;
+    outline: none;
     color: #ffffff;
     font-size: 14px;
     width: 100%;
@@ -202,7 +202,7 @@ html, body {
     width: 40px;
     height: 40px;
     background: rgba(255, 255, 255, 0.06);
-    border: None;
+    border: none;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -228,7 +228,7 @@ html, body {
 .tab-btn {
     flex: 1;
     background: transparent;
-    border: None;
+    border: none;
     padding: 10px 0;
     font-size: 14px;
     font-weight: 600;
@@ -332,7 +332,7 @@ html, body {
 
 .item-menu-btn {
     background: transparent;
-    border: None;
+    border: none;
     color: #9ca3af;
     font-size: 16px;
     padding: 8px;
