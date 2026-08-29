@@ -35,7 +35,7 @@ html, body {
     width: 100%;
 }
 
-/* Кнопка профиля / стрелки */
+/* Кнопка профиля / стрелки с эффектом при наведении */
 .profile-btn {
     position: absolute;
     top: 0;
@@ -51,7 +51,12 @@ html, body {
     color: #ffffff;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
-    transition: background 0.2s ease, transform 0.3s ease;
+    transition: background 0.2s ease, transform 0.15s ease, opacity 0.15s ease;
+}
+
+.profile-btn.morphing {
+    transform: scale(0.85);
+    opacity: 0.2;
 }
 
 @media (hover: hover) {
@@ -80,7 +85,7 @@ html, body {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 
                 0 2px 6px rgba(0, 0, 0, 0.2);
     margin-bottom: 14px;
-    transition: filter 0.2s ease, opacity 0.2s ease;
+    transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
 }
 
 .logo {
@@ -97,14 +102,14 @@ html, body {
     color: #ffffff;
 }
 
-/* Стили заголовка и текста с поддержкой анимации блюра */
+/* Стили заголовка и текста с мягким переходом */
 .unbounded-title {
     font-family: 'Unbounded', sans-serif;
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
-    transition: filter 0.2s ease, opacity 0.2s ease;
+    transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
 }
 
 .header-desc {
@@ -112,12 +117,13 @@ html, body {
     color: #9ca3af;
     line-height: 1.4;
     padding: 0 10px;
-    transition: filter 0.2s ease, opacity 0.2s ease;
+    transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
 }
 
 .blur-transition {
     opacity: 0;
-    filter: blur(8px);
+    filter: blur(10px);
+    transform: scale(0.98);
 }
 
 .accent-link {
@@ -129,46 +135,41 @@ html, body {
     text-decoration: underline;
 }
 
-/* Каскадное исчезновение объектов ниже описания */
+/* Каскадное нежное исчезновение объектов вниз без прыжков высоты */
 .collapsible-element {
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                filter 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    max-height: 500px;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     opacity: 1;
     filter: blur(0);
-    transform: translateY(0);
-    overflow: hidden;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
     width: 100%;
 }
 
-/* Состояние авторизации: каскадный уход вниз с блюром */
+/* Состояние авторизации: элементы уплывают вниз с нарастающим блюром и задержками */
 .mobile-wrapper.auth-mode .search-section {
     opacity: 0;
-    filter: blur(8px);
-    transform: translateY(30px);
-    max-height: 0;
-    margin-bottom: 0;
-    transition-delay: 0.05s;
+    filter: blur(12px);
+    transform: translateY(40px) scale(0.97);
+    pointer-events: none;
+    transition-delay: 0.03s;
 }
 
 .mobile-wrapper.auth-mode .tabs-row {
     opacity: 0;
-    filter: blur(8px);
-    transform: translateY(30px);
-    max-height: 0;
-    margin-bottom: 0;
-    border: none;
-    transition-delay: 0.1s;
+    filter: blur(12px);
+    transform: translateY(50px) scale(0.97);
+    pointer-events: none;
+    transition-delay: 0.08s;
 }
 
 .mobile-wrapper.auth-mode .tab-content {
     opacity: 0;
-    filter: blur(8px);
-    transform: translateY(30px);
-    max-height: 0;
-    transition-delay: 0.15s;
+    filter: blur(12px);
+    transform: translateY(60px) scale(0.97);
+    pointer-events: none;
+    transition-delay: 0.13s;
 }
 
 /* Поиск */
