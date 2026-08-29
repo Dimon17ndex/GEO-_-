@@ -43,7 +43,7 @@ html, body {
     width: 40px;
     height: 40px;
     background: transparent;
-    border: none;
+    border: None;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -135,62 +135,26 @@ html, body {
     text-decoration: underline;
 }
 
-/* Настройки каскадного появления при возврате */
+/* Синхронное появление всех элементов без каскада */
 .collapsible-element {
     opacity: 1;
     filter: blur(0);
     transform: translateY(0) scale(1);
     pointer-events: auto;
     width: 100%;
-}
-
-/* Поиск появляется первым (с небольшим отрывом после шапки) */
-.search-element {
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
-                opacity 0.35s ease, 
-                filter 0.35s ease;
-    transition-delay: 0.12s; 
-}
-
-/* Вкладки появляются следом за поиском */
-.tabs-element {
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
-                opacity 0.35s ease, 
-                filter 0.35s ease;
-    transition-delay: 0.20s;
-}
-
-/* Списки появляются последними */
-.content-element {
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
-                opacity 0.35s ease, 
-                filter 0.35s ease;
-    transition-delay: 0.28s;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.3s ease, 
+                filter 0.3s ease;
+    transition-delay: 0s;
 }
 
 /* Уход вниз (при включении авторизации): элементы скрываются быстро и синхронно */
-.mobile-wrapper.auth-mode .search-section {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translateY(40px) scale(0.97);
-    pointer-events: none;
-    transition: transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease;
-    transition-delay: 0s;
-}
-
-.mobile-wrapper.auth-mode .tabs-row {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translateY(50px) scale(0.97);
-    pointer-events: none;
-    transition: transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease;
-    transition-delay: 0s;
-}
-
+.mobile-wrapper.auth-mode .search-section,
+.mobile-wrapper.auth-mode .tabs-row,
 .mobile-wrapper.auth-mode .tab-content {
     opacity: 0;
     filter: blur(12px);
-    transform: translateY(60px) scale(0.97);
+    transform: translateY(40px) scale(0.97);
     pointer-events: none;
     transition: transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease;
     transition-delay: 0s;
@@ -223,8 +187,8 @@ html, body {
 
 .search-bar input {
     background: transparent;
-    border: none;
-    outline: none;
+    border: None;
+    outline: None;
     color: #ffffff;
     font-size: 14px;
     width: 100%;
@@ -238,7 +202,7 @@ html, body {
     width: 40px;
     height: 40px;
     background: rgba(255, 255, 255, 0.06);
-    border: none;
+    border: None;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -264,7 +228,7 @@ html, body {
 .tab-btn {
     flex: 1;
     background: transparent;
-    border: none;
+    border: None;
     padding: 10px 0;
     font-size: 14px;
     font-weight: 600;
@@ -368,7 +332,7 @@ html, body {
 
 .item-menu-btn {
     background: transparent;
-    border: none;
+    border: None;
     color: #9ca3af;
     font-size: 16px;
     padding: 8px;
