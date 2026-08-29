@@ -203,6 +203,10 @@ window.addEventListener('DOMContentLoaded', () => {
     function closeSheet() {
         triggerHaptic();
         sheetBackdrop.classList.remove('active');
+        if (bottomSheet) {
+            bottomSheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+            bottomSheet.style.transform = '';
+        }
     }
 
     profileBtn.addEventListener('click', (e) => {
@@ -229,7 +233,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 headerDesc.innerHTML = 'Авторизуйтесь с вашим внутренним аккаунтом <a href="#" class="accent-link" id="authLink">@geo.geo</a>';
                 headerDesc.classList.remove('blur-transition');
                 
-                // Вешаем обработчик на появившуюся ссылку @geo.geo
                 document.getElementById('authLink').addEventListener('click', (linkEvent) => {
                     linkEvent.preventDefault();
                     openSheet();
@@ -320,27 +323,18 @@ window.addEventListener('DOMContentLoaded', () => {
     bottomSheet.addEventListener('touchend', () => {
         if (!isDragging) return;
         isDragging = false;
-        bottomSheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+        
         let diff = currentY - startY;
         if (diff > 100) {
             closeSheet();
         } else {
+            bottomSheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
             bottomSheet.style.transform = 'translateY(0)';
         }
         startY = 0;
         currentY = 0;
     });
 });
-
-function closeSheet() {
-        triggerHaptic();
-        sheetBackdrop.classList.remove('active');
-        // Сбрасываем трансформацию, чтобы при следующем открытии вкладка была на месте
-        if (bottomSheet) {
-            bottomSheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-            bottomSheet.style.transform = '';
-        }
-    }
 </script>
 
     <script src="script.js"></script>
