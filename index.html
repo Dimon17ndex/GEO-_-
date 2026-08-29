@@ -331,6 +331,16 @@ window.addEventListener('DOMContentLoaded', () => {
         currentY = 0;
     });
 });
+
+function closeSheet() {
+        triggerHaptic();
+        sheetBackdrop.classList.remove('active');
+        // Сбрасываем трансформацию, чтобы при следующем открытии вкладка была на месте
+        if (bottomSheet) {
+            bottomSheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+            bottomSheet.style.transform = '';
+        }
+    }
 </script>
 
     <script src="script.js"></script>
