@@ -159,9 +159,7 @@
                     }, 150);
                     profileBtn.setAttribute('title', 'Мой geo.geo');
 
-                    // Возвращаем элементы интерфейса
-                    mobileWrapper.classList.remove('auth-mode');
-
+                    // Сначала мгновенно возвращаем шапку
                     headerDesc.classList.add('blur-transition');
                     setTimeout(() => {
                         headerDesc.innerHTML = 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>';
@@ -179,6 +177,11 @@
                         logoContainer.innerHTML = '<img src="images/geo_logo.png" alt="Geo Logo" class="logo">';
                         logoContainer.classList.remove('blur-transition');
                     }, 180);
+
+                    // Ровно через 1 секунду после клика плавно показываем остальные объекты
+                    setTimeout(() => {
+                        mobileWrapper.classList.remove('auth-mode');
+                    }, 1000);
                 }
             });
         });
