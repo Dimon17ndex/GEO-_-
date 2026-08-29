@@ -32,9 +32,10 @@ html, body {
     text-align: center;
     margin-bottom: 20px;
     position: relative;
+    width: 100%;
 }
 
-/* Кнопка профиля с круглой подсветкой при наведении */
+/* Кнопка профиля / стрелки */
 .profile-btn {
     position: absolute;
     top: 0;
@@ -50,7 +51,7 @@ html, body {
     color: #ffffff;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.3s ease;
 }
 
 @media (hover: hover) {
@@ -61,7 +62,6 @@ html, body {
 
 .profile-btn:hover {
     background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .profile-btn svg {
@@ -80,6 +80,7 @@ html, body {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 
                 0 2px 6px rgba(0, 0, 0, 0.2);
     margin-bottom: 14px;
+    transition: filter 0.2s ease, opacity 0.2s ease;
 }
 
 .logo {
@@ -88,13 +89,22 @@ html, body {
     object-fit: contain;
 }
 
-/* Применение шрифта Unbounded для названия */
+/* Символ @ для логотипа в режиме авторизации */
+.at-symbol {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Стили заголовка и текста с поддержкой анимации блюра */
 .unbounded-title {
     font-family: 'Unbounded', sans-serif;
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
+    transition: filter 0.2s ease, opacity 0.2s ease;
 }
 
 .header-desc {
@@ -102,6 +112,12 @@ html, body {
     color: #9ca3af;
     line-height: 1.4;
     padding: 0 10px;
+    transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.blur-transition {
+    opacity: 0;
+    filter: blur(8px);
 }
 
 .accent-link {
@@ -111,6 +127,48 @@ html, body {
 
 .accent-link:hover {
     text-decoration: underline;
+}
+
+/* Каскадное исчезновение объектов ниже описания */
+.collapsible-element {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                filter 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 500px;
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Состояние авторизации: каскадный уход вниз с блюром */
+.mobile-wrapper.auth-mode .search-section {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(30px);
+    max-height: 0;
+    margin-bottom: 0;
+    transition-delay: 0.05s;
+}
+
+.mobile-wrapper.auth-mode .tabs-row {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(30px);
+    max-height: 0;
+    margin-bottom: 0;
+    border: none;
+    transition-delay: 0.1s;
+}
+
+.mobile-wrapper.auth-mode .tab-content {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(30px);
+    max-height: 0;
+    transition-delay: 0.15s;
 }
 
 /* Поиск */
@@ -161,6 +219,7 @@ html, body {
     align-items: center;
     justify-content: center;
     color: #9ca3af;
+    cursor: pointer;
 }
 
 .view-toggle-btn svg {
@@ -194,7 +253,6 @@ html, body {
     color: #ffffff;
 }
 
-/* Плавный индикатор линии */
 .tabs-indicator {
     position: absolute;
     bottom: -1px;
@@ -204,12 +262,12 @@ html, body {
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Списки (Вкладки контента с анимацией блюра и растворения) */
+/* Списки */
 .tab-content {
     width: 100%;
     flex-direction: column;
     gap: 8px;
-    transition: opacity 0.25s ease, filter 0.25s ease;
+    transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
     opacity: 1;
     filter: blur(0);
 }
@@ -290,4 +348,5 @@ html, body {
     font-size: 16px;
     padding: 8px;
     letter-spacing: 2px;
+    cursor: pointer;
 }
