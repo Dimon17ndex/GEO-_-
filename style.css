@@ -34,27 +34,28 @@ html, body {
     position: relative;
 }
 
-/* Кнопка профиля без рамки и фона, только иконка */
+/* Кнопка профиля с круглой подсветкой при наведении */
 .profile-btn {
     position: absolute;
-    top: 4px; /* Немного отрегулируйте отступ при необходимости */
+    top: 0;
     right: 0;
+    width: 40px;
+    height: 40px;
     background: transparent;
     border: none;
-    padding: 8px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #ffffff;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
-    opacity: 0.8;
-    transition: opacity 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 @media (hover: hover) {
     .profile-btn:hover {
-        opacity: 1;
+        background: rgba(255, 255, 255, 0.08);
     }
 }
 
