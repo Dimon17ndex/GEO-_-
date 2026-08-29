@@ -96,7 +96,7 @@
                 });
             });
 
-            // Логика перехода в режим авторизации с нежной анимацией
+            // Логика перехода в режим авторизации и возврата обратно
             const profileBtn = document.getElementById('profileBtn');
             const mobileWrapper = document.querySelector('.mobile-wrapper');
             const headerDesc = document.getElementById('headerDesc');
@@ -123,24 +123,22 @@
                     }, 150);
                     profileBtn.setAttribute('title', 'Назад');
 
-                    // 2. Каскадный уход элементов вниз с блюром
+                    // 2. Уход элементов вниз
                     mobileWrapper.classList.add('auth-mode');
 
-                    // 3. Плавная смена текста описания через блюр
+                    // 3. Смена текстов и логотипа в шапке
                     headerDesc.classList.add('blur-transition');
                     setTimeout(() => {
                         headerDesc.innerHTML = 'Авторизуйтесь с вашим внутренним аккаунтом <a href="#" class="accent-link">@geo.geo</a>';
                         headerDesc.classList.remove('blur-transition');
                     }, 180);
 
-                    // 4. Плавная смена заголовка через блюр
                     unboundedTitle.classList.add('blur-transition');
                     setTimeout(() => {
                         unboundedTitle.textContent = 'АВТОРИЗАЦИЯ';
                         unboundedTitle.classList.remove('blur-transition');
                     }, 180);
 
-                    // 5. Плавная смена логотипа на "@" через блюр
                     logoContainer.classList.add('blur-transition');
                     setTimeout(() => {
                         logoContainer.innerHTML = '<span class="at-symbol">@</span>';
@@ -148,7 +146,7 @@
                     }, 180);
 
                 } else {
-                    // Возвращаем исходное состояние
+                    // Возврат обратно: шапка появляется раньше (без задержки), а низ с задержкой
                     profileBtn.classList.add('morphing');
                     setTimeout(() => {
                         profileBtn.innerHTML = `
@@ -161,6 +159,7 @@
                     }, 150);
                     profileBtn.setAttribute('title', 'Мой geo.geo');
 
+                    // Сначала возвращаем шапку (убираем класс auth-mode для верхних элементов раньше)
                     mobileWrapper.classList.remove('auth-mode');
 
                     headerDesc.classList.add('blur-transition');
