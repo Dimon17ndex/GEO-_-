@@ -58,7 +58,6 @@
                 moveIndicator(activeBtn, true);
             }
 
-            // Дополнительная проверка после полной загрузки стилей/шрифтов
             window.addEventListener('load', () => {
                 if (activeBtn) {
                     moveIndicator(activeBtn, true);
@@ -77,7 +76,6 @@
                     tabBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
 
-                    // Плавное перемещение полоски при клике
                     moveIndicator(btn, false);
 
                     const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex' || c.style.display === '');
@@ -97,6 +95,87 @@
                     }
                 });
             });
+
+            // Логика перехода в режим авторизации
+            const profileBtn = document.getElementById('profileBtn');
+            const mobileWrapper = document.querySelector('.mobile-wrapper');
+            const headerDesc = document.getElementById('headerDesc');
+            const unboundedTitle = document.getElementById('unboundedTitle');
+            const logoContainer = document.getElementById('logoContainer');
+            
+            let isAuthMode = false;
+
+            profileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                triggerHaptic();
+                isAuthMode = !isAuthMode;
+
+                if (isAuthMode) {
+                    // 1. Меняем иконку профиля на стрелочку
+                    profileBtn.classList.add('is-arrow');
+                    profileBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                    `;
+                    profileBtn.setAttribute('title', 'Назад');
+
+                    // 2. Запускаем каскадное исчезновение объектов снизу вверх (поиск, вкладки, контент)
+                    mobileWrapper.classList.add('auth-mode');
+
+                    // 3. Смена текста описания через блюр
+                    headerDesc.classList.add('blur-transition');
+                    setTimeout(() => {
+                        headerDesc.innerHTML = 'Авторизуйтесь с вашим внутренним аккаунтом <a href="#" class="accent-link">@geo.geo</a>';
+                        headerDesc.classList.remove('blur-transition');
+                    }, 200);
+
+                    // 4. Смена заголовка через блюр
+                    unboundedTitle.classList.add('blur-transition');
+                    setTimeout(() => {
+                        unboundedTitle.textContent = 'АВТОРИЗАЦИЯ';
+                        unboundedTitle.classList.remove('blur-transition');
+                    }, 200);
+
+                    // 5. Смена логотипа на "@" через блюр
+                    logoContainer.classList.add('blur-transition');
+                    setTimeout(() => {
+                        logoContainer.innerHTML = '<span class="at-symbol">@</span>';
+                        logoContainer.classList.remove('blur-transition');
+                    }, 200);
+
+                } else {
+                    // Возвращаем исходное состояние
+                    profileBtn.classList.remove('is-arrow');
+                    profileBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    `;
+                    profileBtn.setAttribute('title', 'Мой geo.geo');
+
+                    mobileWrapper.classList.remove('auth-mode');
+
+                    headerDesc.classList.add('blur-transition');
+                    setTimeout(() => {
+                        headerDesc.innerHTML = 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>';
+                        headerDesc.classList.remove('blur-transition');
+                    }, 200);
+
+                    unboundedTitle.classList.add('blur-transition');
+                    setTimeout(() => {
+                        unboundedTitle.textContent = 'GEOГРАФИЯ';
+                        unboundedTitle.classList.remove('blur-transition');
+                    }, 200);
+
+                    logoContainer.classList.add('blur-transition');
+                    setTimeout(() => {
+                        logoContainer.innerHTML = '<img src="images/geo_logo.png" alt="Geo Logo" class="logo">';
+                        logoContainer.classList.remove('blur-transition');
+                    }, 200);
+                }
+            });
         });
     </script>
     
@@ -105,22 +184,22 @@
 <body>
     <div class="mobile-wrapper">
         <header class="mobile-header">
-            <a href="#" class="profile-btn" title="Мой geo.geo">
+            <a href="#" class="profile-btn" id="profileBtn" title="Мой geo.geo">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                     <circle cx="12" cy="7" r="4"/>
                 </svg>
             </a>
-            <div class="logo-wrapper">
+            <div class="logo-wrapper" id="logoContainer">
                 <img src="images/geo_logo.png" alt="Geo Logo" class="logo">
             </div>
-            <h1 class="unbounded-title">GEOГРАФИЯ</h1>
-            <p class="header-desc">
+            <h1 class="unbounded-title" id="unboundedTitle">GEOГРАФИЯ</h1>
+            <p class="header-desc" id="headerDesc">
                 Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>
             </p>
         </header>
 
-        <div class="search-section">
+        <div class="search-section collapsible-element">
             <div class="search-bar">
                 <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                 <input type="text" placeholder="Поиск" autocomplete="off">
@@ -130,13 +209,13 @@
             </button>
         </div>
 
-        <div class="tabs-row">
+        <div class="tabs-row collapsible-element">
             <button class="tab-btn active" data-tab="tab-navigation">Навигация</button>
             <button class="tab-btn" data-tab="tab-questions">Вопросы</button>
             <div class="tabs-indicator"></div>
         </div>
 
-        <main class="list-container tab-content" id="tab-navigation" style="display: flex;">
+        <main class="list-container tab-content collapsible-element" id="tab-navigation" style="display: flex;">
             <div class="list-item action-item">
                 <div class="item-icon-box plus-box">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
@@ -158,7 +237,7 @@
             </div>
         </main>
 
-        <main class="list-container tab-content" id="tab-questions" style="display: none;">
+        <main class="list-container tab-content collapsible-element" id="tab-questions" style="display: none;">
             <div class="list-item action-item">
                 <div class="item-icon-box plus-box">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
