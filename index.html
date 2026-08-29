@@ -96,7 +96,7 @@
                 });
             });
 
-            // Логика перехода в режим авторизации
+            // Логика перехода в режим авторизации с нежной анимацией
             const profileBtn = document.getElementById('profileBtn');
             const mobileWrapper = document.querySelector('.mobile-wrapper');
             const headerDesc = document.getElementById('headerDesc');
@@ -111,48 +111,54 @@
                 isAuthMode = !isAuthMode;
 
                 if (isAuthMode) {
-                    // 1. Меняем иконку профиля на стрелочку
-                    profileBtn.classList.add('is-arrow');
-                    profileBtn.innerHTML = `
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 12H5M12 19l-7-7 7-7"/>
-                        </svg>
-                    `;
+                    // 1. Анимация смены иконки пользователя на стрелочку
+                    profileBtn.classList.add('morphing');
+                    setTimeout(() => {
+                        profileBtn.innerHTML = `
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                            </svg>
+                        `;
+                        profileBtn.classList.remove('morphing');
+                    }, 150);
                     profileBtn.setAttribute('title', 'Назад');
 
-                    // 2. Запускаем каскадное исчезновение объектов снизу вверх (поиск, вкладки, контент)
+                    // 2. Каскадный уход элементов вниз с блюром
                     mobileWrapper.classList.add('auth-mode');
 
-                    // 3. Смена текста описания через блюр
+                    // 3. Плавная смена текста описания через блюр
                     headerDesc.classList.add('blur-transition');
                     setTimeout(() => {
                         headerDesc.innerHTML = 'Авторизуйтесь с вашим внутренним аккаунтом <a href="#" class="accent-link">@geo.geo</a>';
                         headerDesc.classList.remove('blur-transition');
-                    }, 200);
+                    }, 180);
 
-                    // 4. Смена заголовка через блюр
+                    // 4. Плавная смена заголовка через блюр
                     unboundedTitle.classList.add('blur-transition');
                     setTimeout(() => {
                         unboundedTitle.textContent = 'АВТОРИЗАЦИЯ';
                         unboundedTitle.classList.remove('blur-transition');
-                    }, 200);
+                    }, 180);
 
-                    // 5. Смена логотипа на "@" через блюр
+                    // 5. Плавная смена логотипа на "@" через блюр
                     logoContainer.classList.add('blur-transition');
                     setTimeout(() => {
                         logoContainer.innerHTML = '<span class="at-symbol">@</span>';
                         logoContainer.classList.remove('blur-transition');
-                    }, 200);
+                    }, 180);
 
                 } else {
                     // Возвращаем исходное состояние
-                    profileBtn.classList.remove('is-arrow');
-                    profileBtn.innerHTML = `
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                            <circle cx="12" cy="7" r="4"/>
-                        </svg>
-                    `;
+                    profileBtn.classList.add('morphing');
+                    setTimeout(() => {
+                        profileBtn.innerHTML = `
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        `;
+                        profileBtn.classList.remove('morphing');
+                    }, 150);
                     profileBtn.setAttribute('title', 'Мой geo.geo');
 
                     mobileWrapper.classList.remove('auth-mode');
@@ -161,19 +167,19 @@
                     setTimeout(() => {
                         headerDesc.innerHTML = 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>';
                         headerDesc.classList.remove('blur-transition');
-                    }, 200);
+                    }, 180);
 
                     unboundedTitle.classList.add('blur-transition');
                     setTimeout(() => {
                         unboundedTitle.textContent = 'GEOГРАФИЯ';
                         unboundedTitle.classList.remove('blur-transition');
-                    }, 200);
+                    }, 180);
 
                     logoContainer.classList.add('blur-transition');
                     setTimeout(() => {
                         logoContainer.innerHTML = '<img src="images/geo_logo.png" alt="Geo Logo" class="logo">';
                         logoContainer.classList.remove('blur-transition');
-                    }, 200);
+                    }, 180);
                 }
             });
         });
