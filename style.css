@@ -135,7 +135,7 @@ html, body {
     text-decoration: underline;
 }
 
-/* Каскадное появление элементов с задержкой после шапки */
+/* Настройки каскадного появления при возврате */
 .collapsible-element {
     opacity: 1;
     filter: blur(0);
@@ -144,22 +144,23 @@ html, body {
     width: 100%;
 }
 
-/* Поиск появляется первым с небольшой паузой */
+/* Поиск появляется первым (с небольшим отрывом после шапки) */
 .search-element {
     transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
                 opacity 0.35s ease, 
                 filter 0.35s ease;
-    transition-delay: 0.15s; 
+    transition-delay: 0.12s; 
 }
 
-/* Вкладки и контент появляются еще чуть позже для красивого каскада */
+/* Вкладки появляются следом за поиском */
 .tabs-element {
     transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
                 opacity 0.35s ease, 
                 filter 0.35s ease;
-    transition-delay: 0.22s;
+    transition-delay: 0.20s;
 }
 
+/* Списки появляются последними */
 .content-element {
     transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
                 opacity 0.35s ease, 
