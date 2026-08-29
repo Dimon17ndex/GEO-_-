@@ -34,7 +34,7 @@ html, body {
     position: relative;
 }
 
-/* Кнопка в стилистике квадрата с иконкой вверху справа */
+/* Кнопка профиля в верхнем правом углу в стилистике квадрата */
 .profile-btn {
     position: absolute;
     top: 0;
@@ -43,13 +43,22 @@ html, body {
     height: 40px;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px; /* Скругление как у блоков с плюсом */
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #ffffff;
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent; /* Убирает подсветку при нажатии на телефоне */
     transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Эффект наведения срабатывает только на устройствах с курсором (ПК) */
+@media (hover: hover) {
+    .profile-btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.25);
+    }
 }
 
 .profile-btn:hover {
