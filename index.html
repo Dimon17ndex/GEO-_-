@@ -10,183 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            if (window.Telegram && window.Telegram.WebApp) {
-                const tg = window.Telegram.WebApp;
-                tg.ready();
-                tg.expand();
-                if (tg.setHeaderColor) {
-                    tg.setHeaderColor('#070707');
-                }
-            }
-
-            // Функция для мягкой двойной вибрации
-            function triggerHaptic() {
-                if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-                    const haptic = window.Telegram.WebApp.HapticFeedback;
-                    haptic.impactOccurred('light');
-                    setTimeout(() => {
-                        haptic.impactOccurred('light');
-                    }, 70);
-                } else if (navigator.vibrate) {
-                    navigator.vibrate([15, 40, 15]);
-                }
-            }
-
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            const tabsIndicator = document.querySelector('.tabs-indicator');
-
-            // Функция для перемещения белой полоски под нужную кнопку
-            function moveIndicator(btn, instant = false) {
-                if (instant) {
-                    tabsIndicator.style.transition = 'none';
-                }
-                tabsIndicator.style.width = btn.offsetWidth + 'px';
-                tabsIndicator.style.left = btn.offsetLeft + 'px';
-                
-                if (instant) {
-                    tabsIndicator.offsetHeight; // принудительный пересчет
-                    tabsIndicator.style.transition = 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                }
-            }
-
-            // Инициализация позиции при загрузке без анимации
-            const activeBtn = document.querySelector('.tab-btn.active');
-            if (activeBtn) {
-                moveIndicator(activeBtn, true);
-            }
-
-            window.addEventListener('load', () => {
-                if (activeBtn) {
-                    moveIndicator(activeBtn, true);
-                }
-            });
-
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const targetTabId = btn.getAttribute('data-tab');
-                    const targetContent = document.getElementById(targetTabId);
-
-                    if (btn.classList.contains('active')) return;
-
-                    triggerHaptic();
-
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-
-                    moveIndicator(btn, false);
-
-                    const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex' || c.style.display === '');
-
-                    if (currentContent && currentContent !== targetContent) {
-                        currentContent.classList.add('fade-out');
-
-                        setTimeout(() => {
-                            currentContent.style.display = 'none';
-                            currentContent.classList.remove('fade-out');
-
-                            targetContent.style.display = 'flex';
-                            targetContent.classList.add('fade-out');
-                            targetContent.offsetHeight; 
-                            targetContent.classList.remove('fade-out');
-                        }, 200);
-                    }
-                });
-            });
-
-            // Логика перехода в режим авторизации и возврата обратно
-            const profileBtn = document.getElementById('profileBtn');
-            const mobileWrapper = document.querySelector('.mobile-wrapper');
-            const headerDesc = document.getElementById('headerDesc');
-            const unboundedTitle = document.getElementById('unboundedTitle');
-            const logoContainer = document.getElementById('logoContainer');
-            
-            let isAuthMode = false;
-
-            profileBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                triggerHaptic();
-                isAuthMode = !isAuthMode;
-
-                if (isAuthMode) {
-                    // 1. Анимация смены иконки пользователя на стрелочку
-                    profileBtn.classList.add('morphing');
-                    setTimeout(() => {
-                        profileBtn.innerHTML = `
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M19 12H5M12 19l-7-7 7-7"/>
-                            </svg>
-                        `;
-                        profileBtn.classList.remove('morphing');
-                    }, 150);
-                    profileBtn.setAttribute('title', 'Назад');
-
-                    // 2. Уход элементов вниз
-                    mobileWrapper.classList.add('auth-mode');
-
-                    // 3. Смена текстов и логотипа в шапке
-                    headerDesc.classList.add('blur-transition');
-                    setTimeout(() => {
-                        headerDesc.innerHTML = 'Авторизуйтесь с вашим внутренним аккаунтом <a href="#" class="accent-link">@geo.geo</a>';
-                        headerDesc.classList.remove('blur-transition');
-                    }, 180);
-
-                    unboundedTitle.classList.add('blur-transition');
-                    setTimeout(() => {
-                        unboundedTitle.textContent = 'АВТОРИЗАЦИЯ';
-                        unboundedTitle.classList.remove('blur-transition');
-                    }, 180);
-
-                    logoContainer.classList.add('blur-transition');
-                    setTimeout(() => {
-                        logoContainer.innerHTML = '<span class="at-symbol">@</span>';
-                        logoContainer.classList.remove('blur-transition');
-                    }, 180);
-
-                } else {
-                    // Возврат обратно
-                    profileBtn.classList.add('morphing');
-                    setTimeout(() => {
-                        profileBtn.innerHTML = `
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
-                            </svg>
-                        `;
-                        profileBtn.classList.remove('morphing');
-                    }, 150);
-                    profileBtn.setAttribute('title', 'Мой geo.geo');
-
-                    // Сначала мгновенно возвращаем шапку
-                    headerDesc.classList.add('blur-transition');
-                    setTimeout(() => {
-                        headerDesc.innerHTML = 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>';
-                        headerDesc.classList.remove('blur-transition');
-                    }, 180);
-
-                    unboundedTitle.classList.add('blur-transition');
-                    setTimeout(() => {
-                        unboundedTitle.textContent = 'GEOГРАФИЯ';
-                        unboundedTitle.classList.remove('blur-transition');
-                    }, 180);
-
-                    logoContainer.classList.add('blur-transition');
-                    setTimeout(() => {
-                        logoContainer.innerHTML = '<img src="images/geo_logo.png" alt="Geo Logo" class="logo">';
-                        logoContainer.classList.remove('blur-transition');
-                    }, 180);
-
-                    // Ровно через 0.2 секунды после клика плавно показываем остальные объекты
-                    setTimeout(() => {
-                        mobileWrapper.classList.remove('auth-mode');
-                    }, 200);
-                }
-            });
-        });
-    </script>
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -267,5 +90,249 @@
             </div>
         </main>
     </div>
+
+    <!-- Затеняющий фон и нижняя выдвижная вкладка -->
+    <div class="sheet-backdrop" id="sheetBackdrop">
+        <div class="bottom-sheet" id="bottomSheet">
+            <div class="sheet-handle-bar" id="sheetHandle">
+                <div class="sheet-handle-line"></div>
+            </div>
+            <div class="sheet-content">
+                <h2 class="sheet-title">Аккаунт @geo.geo</h2>
+                <p class="sheet-text">Здесь будет находиться информация и настройки вашего аккаунта внутри проекта GEOГРАФИЯ.</p>
+            </div>
+        </div>
+    </div>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    if (window.Telegram && window.Telegram.WebApp) {
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        if (tg.setHeaderColor) {
+            tg.setHeaderColor('#070707');
+        }
+    }
+
+    function triggerHaptic() {
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+            const haptic = window.Telegram.WebApp.HapticFeedback;
+            haptic.impactOccurred('light');
+            setTimeout(() => {
+                haptic.impactOccurred('light');
+            }, 70);
+        } else if (navigator.vibrate) {
+            navigator.vibrate([15, 40, 15]);
+        }
+    }
+
+    // Переключение вкладок (Навигация / Вопросы)
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const tabsIndicator = document.querySelector('.tabs-indicator');
+
+    function moveIndicator(btn, instant = false) {
+        if (instant) {
+            tabsIndicator.style.transition = 'none';
+        }
+        tabsIndicator.style.width = btn.offsetWidth + 'px';
+        tabsIndicator.style.left = btn.offsetLeft + 'px';
+        
+        if (instant) {
+            tabsIndicator.offsetHeight;
+            tabsIndicator.style.transition = 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
+    }
+
+    const activeBtn = document.querySelector('.tab-btn.active');
+    if (activeBtn) {
+        moveIndicator(activeBtn, true);
+    }
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetTabId = btn.getAttribute('data-tab');
+            const targetContent = document.getElementById(targetTabId);
+
+            if (btn.classList.contains('active')) return;
+
+            triggerHaptic();
+
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            moveIndicator(btn, false);
+
+            const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex' || c.style.display === '');
+
+            if (currentContent && currentContent !== targetContent) {
+                currentContent.classList.add('fade-out');
+
+                setTimeout(() => {
+                    currentContent.style.display = 'none';
+                    currentContent.classList.remove('fade-out');
+
+                    targetContent.style.display = 'flex';
+                    targetContent.classList.add('fade-out');
+                    targetContent.offsetHeight; 
+                    targetContent.classList.remove('fade-out');
+                }, 200);
+            }
+        });
+    });
+
+    // Логика режима авторизации и нижней вкладки
+    const profileBtn = document.getElementById('profileBtn');
+    const mobileWrapper = document.querySelector('.mobile-wrapper');
+    const headerDesc = document.getElementById('headerDesc');
+    const unboundedTitle = document.getElementById('unboundedTitle');
+    const logoContainer = document.getElementById('logoContainer');
+    
+    const sheetBackdrop = document.getElementById('sheetBackdrop');
+    const bottomSheet = document.getElementById('bottomSheet');
+    const sheetHandle = document.getElementById('sheetHandle');
+
+    let isAuthMode = false;
+
+    function openSheet() {
+        triggerHaptic();
+        sheetBackdrop.classList.add('active');
+    }
+
+    function closeSheet() {
+        triggerHaptic();
+        sheetBackdrop.classList.remove('active');
+    }
+
+    profileBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        triggerHaptic();
+        isAuthMode = !isAuthMode;
+
+        if (isAuthMode) {
+            profileBtn.classList.add('morphing');
+            setTimeout(() => {
+                profileBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                `;
+                profileBtn.classList.remove('morphing');
+            }, 150);
+            profileBtn.setAttribute('title', 'Назад');
+
+            mobileWrapper.classList.add('auth-mode');
+
+            headerDesc.classList.add('blur-transition');
+            setTimeout(() => {
+                headerDesc.innerHTML = 'Авторизуйтесь с вашим внутренним аккаунтом <a href="#" class="accent-link" id="authLink">@geo.geo</a>';
+                headerDesc.classList.remove('blur-transition');
+                
+                // Вешаем обработчик на появившуюся ссылку @geo.geo
+                document.getElementById('authLink').addEventListener('click', (linkEvent) => {
+                    linkEvent.preventDefault();
+                    openSheet();
+                });
+            }, 180);
+
+            unboundedTitle.classList.add('blur-transition');
+            setTimeout(() => {
+                unboundedTitle.textContent = 'АВТОРИЗАЦИЯ';
+                unboundedTitle.classList.remove('blur-transition');
+            }, 180);
+
+            logoContainer.classList.add('blur-transition');
+            setTimeout(() => {
+                logoContainer.innerHTML = '<span class="at-symbol">@</span>';
+                logoContainer.classList.remove('blur-transition');
+            }, 180);
+
+        } else {
+            profileBtn.classList.add('morphing');
+            setTimeout(() => {
+                profileBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                `;
+                profileBtn.classList.remove('morphing');
+            }, 150);
+            profileBtn.setAttribute('title', 'Мой geo.geo');
+
+            headerDesc.classList.add('blur-transition');
+            setTimeout(() => {
+                headerDesc.innerHTML = 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>';
+                headerDesc.classList.remove('blur-transition');
+            }, 180);
+
+            unboundedTitle.classList.add('blur-transition');
+            setTimeout(() => {
+                unboundedTitle.textContent = 'GEOГРАФИЯ';
+                unboundedTitle.classList.remove('blur-transition');
+            }, 180);
+
+            logoContainer.classList.add('blur-transition');
+            setTimeout(() => {
+                logoContainer.innerHTML = '<img src="images/geo_logo.png" alt="Geo Logo" class="logo">';
+                logoContainer.classList.remove('blur-transition');
+            }, 180);
+
+            setTimeout(() => {
+                mobileWrapper.classList.remove('auth-mode');
+            }, 200);
+        }
+    });
+
+    // Закрытие по клику на затемненную зону вне вкладки
+    sheetBackdrop.addEventListener('click', (e) => {
+        if (e.target === sheetBackdrop) {
+            closeSheet();
+        }
+    });
+
+    // Закрытие по клику/тапу на серую линию-ручку
+    sheetHandle.addEventListener('click', () => {
+        closeSheet();
+    });
+
+    // Поддержка свайпа вниз для закрытия вкладки
+    let startY = 0;
+    let currentY = 0;
+    let isDragging = false;
+
+    bottomSheet.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        isDragging = true;
+        bottomSheet.style.transition = 'none';
+    }, { passive: true });
+
+    bottomSheet.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentY = e.touches[0].clientY;
+        let diff = currentY - startY;
+        if (diff > 0) {
+            bottomSheet.style.transform = `translateY(${diff}px)`;
+        }
+    }, { passive: true });
+
+    bottomSheet.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        bottomSheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+        let diff = currentY - startY;
+        if (diff > 100) {
+            closeSheet();
+        } else {
+            bottomSheet.style.transform = 'translateY(0)';
+        }
+        startY = 0;
+        currentY = 0;
+    });
+});
+</script>
+
+    <script src="script.js"></script>
 </body>
 </html>
