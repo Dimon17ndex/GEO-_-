@@ -525,14 +525,14 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
 .page-content {
     display: none;
     width: 100%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
 }
 
 .page-content.active {
     display: block;
-    opacity: 1;
-    animation: fadeInPage 0.4s ease forwards;
 }
 
 @keyframes fadeInPage {
