@@ -533,6 +533,20 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
 
 .page-content.active {
     display: block;
+    animation: pageAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageAppear {
+    from {
+        opacity: 0;
+        filter: blur(12px);
+        transform: translateY(40px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0) scale(1);
+    }
 }
 
 .page-content .collapsible-element {
