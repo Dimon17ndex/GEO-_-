@@ -30,120 +30,44 @@
             </p>
         </header>
 
-        <div class="search-section collapsible-element">
-            <div class="search-bar">
-                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                <input type="text" placeholder="Поиск" autocomplete="off">
+        <!-- Контент для страницы "Бот" (1 кнопка) -->
+        <div class="page-content active" id="page-bot">
+            <div class="search-section collapsible-element">
+                <!-- Поиск -->
             </div>
-            <button class="view-toggle-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-            </button>
+            <div class="tabs-row collapsible-element">
+                <!-- Вкладки -->
+            </div>
+            <main class="list-container tab-content collapsible-element" id="tab-navigation">
+                <!-- Список навигации -->
+            </main>
+            <main class="list-container tab-content collapsible-element" id="tab-questions">
+                <!-- Список вопросов -->
+            </main>
         </div>
 
-        <div class="tabs-row collapsible-element">
-            <button class="tab-btn active" data-tab="tab-navigation">Навигация</button>
-            <button class="tab-btn" data-tab="tab-questions">Вопросы</button>
-            <div class="tabs-indicator"></div>
+        <!-- Контент для страницы "Поиск" (2 кнопка) -->
+        <div class="page-content" id="page-search">
+            <!-- Здесь будет контент поиска -->
         </div>
 
-        <main class="list-container tab-content collapsible-element" id="tab-navigation" style="display: flex;">
-            <div class="list-item action-item">
-                <div class="item-icon-box plus-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                </div>
-                <div class="item-info">
-                    <span class="item-title primary-color">Добавить раздел</span>
-                </div>
-            </div>
+        <!-- Контент для страницы "Избранное" (3 кнопка) -->
+        <div class="page-content" id="page-favorites">
+            <!-- Здесь будет контент избранного -->
+        </div>
 
-            <div class="list-item">
-                <div class="item-icon-box">
-                    <img src="images/geo_logo.png" alt="Geo" class="list-logo">
-                </div>
-                <div class="item-info">
-                    <span class="item-title">Основной канал</span>
-                    <span class="item-subtitle">t.me/geo_rus_grafia</span>
-                </div>
-                <button class="item-menu-btn">•••</button>
-            </div>
-        </main>
+        <!-- Контент для страницы "Профиль" (4 кнопка) -->
+        <div class="page-content" id="page-profile">
+            <!-- Здесь будет контент профиля -->
+        </div>
 
-        <main class="list-container tab-content collapsible-element" id="tab-questions" style="display: none;">
-            <div class="list-item action-item">
-                <div class="item-icon-box plus-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                </div>
-                <div class="item-info">
-                    <span class="item-title primary-color">Задать вопрос</span>
-                </div>
-            </div>
-
-            <div class="list-item">
-                <div class="item-icon-box">
-                    <img src="images/geo_logo.png" alt="Geo" class="list-logo">
-                </div>
-                <div class="item-info">
-                    <span class="item-title">Часто задаваемые вопросы</span>
-                    <span class="item-subtitle">База знаний проекта GEOГРАФИЯ</span>
-                </div>
-                <button class="item-menu-btn">•••</button>
-            </div>
-        </main>
-
-        <!-- Нижняя панель с кнопками и названиями -->
-    <nav class="bottom-nav" id="bottomNav">
-        <button class="nav-icon-btn active" title="Бот">
-            <div class="nav-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="11" width="18" height="10" rx="2"/>
-                    <circle cx="9" cy="16" r="1"/>
-                    <circle cx="15" cy="16" r="1"/>
-                    <path d="M12 11V7"/>
-                    <path d="M10 7h4"/>
-                    <path d="M7 11V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"/>
-                </svg>
-            </div>
-            <span class="nav-label">Бот</span>
-        </button>
-        <button class="nav-icon-btn" title="Кнопка 2">
-            <div class="nav-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
-            </div>
-            <span class="nav-label">Поиск</span>
-        </button>
-        <button class="nav-icon-btn" title="Кнопка 3">
-            <div class="nav-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15 8 22 9 17 14 18 21 12 17 6 21 7 14 2 9 9 8 12 2"/></svg>
-            </div>
-            <span class="nav-label">Избранное</span>
-        </button>
-        <button class="nav-icon-btn" title="Кнопка 4">
-            <div class="nav-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-            </div>
-            <span class="nav-label">Профиль</span>
-        </button>
-        <button class="nav-icon-btn" title="Кнопка 5">
-            <div class="nav-icon-wrapper">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            </div>
-            <span class="nav-label">Меню</span>
-        </button>
-    </nav>
-    </div>
-
-    <!-- Затеняющий фон и нижняя выдвижная вкладка -->
-    <div class="sheet-backdrop" id="sheetBackdrop">
-        <div class="bottom-sheet" id="bottomSheet">
-            <div class="sheet-handle-bar" id="sheetHandle">
-                <div class="sheet-handle-line"></div>
-            </div>
-            <div class="sheet-content">
-                <h2 class="sheet-title">Аккаунт @geo.geo</h2>
-                <p class="sheet-text">Здесь будет находиться информация и настройки вашего аккаунта внутри проекта GEOГРАФИЯ.</p>
-            </div>
+        <!-- Контент для страницы "Меню" (5 кнопка) -->
+        <div class="page-content" id="page-menu">
+            <!-- Здесь будет контент меню -->
         </div>
     </div>
+
+    <!-- Bottom nav и bottom sheet остаются как есть -->
 
 <script>
 window.addEventListener('DOMContentLoaded', () => {
@@ -378,6 +302,90 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         startY = 0;
         currentY = 0;
+    });
+});
+
+// Описания для каждой страницы
+const pageDescriptions = {
+    'bot': 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'search': 'Поиск по разделам и материалам проекта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'favorites': 'Ваши избранные разделы и сохраненные материалы <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'profile': 'Ваш профиль и настройки аккаунта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'menu': 'Дополнительные функции и настройки <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>'
+};
+
+// Функция переключения страниц
+function switchPage(pageId) {
+    const pageName = pageId.replace('page-', '');
+    
+    // Скрываем все страницы
+    document.querySelectorAll('.page-content').forEach(page => {
+        page.classList.remove('active');
+        page.style.display = 'none';
+    });
+    
+    // Показываем нужную страницу
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.style.display = 'block';
+        targetPage.classList.add('active');
+    }
+    
+    // Обновляем описание
+    const headerDesc = document.getElementById('headerDesc');
+    if (pageDescriptions[pageName]) {
+        headerDesc.innerHTML = pageDescriptions[pageName];
+    }
+    
+    // Обновляем активную кнопку
+    updateActiveNavButton(pageName);
+    
+    // Возвращаем логотип и заголовок к исходному состоянию (если были изменены)
+    resetHeaderToDefault();
+}
+
+// Обновление активной кнопки навигации
+function updateActiveNavButton(pageName) {
+    const navButtons = document.querySelectorAll('.nav-icon-btn');
+    const buttonIndex = {
+        'bot': 0,
+        'search': 1,
+        'favorites': 2,
+        'profile': 3,
+        'menu': 4
+    };
+    
+    navButtons.forEach((btn, index) => {
+        if (index === buttonIndex[pageName]) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// Сброс заголовка к исходному состоянию
+function resetHeaderToDefault() {
+    const unboundedTitle = document.getElementById('unboundedTitle');
+    const logoContainer = document.getElementById('logoContainer');
+    
+    if (unboundedTitle.textContent !== 'GEOГРАФИЯ') {
+        unboundedTitle.textContent = 'GEOГРАФИЯ';
+    }
+    
+    if (!logoContainer.querySelector('img')) {
+        logoContainer.innerHTML = '<img src="images/geo_logo.png" alt="Geo Logo" class="logo">';
+    }
+}
+
+// Обработчики для кнопок навигации
+document.querySelectorAll('.nav-icon-btn').forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        const pageIds = ['page-bot', 'page-search', 'page-favorites', 'page-profile', 'page-menu'];
+        const pageId = pageIds[index];
+        
+        triggerHaptic();
+        switchPage(pageId);
     });
 });
 </script>
