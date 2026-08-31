@@ -398,6 +398,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
             mobileWrapper.classList.add('auth-mode');
 
+            // Скрываем все элементы на активной странице
+            const activePageElements = document.querySelectorAll('.page-content.active .collapsible-element');
+            activePageElements.forEach(el => {
+                el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
+                el.style.opacity = '0';
+                el.style.filter = 'blur(12px)';
+                el.style.transform = 'translateY(40px) scale(0.97)';
+                el.style.pointerEvents = 'none';
+            });
+
             headerDesc.classList.add('blur-transition');
             setTimeout(() => {
                 headerDesc.innerHTML = 'Авторизуйтесь с вашим внутренним аккаунтом <a href="#" class="accent-link" id="authLink">@geo.geo</a>';
@@ -457,6 +467,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
             setTimeout(() => {
                 mobileWrapper.classList.remove('auth-mode');
+                
+                // Возвращаем элементы на активной странице
+                const activePageElements = document.querySelectorAll('.page-content.active .collapsible-element');
+                activePageElements.forEach(el => {
+                    el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+                    el.style.opacity = '1';
+                    el.style.filter = 'blur(0)';
+                    el.style.transform = 'translateY(0) scale(1)';
+                    el.style.pointerEvents = 'auto';
+                });
             }, 200);
 
             document.getElementById('bottomNav').classList.remove('hidden');
