@@ -527,6 +527,108 @@ window.addEventListener('DOMContentLoaded', () => {
         currentY = 0;
     });
 });
+// ====== ПЕРЕХОД ПО ССЫЛКЕ С АНИМАЦИЕЙ ======
+function redirectToLink(url) {
+    // 1. Скрываем все элементы с blur-эффектом
+    const allElements = document.querySelectorAll('.page-content.active .collapsible-element, .bottom-nav');
+    allElements.forEach(el => {
+        el.style.transition = 'transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease';
+        el.style.opacity = '0';
+        el.style.filter = 'blur(12px)';
+        el.style.transform = 'translateY(40px) scale(0.97)';
+        el.style.pointerEvents = 'none';
+    });
+    
+    // Скрываем шапку
+    const headerElements = [logoContainer, unboundedTitle, headerDesc, profileBtn];
+    headerElements.forEach(el => {
+        if (el) {
+            el.style.transition = 'transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease';
+            el.style.opacity = '0';
+            el.style.filter = 'blur(12px)';
+            el.style.transform = 'translateY(20px) scale(0.95)';
+        }
+    });
+    
+    // 2. Через 400мс показываем текст "ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС"
+    setTimeout(() => {
+        // Создаем оверлей
+        const overlay = document.createElement('div');
+        overlay.id = 'redirectOverlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(7, 7, 7, 0.95);
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        `;
+        
+        overlay.innerHTML = `
+            <div style="
+                text-align: center;
+                padding: 20px;
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+                filter: blur(10px);
+                transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+                font-family: 'Unbounded', sans-serif;
+            ">
+                <h2 style="
+                    font-size: 20px;
+                    font-weight: 700;
+                    color: #ffffff;
+                    margin-bottom: 12px;
+                    letter-spacing: -0.5px;
+                ">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2>
+                <a href="${url}" target="_blank" style="
+                    font-size: 14px;
+                    color: #38bdf8;
+                    text-decoration: none;
+                ">${url}</a>
+            </div>
+        `;
+        
+        document.body.appendChild(overlay);
+        
+        // Показываем оверлей
+        requestAnimationFrame(() => {
+            overlay.style.opacity = '1';
+            const content = overlay.querySelector('div');
+            setTimeout(() => {
+                content.style.opacity = '1';
+                content.style.transform = 'translateY(0) scale(1)';
+                content.style.filter = 'blur(0)';
+            }, 100);
+        });
+        
+        // 3. Через 1 секунду переходим по ссылке
+        setTimeout(() => {
+            window.open(url, '_blank');
+            // Перезагружаем приложение
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }, 1000);
+        
+    }, 400);
+}
+
+// Обработчик для ссылки GEOГРАФИЯ в описании
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href="https://t.me/geo_rus_grafia"]');
+    if (link) {
+        e.preventDefault();
+        triggerHaptic();
+        redirectToLink('https://t.me/geo_rus_grafia');
+    }
+});
 </script>
 </body>
 </html>
