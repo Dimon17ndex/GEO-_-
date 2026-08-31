@@ -211,76 +211,84 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     function switchPage(pageId) {
-        console.log('Switching to:', pageId);
-        
-        const currentPage = document.querySelector('.page-content.active');
-        const targetPage = document.getElementById(pageId);
-        
-        if (!targetPage || currentPage === targetPage) return;
-        
-        // Обновляем активную кнопку
-        navButtons.forEach(btn => {
-            if (btn.dataset.page === pageId) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+    console.log('Switching to:', pageId);
+    
+    const currentPage = document.querySelector('.page-content.active');
+    const targetPage = document.getElementById(pageId);
+    
+    if (!targetPage || currentPage === targetPage) return;
+    
+    // Обновляем активную кнопку
+    navButtons.forEach(btn => {
+        if (btn.dataset.page === pageId) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+    
+    // Шаг 1: Скрываем текущую страницу (быстро)
+    if (currentPage) {
+        currentPage.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
+        currentPage.style.opacity = '0';
+        currentPage.style.filter = 'blur(12px)';
+        currentPage.style.transform = 'translateY(40px) scale(0.97)';
+        currentPage.style.pointerEvents = 'none';
+    }
+    
+    // Шаг 2: Показываем новую страницу с плавным появлением
+    setTimeout(() => {
+        // Скрываем все страницы
+        pageContents.forEach(page => {
+            page.classList.remove('active');
+            page.style.display = 'none';
+            // Сбрасываем стили
+            page.style.opacity = '';
+            page.style.filter = '';
+            page.style.transform = '';
+            page.style.pointerEvents = '';
+            page.style.transition = '';
         });
         
-        // Скрываем текущую страницу
-        if (currentPage) {
-            currentPage.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
-            currentPage.style.opacity = '0';
-            currentPage.style.filter = 'blur(12px)';
-            currentPage.style.transform = 'translateY(40px) scale(0.97)';
-            currentPage.style.pointerEvents = 'none';
+        // Показываем целевую страницу
+        targetPage.classList.add('active');
+        targetPage.style.display = 'block';
+        
+        // Начальное состояние - страница скрыта внизу
+        targetPage.style.opacity = '0';
+        targetPage.style.filter = 'blur(12px)';
+        targetPage.style.transform = 'translateY(40px) scale(0.97)';
+        targetPage.style.pointerEvents = 'none';
+        
+        // Запускаем плавное появление
+        requestAnimationFrame(() => {
+            targetPage.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+            targetPage.style.opacity = '1';
+            targetPage.style.filter = 'blur(0)';
+            targetPage.style.transform = 'translateY(0) scale(1)';
+            targetPage.style.pointerEvents = 'auto';
+        });
+        
+        // Обновляем описание с blur-эффектом
+        if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
+            headerDesc.classList.add('blur-transition');
+            setTimeout(() => {
+                headerDesc.innerHTML = pageDescriptions[pageId];
+                headerDesc.classList.remove('blur-transition');
+            }, 180);
         }
         
-        // Показываем новую страницу
+        // Очищаем inline-стили после завершения анимации
         setTimeout(() => {
-            pageContents.forEach(page => {
-                page.classList.remove('active');
-                page.style.display = 'none';
-                page.style.opacity = '';
-                page.style.filter = '';
-                page.style.transform = '';
-                page.style.pointerEvents = '';
-                page.style.transition = '';
-            });
-            
-            targetPage.classList.add('active');
-            targetPage.style.display = 'block';
-            targetPage.style.opacity = '0';
-            targetPage.style.filter = 'blur(12px)';
-            targetPage.style.transform = 'translateY(40px) scale(0.97)';
-            targetPage.style.pointerEvents = 'none';
-            
-            requestAnimationFrame(() => {
-                targetPage.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
-                targetPage.style.opacity = '1';
-                targetPage.style.filter = 'blur(0)';
-                targetPage.style.transform = 'translateY(0) scale(1)';
-                targetPage.style.pointerEvents = 'auto';
-            });
-            
-            if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
-                headerDesc.classList.add('blur-transition');
-                setTimeout(() => {
-                    headerDesc.innerHTML = pageDescriptions[pageId];
-                    headerDesc.classList.remove('blur-transition');
-                }, 180);
-            }
-            
-            setTimeout(() => {
-                targetPage.style.transition = '';
-                targetPage.style.opacity = '';
-                targetPage.style.filter = '';
-                targetPage.style.transform = '';
-                targetPage.style.pointerEvents = '';
-            }, 500);
-            
-        }, 200);
-    }
+            targetPage.style.transition = '';
+            targetPage.style.opacity = '';
+            targetPage.style.filter = '';
+            targetPage.style.transform = '';
+            targetPage.style.pointerEvents = '';
+        }, 500);
+        
+    }, 200);
+}
 
     // Обработчики кнопок навигации
     navButtons.forEach(btn => {
