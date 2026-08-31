@@ -191,34 +191,34 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ====== SPA НАВИГАЦИЯ ======
-    const navButtons = document.querySelectorAll('.nav-icon-btn');
-    const pageContents = document.querySelectorAll('.page-content');
-    const headerDesc = document.getElementById('headerDesc');
-    const unboundedTitle = document.getElementById('unboundedTitle');
-    const logoContainer = document.getElementById('logoContainer');
+    // ====== SPA НАВИГАЦИЯ С ПОЛНЫМИ АНИМАЦИЯМИ ======
+const navButtons = document.querySelectorAll('.nav-icon-btn');
+const pageContents = document.querySelectorAll('.page-content');
+const headerDesc = document.getElementById('headerDesc');
+const unboundedTitle = document.getElementById('unboundedTitle');
+const logoContainer = document.getElementById('logoContainer');
 
-    // Проверка внутри DOMContentLoaded
-    console.log('Nav buttons found:', navButtons.length);
-    console.log('Page contents found:', pageContents.length);
+// Описания для каждой страницы
+const pageDescriptions = {
+    'page-bot': 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'page-search': 'Поиск по разделам и материалам проекта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'page-favorites': 'Ваши избранные разделы и сохранённые материалы <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'page-profile': 'Ваш профиль и настройки аккаунта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'page-menu': 'Дополнительные функции и настройки <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>'
+};
 
-    const pageDescriptions = {
-        'page-bot': 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
-        'page-search': 'Поиск по разделам и материалам проекта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
-        'page-favorites': 'Ваши избранные разделы и сохранённые материалы <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
-        'page-profile': 'Ваш профиль и настройки аккаунта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
-        'page-menu': 'Дополнительные функции и настройки <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>'
-    };
-
-    function switchPage(pageId) {
+function switchPage(pageId) {
     console.log('Switching to:', pageId);
-    
+
     const currentPage = document.querySelector('.page-content.active');
     const targetPage = document.getElementById(pageId);
+
+    console.log('Current:', currentPage?.id);
+    console.log('Target:', targetPage?.id);
     
     if (!targetPage || currentPage === targetPage) return;
     
-    // Обновляем активную кнопку
+    // Обновляем активную кнопку сразу
     navButtons.forEach(btn => {
         if (btn.dataset.page === pageId) {
             btn.classList.add('active');
@@ -227,46 +227,47 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Шаг 1: Плавно скрываем текущую страницу
+    // Шаг 1: Скрываем текущую страницу (быстро)
     if (currentPage) {
-        currentPage.style.transition = 'transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease';
+        currentPage.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
         currentPage.style.opacity = '0';
         currentPage.style.filter = 'blur(12px)';
         currentPage.style.transform = 'translateY(40px) scale(0.97)';
         currentPage.style.pointerEvents = 'none';
     }
     
-    // Шаг 2: Ждём завершения анимации скрытия
+    // Шаг 2: Показываем новую страницу с эффектом возврата
     setTimeout(() => {
-        // Теперь скрываем текущую страницу
-        if (currentPage) {
-            currentPage.classList.remove('active');
-            currentPage.style.display = 'none';
-            // Сбрасываем стили текущей страницы
-            currentPage.style.opacity = '';
-            currentPage.style.filter = '';
-            currentPage.style.transform = '';
-            currentPage.style.pointerEvents = '';
-            currentPage.style.transition = '';
-        }
-        
-        // Скрываем остальные страницы (кроме целевой)
+        // Скрываем все страницы
         pageContents.forEach(page => {
-            if (page !== targetPage) {
-                page.classList.remove('active');
-                page.style.display = 'none';
-                page.style.opacity = '';
-                page.style.filter = '';
-                page.style.transform = '';
-                page.style.pointerEvents = '';
-                page.style.transition = '';
-                page.style.animation = '';
-            }
+            page.classList.remove('active');
+            page.style.display = 'none';
+            // Сбрасываем стили
+            page.style.opacity = '';
+            page.style.filter = '';
+            page.style.transform = '';
+            page.style.pointerEvents = '';
+            page.style.transition = '';
         });
         
         // Показываем целевую страницу
-        targetPage.style.display = 'block';
         targetPage.classList.add('active');
+        targetPage.style.display = 'block';
+        
+        // Начальное состояние - как будто элементы ушли вниз
+        targetPage.style.opacity = '0';
+        targetPage.style.filter = 'blur(12px)';
+        targetPage.style.transform = 'translateY(40px) scale(0.97)';
+        targetPage.style.pointerEvents = 'none';
+        
+        // Плавное возвращение элементов
+        requestAnimationFrame(() => {
+            targetPage.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+            targetPage.style.opacity = '1';
+            targetPage.style.filter = 'blur(0)';
+            targetPage.style.transform = 'translateY(0) scale(1)';
+            targetPage.style.pointerEvents = 'auto';
+        });
         
         // Обновляем описание с blur-эффектом
         if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
@@ -277,21 +278,30 @@ window.addEventListener('DOMContentLoaded', () => {
             }, 180);
         }
         
-    }, 300); // Увеличили до 300мс, чтобы анимация скрытия успела завершиться
+        // Очищаем inline-стили после завершения анимации
+        setTimeout(() => {
+            targetPage.style.transition = '';
+            targetPage.style.opacity = '';
+            targetPage.style.filter = '';
+            targetPage.style.transform = '';
+            targetPage.style.pointerEvents = '';
+        }, 500);
+        
+    }, 200);
 }
 
-    // Обработчики кнопок навигации
-    navButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const pageId = btn.dataset.page;
-            console.log('Button clicked:', pageId);
-            if (!pageId) return;
-            triggerHaptic();
-            switchPage(pageId);
-        });
+// Обработчики для кнопок навигации
+navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const pageId = btn.dataset.page;
+        if (!pageId) return;
+        
+        triggerHaptic();
+        switchPage(pageId);
     });
+});
 
-    // ====== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ======
+    // ====== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК (Навигация / Вопросы) ======
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
     const tabsIndicator = document.querySelector('.tabs-indicator');
@@ -346,7 +356,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ====== ЛОГИКА АВТОРИЗАЦИИ ======
+    // ====== ЛОГИКА РЕЖИМА АВТОРИЗАЦИИ ======
     const profileBtn = document.getElementById('profileBtn');
     const mobileWrapper = document.querySelector('.mobile-wrapper');
     
@@ -429,8 +439,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             headerDesc.classList.add('blur-transition');
             setTimeout(() => {
-                const activePage = document.querySelector('.page-content.active');
-                headerDesc.innerHTML = activePage ? pageDescriptions[activePage.id] : 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>';
+                headerDesc.innerHTML = pageDescriptions[document.querySelector('.page-content.active').id] || 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>';
                 headerDesc.classList.remove('blur-transition');
             }, 180);
 
@@ -454,16 +463,19 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Закрытие по клику на затемненную зону вне вкладки
     sheetBackdrop.addEventListener('click', (e) => {
         if (e.target === sheetBackdrop) {
             closeSheet();
         }
     });
 
+    // Закрытие по клику/тапу на серую линию-ручку
     sheetHandle.addEventListener('click', () => {
         closeSheet();
     });
 
+    // Поддержка свайпа вниз для закрытия вкладки
     let startY = 0;
     let currentY = 0;
     let isDragging = false;
@@ -499,5 +511,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
+
+    <script src="script.js"></script>
 </body>
 </html>
