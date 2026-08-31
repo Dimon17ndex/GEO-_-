@@ -425,17 +425,15 @@ html, body {
     transform: translateX(-50%);
     width: calc(100% - 32px);
     max-width: 448px;
-    height: 52px;
+    height: 64px; /* Немного увеличили высоту для текста */
     background: rgba(24, 24, 24, 0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-radius: 24px;
     display: flex;
     align-items: center;
-    /* Меняем с space-around на space-between, чтобы крайние кнопки прижались к бокам */
-    justify-content: space-between; 
-    /* Добавляем небольшой внутренний отступ по бокам, равный радиусу скругления кнопки, чтобы круг встал впритык к краю панели */
-    padding: 0 7px; 
+    justify-content: space-between;
+    padding: 0 7px;
     z-index: 900;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     opacity: 1;
@@ -455,30 +453,55 @@ html, body {
     pointer-events: none;
 }
 
-/* Кнопки на панели (без подсветки при наведении) */
+/* Каждая кнопка теперь контейнер с иконкой и текстом */
 .nav-icon-btn {
     background: transparent;
     border: none;
-    width: 38px;
-    height: 38px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 6px 8px;
+    color: #9ca3af; /* Цвет текста и иконки по умолчанию */
+    cursor: pointer;
+    border-radius: 16px;
+    transition: color 0.25s ease, transform 0.15s ease;
+}
+
+/* Контейнер для белого кружка и иконки */
+.nav-icon-wrapper {
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #9ca3af;
-    cursor: pointer;
     border-radius: 50%;
-    transition: background-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .nav-icon-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     transition: color 0.25s ease;
 }
 
-.nav-icon-btn.active {
+/* Текст под иконкой */
+.nav-label {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1;
+    transition: color 0.25s ease;
+}
+
+/* Активное состояние: белый круг с темной иконкой и белый текст */
+.nav-icon-btn.active .nav-icon-wrapper {
     background: #ffffff;
     color: #181818;
+}
+
+.nav-icon-btn.active {
+    color: #ffffff; /* Текст становится белым */
 }
 
 .nav-icon-btn:active {
