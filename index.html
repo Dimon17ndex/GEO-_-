@@ -227,57 +227,31 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Шаг 1: Плавно скрываем текущую страницу
-    if (currentPage) {
-        currentPage.style.transition = 'transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease';
-        currentPage.style.opacity = '0';
-        currentPage.style.filter = 'blur(12px)';
-        currentPage.style.transform = 'translateY(40px) scale(0.97)';
-        currentPage.style.pointerEvents = 'none';
-    }
+    // Мгновенно скрываем все страницы
+    pageContents.forEach(page => {
+        page.classList.remove('active');
+        page.style.display = 'none';
+        // Сбрасываем все inline-стили
+        page.style.opacity = '';
+        page.style.filter = '';
+        page.style.transform = '';
+        page.style.pointerEvents = '';
+        page.style.transition = '';
+        page.style.animation = '';
+    });
     
-    // Шаг 2: Ждём завершения анимации скрытия
-    setTimeout(() => {
-        // Теперь скрываем текущую страницу
-        if (currentPage) {
-            currentPage.classList.remove('active');
-            currentPage.style.display = 'none';
-            // Сбрасываем стили текущей страницы
-            currentPage.style.opacity = '';
-            currentPage.style.filter = '';
-            currentPage.style.transform = '';
-            currentPage.style.pointerEvents = '';
-            currentPage.style.transition = '';
-        }
-        
-        // Скрываем остальные страницы (кроме целевой)
-        pageContents.forEach(page => {
-            if (page !== targetPage) {
-                page.classList.remove('active');
-                page.style.display = 'none';
-                page.style.opacity = '';
-                page.style.filter = '';
-                page.style.transform = '';
-                page.style.pointerEvents = '';
-                page.style.transition = '';
-                page.style.animation = '';
-            }
-        });
-        
-        // Показываем целевую страницу
-        targetPage.style.display = 'block';
-        targetPage.classList.add('active');
-        
-        // Обновляем описание с blur-эффектом
-        if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
-            headerDesc.classList.add('blur-transition');
-            setTimeout(() => {
-                headerDesc.innerHTML = pageDescriptions[pageId];
-                headerDesc.classList.remove('blur-transition');
-            }, 180);
-        }
-        
-    }, 300); // Увеличили до 300мс, чтобы анимация скрытия успела завершиться
+    // Мгновенно показываем целевую страницу
+    targetPage.style.display = 'block';
+    targetPage.classList.add('active');
+    
+    // Обновляем описание с blur-эффектом
+    if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
+        headerDesc.classList.add('blur-transition');
+        setTimeout(() => {
+            headerDesc.innerHTML = pageDescriptions[pageId];
+            headerDesc.classList.remove('blur-transition');
+        }, 180);
+    }
 }
 
     // Обработчики кнопок навигации
