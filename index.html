@@ -277,16 +277,16 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
         
-        // Обновляем описание с blur-эффектом
-        if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
-            headerDesc.classList.add('blur-transition');
-            setTimeout(() => {
-                headerDesc.innerHTML = pageDescriptions[pageId];
-                headerDesc.classList.remove('blur-transition');
-            }, 180);
-        }
-        
-    }, 200);
+        // Обновляем описание сразу, без задержки
+if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
+    // Сразу добавляем blur
+    headerDesc.classList.add('blur-transition');
+    
+    // Мгновенно меняем текст (без setTimeout)
+    headerDesc.innerHTML = pageDescriptions[pageId];
+    
+    // Сразу убираем blur
+    headerDesc.classList.remove('blur-transition');
 }
 
     // Обработчики кнопок навигации
