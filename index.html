@@ -198,7 +198,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const unboundedTitle = document.getElementById('unboundedTitle');
     const logoContainer = document.getElementById('logoContainer');
 
-    // Проверка внутри DOMContentLoaded
     console.log('Nav buttons found:', navButtons.length);
     console.log('Page contents found:', pageContents.length);
 
@@ -211,60 +210,65 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     function switchPage(pageId) {
-    console.log('Switching to:', pageId);
-    
-    const currentPage = document.querySelector('.page-content.active');
-    const targetPage = document.getElementById(pageId);
-    
-    if (!targetPage || currentPage === targetPage) return;
-    
-    // Обновляем активную кнопку
-    navButtons.forEach(btn => {
-        if (btn.dataset.page === pageId) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-    
-    // Скрываем текущую страницу
-    if (currentPage) {
-        currentPage.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
-        currentPage.style.opacity = '0';
-        currentPage.style.filter = 'blur(12px)';
-        currentPage.style.transform = 'translateY(40px) scale(0.97)';
-        currentPage.style.pointerEvents = 'none';
-    }
-    
-    // Показываем новую страницу
-    setTimeout(() => {
-        // Скрываем все страницы
-        pageContents.forEach(page => {
-            page.classList.remove('active');
-            page.style.display = 'none';
-            page.style.opacity = '';
-            page.style.filter = '';
-            page.style.transform = '';
-            page.style.pointerEvents = '';
-            page.style.transition = '';
-            page.style.animation = '';
+        console.log('Switching to:', pageId);
+        
+        const currentPage = document.querySelector('.page-content.active');
+        const targetPage = document.getElementById(pageId);
+        
+        if (!targetPage || currentPage === targetPage) return;
+        
+        // Обновляем активную кнопку
+        navButtons.forEach(btn => {
+            if (btn.dataset.page === pageId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
         });
         
-        // Показываем целевую страницу с CSS-анимацией
-        targetPage.style.display = 'block';
-        targetPage.classList.add('active');
-        
-        // Обновляем описание с blur-эффектом
-        if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
-            headerDesc.classList.add('blur-transition');
-            setTimeout(() => {
-                headerDesc.innerHTML = pageDescriptions[pageId];
-                headerDesc.classList.remove('blur-transition');
-            }, 180);
+        // Скрываем текущую страницу
+        if (currentPage) {
+            currentPage.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
+            currentPage.style.opacity = '0';
+            currentPage.style.filter = 'blur(12px)';
+            currentPage.style.transform = 'translateY(40px) scale(0.97)';
+            currentPage.style.pointerEvents = 'none';
         }
         
-    }, 200);
-}
+        // Показываем новую страницу
+        setTimeout(() => {
+            // Скрываем все страницы и сбрасываем стили
+            pageContents.forEach(page => {
+                page.classList.remove('active');
+                page.style.display = 'none';
+                page.style.opacity = '';
+                page.style.filter = '';
+                page.style.transform = '';
+                page.style.pointerEvents = '';
+                page.style.transition = '';
+                page.style.animation = 'none';
+            });
+            
+            // Показываем целевую страницу
+            targetPage.style.display = 'block';
+            
+            // Заставляем браузер перерисовать
+            void targetPage.offsetWidth;
+            
+            // Добавляем класс для CSS-анимации
+            targetPage.classList.add('active');
+            
+            // Обновляем описание
+            if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
+                headerDesc.classList.add('blur-transition');
+                setTimeout(() => {
+                    headerDesc.innerHTML = pageDescriptions[pageId];
+                    headerDesc.classList.remove('blur-transition');
+                }, 180);
+            }
+            
+        }, 200);
+    }
 
     // Обработчики кнопок навигации
     navButtons.forEach(btn => {
@@ -295,9 +299,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const activeBtn = document.querySelector('.tab-btn.active');
-    if (activeBtn) {
-        moveIndicator(activeBtn, true);
+    const activeTabBtn = document.querySelector('.tab-btn.active');
+    if (activeTabBtn) {
+        moveIndicator(activeTabBtn, true);
     }
 
     tabBtns.forEach(btn => {
@@ -314,19 +318,40 @@ window.addEventListener('DOMContentLoaded', () => {
 
             moveIndicator(btn, false);
 
-            const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex' || c.style.display === '');
+            const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex');
 
             if (currentContent && currentContent !== targetContent) {
-                currentContent.classList.add('fade-out');
+                currentContent.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
+                currentContent.style.opacity = '0';
+                currentContent.style.filter = 'blur(12px)';
+                currentContent.style.transform = 'translateY(40px) scale(0.97)';
+                currentContent.style.pointerEvents = 'none';
 
                 setTimeout(() => {
                     currentContent.style.display = 'none';
-                    currentContent.classList.remove('fade-out');
-
+                    
                     targetContent.style.display = 'flex';
-                    targetContent.classList.add('fade-out');
-                    targetContent.offsetHeight; 
-                    targetContent.classList.remove('fade-out');
+                    targetContent.style.opacity = '0';
+                    targetContent.style.filter = 'blur(12px)';
+                    targetContent.style.transform = 'translateY(40px) scale(0.97)';
+                    targetContent.style.pointerEvents = 'none';
+                    
+                    requestAnimationFrame(() => {
+                        targetContent.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+                        targetContent.style.opacity = '1';
+                        targetContent.style.filter = 'blur(0)';
+                        targetContent.style.transform = 'translateY(0) scale(1)';
+                        targetContent.style.pointerEvents = 'auto';
+                    });
+                    
+                    setTimeout(() => {
+                        targetContent.style.transition = '';
+                        targetContent.style.opacity = '';
+                        targetContent.style.filter = '';
+                        targetContent.style.transform = '';
+                        targetContent.style.pointerEvents = '';
+                    }, 500);
+                    
                 }, 200);
             }
         });
@@ -485,7 +510,5 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
-
-    <script src="script.js"></script>
 </body>
 </html>
