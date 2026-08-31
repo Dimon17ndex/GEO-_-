@@ -229,7 +229,6 @@ window.addEventListener('DOMContentLoaded', () => {
     
     // Скрываем текущую страницу
     if (currentPage) {
-        // Анимируем элементы внутри текущей страницы
         const currentElements = currentPage.querySelectorAll('.collapsible-element');
         currentElements.forEach(el => {
             el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
@@ -255,7 +254,6 @@ window.addEventListener('DOMContentLoaded', () => {
         // Анимируем элементы внутри новой страницы
         const targetElements = targetPage.querySelectorAll('.collapsible-element');
         targetElements.forEach(el => {
-            // Начальное состояние
             el.style.transition = 'none';
             el.style.opacity = '0';
             el.style.filter = 'blur(12px)';
@@ -266,39 +264,23 @@ window.addEventListener('DOMContentLoaded', () => {
         // Запускаем анимацию появления элементов
         requestAnimationFrame(() => {
             targetElements.forEach((el, index) => {
-                // Добавляем задержку для каскадного появления
                 setTimeout(() => {
                     el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
                     el.style.opacity = '1';
                     el.style.filter = 'blur(0)';
                     el.style.transform = 'translateY(0) scale(1)';
                     el.style.pointerEvents = 'auto';
-                }, index * 50); // Задержка 50мс между элементами
+                }, index * 50);
             });
         });
         
         // Обновляем описание сразу, без задержки
-if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
-    // Сразу добавляем blur
-    headerDesc.classList.add('blur-transition');
-    
-    // Мгновенно меняем текст (без setTimeout)
-    headerDesc.innerHTML = pageDescriptions[pageId];
-    
-    // Сразу убираем blur
-    headerDesc.classList.remove('blur-transition');
+        if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
+            headerDesc.innerHTML = pageDescriptions[pageId];
+        }
+        
+    }, 200);
 }
-
-    // Обработчики кнопок навигации
-    navButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const pageId = btn.dataset.page;
-            console.log('Button clicked:', pageId);
-            if (!pageId) return;
-            triggerHaptic();
-            switchPage(pageId);
-        });
-    });
 
     // ====== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ======
     const tabBtns = document.querySelectorAll('.tab-btn');
