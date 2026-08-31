@@ -419,12 +419,12 @@ html, body {
 
 .bottom-nav {
     position: fixed;
-    bottom: 24px; /* Чуть подняли выше, чтобы освободить место для текста снизу */
+    bottom: 60px; /* Было 24px - подняли панель выше */
     left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 32px);
     max-width: 448px;
-    height: 52px; /* Вернули прежнюю компактную высоту */
+    height: 52px;
     background: rgba(24, 24, 24, 0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -485,16 +485,15 @@ html, body {
     transition: color 0.25s ease;
 }
 
-/* Название вынесено за пределы панели вниз */
 .nav-label {
     position: absolute;
-    top: 44px; /* Располагается сразу под кнопкой, вне панели */
+    top: 52px; /* Было 44px - опустили названия ниже */
     left: 50%;
     transform: translateX(-50%);
     font-size: 10px;
     font-weight: 500;
     white-space: nowrap;
-    color: #9ca3af; /* Цвет текста по умолчанию */
+    color: #9ca3af;
     transition: color 0.25s ease;
 }
 
