@@ -420,21 +420,21 @@ html, body {
 /* Нижняя панель с блюром и сглаженными углами */
 .bottom-nav {
     position: fixed;
-    bottom: 20px;
+    bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 32px);
     max-width: 448px;
-    height: 64px;
+    height: 52px; /* Уменьшили высоту */
     background: rgba(24, 24, 24, 0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 28px;
+    border-radius: 24px; /* Скорректировали скругление под новую высоту */
     display: flex;
     align-items: center;
     justify-content: space-around;
-    padding: 0 12px;
+    padding: 0 8px;
     z-index: 900;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     opacity: 1;
@@ -458,8 +458,8 @@ html, body {
 .nav-icon-btn {
     background: transparent;
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -470,8 +470,8 @@ html, body {
 }
 
 .nav-icon-btn svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
 }
 
 .nav-icon-btn:active {
