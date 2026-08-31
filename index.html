@@ -227,21 +227,14 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Мгновенно скрываем все страницы
+    // Скрываем все страницы (убираем класс active)
     pageContents.forEach(page => {
         page.classList.remove('active');
-        page.style.display = 'none';
-        // Сбрасываем все inline-стили
-        page.style.opacity = '';
-        page.style.filter = '';
-        page.style.transform = '';
-        page.style.pointerEvents = '';
-        page.style.transition = '';
-        page.style.animation = '';
+        // Убираем inline display, чтобы CSS управлял отображением
+        page.style.display = '';
     });
     
-    // Мгновенно показываем целевую страницу
-    targetPage.style.display = 'block';
+    // Показываем целевую страницу (добавляем класс active)
     targetPage.classList.add('active');
     
     // Обновляем описание с blur-эффектом
