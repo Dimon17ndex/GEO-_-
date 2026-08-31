@@ -510,6 +510,16 @@ navButtons.forEach(btn => {
         currentY = 0;
     });
 });
+
+// Проверка, что кнопки найдены
+console.log('Nav buttons found:', navButtons.length);
+console.log('Page contents found:', pageContents.length);
+
+// Ручной вызов для теста
+setTimeout(() => {
+    console.log('Testing switch to search...');
+    switchPage('page-search');
+}, 3000);
 </script>
 
     <script src="script.js"></script>
