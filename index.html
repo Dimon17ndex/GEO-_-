@@ -210,42 +210,65 @@ window.addEventListener('DOMContentLoaded', () => {
         'page-menu': 'Дополнительные функции и настройки <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>'
     };
 
+    window.addEventListener('DOMContentLoaded', () => {
+    // ... весь предыдущий код ...
+
+    // ====== SPA НАВИГАЦИЯ ======
+    const navButtons = document.querySelectorAll('.nav-icon-btn');
+    const pageContents = document.querySelectorAll('.page-content');
+    const headerDesc = document.getElementById('headerDesc');
+    const unboundedTitle = document.getElementById('unboundedTitle');
+    const logoContainer = document.getElementById('logoContainer');
+
+    console.log('Nav buttons found:', navButtons.length);
+    console.log('Page contents found:', pageContents.length);
+    
+    // Проверяем, какая страница активна при загрузке
+    const initialActivePage = document.querySelector('.page-content.active');
+    console.log('Initial active page:', initialActivePage?.id);
+
+    const pageDescriptions = {
+        'page-bot': 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+        'page-search': 'Поиск по разделам и материалам проекта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+        'page-favorites': 'Ваши избранные разделы и сохранённые материалы <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+        'page-profile': 'Ваш профиль и настройки аккаунта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+        'page-menu': 'Дополнительные функции и настройки <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>'
+    };
+
     function switchPage(pageId) {
-    console.log('Switching to:', pageId);
-    
-    const currentPage = document.querySelector('.page-content.active');
-    const targetPage = document.getElementById(pageId);
-    
-    if (!targetPage || currentPage === targetPage) return;
-    
-    // Обновляем активную кнопку
-    navButtons.forEach(btn => {
-        if (btn.dataset.page === pageId) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
+        console.log('Switching to:', pageId);
+        
+        const currentPage = document.querySelector('.page-content.active');
+        const targetPage = document.getElementById(pageId);
+        
+        if (!targetPage || currentPage === targetPage) return;
+        
+        // Обновляем активную кнопку
+        navButtons.forEach(btn => {
+            if (btn.dataset.page === pageId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        
+        // Скрываем все страницы
+        pageContents.forEach(page => {
+            page.classList.remove('active');
+        });
+        
+        // Показываем целевую страницу
+        targetPage.classList.add('active');
+        
+        // Обновляем описание с blur-эффектом
+        if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
+            headerDesc.classList.add('blur-transition');
+            setTimeout(() => {
+                headerDesc.innerHTML = pageDescriptions[pageId];
+                headerDesc.classList.remove('blur-transition');
+            }, 180);
         }
-    });
-    
-    // Скрываем все страницы (убираем класс active)
-    pageContents.forEach(page => {
-        page.classList.remove('active');
-        // Убираем inline display, чтобы CSS управлял отображением
-        page.style.display = '';
-    });
-    
-    // Показываем целевую страницу (добавляем класс active)
-    targetPage.classList.add('active');
-    
-    // Обновляем описание с blur-эффектом
-    if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
-        headerDesc.classList.add('blur-transition');
-        setTimeout(() => {
-            headerDesc.innerHTML = pageDescriptions[pageId];
-            headerDesc.classList.remove('blur-transition');
-        }, 180);
     }
-}
 
     // Обработчики кнопок навигации
     navButtons.forEach(btn => {
