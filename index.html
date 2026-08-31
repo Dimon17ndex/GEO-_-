@@ -191,59 +191,106 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ====== SPA НАВИГАЦИЯ ======
-    const navButtons = document.querySelectorAll('.nav-icon-btn');
-    const pageContents = document.querySelectorAll('.page-content');
-    const headerDesc = document.getElementById('headerDesc');
-    const unboundedTitle = document.getElementById('unboundedTitle');
-    const logoContainer = document.getElementById('logoContainer');
+    // ====== SPA НАВИГАЦИЯ С АНИМАЦИЯМИ ======
+const navButtons = document.querySelectorAll('.nav-icon-btn');
+const pageContents = document.querySelectorAll('.page-content');
+const headerDesc = document.getElementById('headerDesc');
+const unboundedTitle = document.getElementById('unboundedTitle');
+const logoContainer = document.getElementById('logoContainer');
 
-    // Описания для каждой страницы
-    const pageDescriptions = {
-        'page-bot': 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
-        'page-search': 'Поиск по разделам и материалам проекта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
-        'page-favorites': 'Ваши избранные разделы и сохранённые материалы <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
-        'page-profile': 'Ваш профиль и настройки аккаунта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
-        'page-menu': 'Дополнительные функции и настройки <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>'
-    };
+// Описания для каждой страницы
+const pageDescriptions = {
+    'page-bot': 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'page-search': 'Поиск по разделам и материалам проекта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'page-favorites': 'Ваши избранные разделы и сохранённые материалы <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'page-profile': 'Ваш профиль и настройки аккаунта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
+    'page-menu': 'Дополнительные функции и настройки <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>'
+};
 
-    function switchPage(pageId) {
+function switchPage(pageId) {
+    const currentPage = document.querySelector('.page-content.active');
+    const targetPage = document.getElementById(pageId);
+    
+    if (!targetPage || currentPage === targetPage) return;
+    
+    // Обновляем активную кнопку сразу
+    navButtons.forEach(btn => {
+        if (btn.dataset.page === pageId) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+    
+    // Анимация скрытия текущей страницы
+    if (currentPage) {
+        currentPage.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
+        currentPage.style.opacity = '0';
+        currentPage.style.filter = 'blur(12px)';
+        currentPage.style.transform = 'translateY(40px) scale(0.97)';
+        currentPage.style.pointerEvents = 'none';
+    }
+    
+    // Через короткую задержку показываем новую страницу
+    setTimeout(() => {
         // Скрываем все страницы
         pageContents.forEach(page => {
             page.classList.remove('active');
+            page.style.display = 'none';
+            // Сбрасываем стили
+            page.style.opacity = '';
+            page.style.filter = '';
+            page.style.transform = '';
+            page.style.pointerEvents = '';
         });
-
-        // Показываем нужную страницу
-        const targetPage = document.getElementById(pageId);
-        if (targetPage) {
-            targetPage.classList.add('active');
-        }
-
-        // Обновляем описание
+        
+        // Показываем целевую страницу
+        targetPage.classList.add('active');
+        targetPage.style.display = 'block';
+        
+        // Начальное состояние для анимации появления
+        targetPage.style.opacity = '0';
+        targetPage.style.filter = 'blur(12px)';
+        targetPage.style.transform = 'translateY(40px) scale(0.97)';
+        
+        // Запускаем анимацию появления
+        requestAnimationFrame(() => {
+            targetPage.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, filter 0.25s ease';
+            targetPage.style.opacity = '1';
+            targetPage.style.filter = 'blur(0)';
+            targetPage.style.transform = 'translateY(0) scale(1)';
+        });
+        
+        // Обновляем описание с blur-эффектом
         if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
-            headerDesc.innerHTML = pageDescriptions[pageId];
+            headerDesc.classList.add('blur-transition');
+            setTimeout(() => {
+                headerDesc.innerHTML = pageDescriptions[pageId];
+                headerDesc.classList.remove('blur-transition');
+            }, 180);
         }
+        
+        // Очищаем стили после завершения анимации
+        setTimeout(() => {
+            targetPage.style.transition = '';
+            targetPage.style.opacity = '';
+            targetPage.style.filter = '';
+            targetPage.style.transform = '';
+        }, 400);
+        
+    }, 200); // Задержка перед показом новой страницы
+}
 
-        // Обновляем активную кнопку
-        navButtons.forEach(btn => {
-            if (btn.dataset.page === pageId) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-    }
-
-    // Обработчики для кнопок навигации
-    navButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const pageId = btn.dataset.page;
-            if (!pageId) return;
-            
-            triggerHaptic();
-            switchPage(pageId);
-        });
+// Обработчики для кнопок навигации
+navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const pageId = btn.dataset.page;
+        if (!pageId) return;
+        
+        triggerHaptic();
+        switchPage(pageId);
     });
+});
 
     // ====== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК (Навигация / Вопросы) ======
     const tabBtns = document.querySelectorAll('.tab-btn');
