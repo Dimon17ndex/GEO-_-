@@ -227,30 +227,44 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Скрываем текущую страницу
+    // Шаг 1: Плавно скрываем текущую страницу
     if (currentPage) {
-        currentPage.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
+        currentPage.style.transition = 'transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease';
         currentPage.style.opacity = '0';
         currentPage.style.filter = 'blur(12px)';
         currentPage.style.transform = 'translateY(40px) scale(0.97)';
         currentPage.style.pointerEvents = 'none';
     }
     
-    // Показываем новую страницу
+    // Шаг 2: Ждём завершения анимации скрытия
     setTimeout(() => {
-        // Скрываем все страницы
+        // Теперь скрываем текущую страницу
+        if (currentPage) {
+            currentPage.classList.remove('active');
+            currentPage.style.display = 'none';
+            // Сбрасываем стили текущей страницы
+            currentPage.style.opacity = '';
+            currentPage.style.filter = '';
+            currentPage.style.transform = '';
+            currentPage.style.pointerEvents = '';
+            currentPage.style.transition = '';
+        }
+        
+        // Скрываем остальные страницы (кроме целевой)
         pageContents.forEach(page => {
-            page.classList.remove('active');
-            page.style.display = 'none';
-            page.style.opacity = '';
-            page.style.filter = '';
-            page.style.transform = '';
-            page.style.pointerEvents = '';
-            page.style.transition = '';
-            page.style.animation = '';
+            if (page !== targetPage) {
+                page.classList.remove('active');
+                page.style.display = 'none';
+                page.style.opacity = '';
+                page.style.filter = '';
+                page.style.transform = '';
+                page.style.pointerEvents = '';
+                page.style.transition = '';
+                page.style.animation = '';
+            }
         });
         
-        // Показываем целевую страницу с CSS-анимацией
+        // Показываем целевую страницу
         targetPage.style.display = 'block';
         targetPage.classList.add('active');
         
@@ -263,7 +277,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }, 180);
         }
         
-    }, 200);
+    }, 300); // Увеличили до 300мс, чтобы анимация скрытия успела завершиться
 }
 
     // Обработчики кнопок навигации
