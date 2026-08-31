@@ -208,8 +208,13 @@ const pageDescriptions = {
 };
 
 function switchPage(pageId) {
+    console.log('Switching to:', pageId);
+
     const currentPage = document.querySelector('.page-content.active');
     const targetPage = document.getElementById(pageId);
+
+    console.log('Current:', currentPage?.id);
+    console.log('Target:', targetPage?.id);
     
     if (!targetPage || currentPage === targetPage) return;
     
