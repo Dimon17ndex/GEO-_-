@@ -539,7 +539,8 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     opacity: 1;
     filter: blur(12px);
     pointer-events: none;
-    transition: filter 0.3s ease;
+    visibility: hidden;
+    transition: filter 0.3s ease, visibility 0.3s ease;
 }
 
 /* Видимое состояние */
@@ -547,7 +548,8 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     opacity: 1;
     filter: blur(0);
     pointer-events: auto;
-    transition: filter 0.3s ease;
+    visibility: visible;
+    transition: filter 0.3s ease, visibility 0.3s ease;
 }
 
 .auth-input-container {
