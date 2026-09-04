@@ -364,12 +364,15 @@ window.addEventListener('DOMContentLoaded', () => {
                 targetContent.style.transform = 'translateY(40px) scale(0.97)';
                 targetContent.style.pointerEvents = 'none';
 
+                // Двойной requestAnimationFrame для гарантии
                 requestAnimationFrame(() => {
-                    targetContent.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
-                    targetContent.style.opacity = '1';
-                    targetContent.style.filter = 'blur(0)';
-                    targetContent.style.transform = 'translateY(0) scale(1)';
-                    targetContent.style.pointerEvents = 'auto';
+                    requestAnimationFrame(() => {
+                        targetContent.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+                        targetContent.style.opacity = '1';
+                        targetContent.style.filter = 'blur(0)';
+                        targetContent.style.transform = 'translateY(0) scale(1)';
+                        targetContent.style.pointerEvents = 'auto';
+                    });
                 });
 
                 // Очищаем стили после анимации
