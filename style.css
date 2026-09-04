@@ -532,15 +532,22 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     /* Убираем анимацию всей страницы */
 }
 
-/* Форма авторизации inline */
 .auth-inline-form {
     width: 100%;
     max-width: 320px;
     margin: 20px auto 0 auto;
-    opacity: 0;
+    opacity: 1;
     filter: blur(12px);
     pointer-events: none;
-    transition: opacity 0.2s ease, filter 0.2s ease;
+    transition: filter 0.3s ease;
+}
+
+/* Видимое состояние */
+.auth-inline-form.visible {
+    opacity: 1;
+    filter: blur(0);
+    pointer-events: auto;
+    transition: filter 0.3s ease;
 }
 
 /* Появление с задержкой */
