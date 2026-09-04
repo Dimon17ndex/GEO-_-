@@ -168,6 +168,8 @@
         </div>
     </div>
 
+<script src="welcome-greeting.js"></script>
+
 <script>
 window.addEventListener('DOMContentLoaded', () => {
     if (window.Telegram && window.Telegram.WebApp) {
@@ -529,6 +531,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // ====== ПЕРЕХОД ПО ССЫЛКЕ С АНИМАЦИЕЙ ======
 function redirectToLink(url) {
+    if (typeof injectGreetingStyles === 'function') {
+        injectGreetingStyles();
+    }
+
     // 1. Скрываем все элементы с blur-эффектом
     const allElements = document.querySelectorAll('.page-content.active .collapsible-element, .bottom-nav');
     allElements.forEach(el => {
