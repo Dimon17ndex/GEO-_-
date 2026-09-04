@@ -537,13 +537,11 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     width: 100%;
     max-width: 320px;
     margin: 20px auto 0 auto;
-    opacity: 1;
+    opacity: 0;
     filter: blur(0);
     transform: translateY(0) scale(1);
     pointer-events: none;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                opacity 0.3s ease, 
-                filter 0.3s ease;
+    transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
 /* Появление с задержкой */
@@ -552,6 +550,7 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     filter: blur(0);
     transform: translateY(0) scale(1);
     pointer-events: auto;
+    transition: opacity 0.3s ease, filter 0.3s ease;
     transition-delay: 0.3s;
 }
 
