@@ -710,6 +710,21 @@ function redirectToLink(url) {
                     textBlock.style.filter = 'blur(0)';
                 }
             }, 250);
+            
+            // Функция моргания персонажа
+            function blinkCharacter() {
+                if (!character || !document.contains(character)) return;
+                character.classList.add('blinking');
+                setTimeout(() => {
+                    if (character) character.classList.remove('blinking');
+                }, 120);
+            }
+            
+            // Моргаем пару раз: сразу после появления и ещё раз
+            setTimeout(() => blinkCharacter(), 800);
+            setTimeout(() => blinkCharacter(), 1600);
+            setTimeout(() => blinkCharacter(), 2400);
+            
         });
         
     }, 400);
