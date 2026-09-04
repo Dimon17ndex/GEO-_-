@@ -587,48 +587,59 @@ function redirectToLink(url) {
     });
     
     // 2. Через 400мс показываем оверлей с персонажем
-    setTimeout(() => {
-        const overlay = document.createElement('div');
-        overlay.id = 'redirectOverlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+setTimeout(() => {
+    const overlay = document.createElement('div');
+    overlay.id = 'redirectOverlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(7, 7, 7, 0.95);
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    `;
+    
+    overlay.innerHTML = `
+        <div style="
+            text-align: center;
+            padding: 20px;
+            font-family: 'Unbounded', sans-serif;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            background: rgba(7, 7, 7, 0.95);
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        `;
-        
-        overlay.innerHTML = `
-            <div style="
-                text-align: center;
-                padding: 20px;
+        ">
+            <!-- Персонаж в режиме загрузки (появляется сверху) -->
+            <div class="welcome-character-container state-loading revealed" style="
+                margin-bottom: 30px;
                 opacity: 0;
-                transform: translateY(30px) scale(0.95);
-                filter: blur(10px);
-                transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
-                font-family: 'Unbounded', sans-serif;
+                transform: translateY(-60px) scale(0.9);
+                transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             ">
-                <!-- Персонаж в режиме загрузки -->
-                <div class="welcome-character-container state-loading revealed" style="margin-bottom: 30px;">
-                    <div class="char-loader">
-                        <div class="loader-dot"></div>
-                        <div class="loader-dot"></div>
-                        <div class="loader-dot"></div>
-                    </div>
-                    <div class="char-eyes">
-                        <div class="char-eye"><div class="char-pupil"></div></div>
-                        <div class="char-eye"><div class="char-pupil"></div></div>
-                    </div>
-                    <div class="char-mouth"></div>
+                <div class="char-loader">
+                    <div class="loader-dot"></div>
+                    <div class="loader-dot"></div>
+                    <div class="loader-dot"></div>
                 </div>
-                
+                <div class="char-eyes">
+                    <div class="char-eye"><div class="char-pupil"></div></div>
+                    <div class="char-eye"><div class="char-pupil"></div></div>
+                </div>
+                <div class="char-mouth"></div>
+            </div>
+            
+            <!-- Текст (появляется снизу) -->
+            <div style="
+                opacity: 0;
+                transform: translateY(60px) scale(0.9);
+                filter: blur(10px);
+                transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+            ">
                 <h2 style="
                     font-size: 20px;
                     font-weight: 700;
@@ -642,23 +653,33 @@ function redirectToLink(url) {
                     text-decoration: none;
                 ">${url}</a>
             </div>
-        `;
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Показываем оверлей
+    requestAnimationFrame(() => {
+        overlay.style.opacity = '1';
         
-        document.body.appendChild(overlay);
+        const character = overlay.querySelector('.welcome-character-container');
+        const textBlock = overlay.querySelector('div > div:last-child');
         
-        requestAnimationFrame(() => {
-            overlay.style.opacity = '1';
-            const content = overlay.querySelector('div');
-            setTimeout(() => {
-                content.style.opacity = '1';
-                content.style.transform = 'translateY(0) scale(1)';
-                content.style.filter = 'blur(0)';
-            }, 100);
-        });
+        // Персонаж появляется сверху
+        setTimeout(() => {
+            character.style.opacity = '1';
+            character.style.transform = 'translateY(0) scale(1)';
+        }, 100);
         
-        // 3. Пока НЕТ перехода — просто оставляем оверлей
-        
-    }, 400);
+        // Текст появляется снизу
+        setTimeout(() => {
+            textBlock.style.opacity = '1';
+            textBlock.style.transform = 'translateY(0) scale(1)';
+            textBlock.style.filter = 'blur(0)';
+        }, 250);
+    });
+    
+}, 400);
 }
 
     // Обработчик для ссылки GEOГРАФИЯ
