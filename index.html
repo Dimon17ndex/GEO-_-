@@ -558,13 +558,12 @@ window.addEventListener('DOMContentLoaded', () => {
         currentY = 0;
     });
 
-        // ====== ПЕРЕХОД ПО ССЫЛКЕ С АНИМАЦИЕЙ (БЕЗ РЕАЛЬНОГО ПЕРЕХОДА) ======
+        // ====== ПЕРЕХОД ПО ССЫЛКЕ С АНИМАЦИЕЙ ======
 function redirectToLink(url) {
-    // Вызываем инъекцию стилей персонажа
     if (typeof injectGreetingStyles === 'function') {
         injectGreetingStyles();
     }
-    
+
     // 1. Скрываем все элементы с blur-эффектом
     const allElements = document.querySelectorAll('.page-content.active .collapsible-element, .bottom-nav');
     allElements.forEach(el => {
@@ -587,99 +586,111 @@ function redirectToLink(url) {
     });
     
     // 2. Через 400мс показываем оверлей с персонажем
-setTimeout(() => {
-    const overlay = document.createElement('div');
-    overlay.id = 'redirectOverlay';
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(7, 7, 7, 0.95);
-        z-index: 9999;
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    `;
-    
-    overlay.innerHTML = `
-        <div style="
-            text-align: center;
-            padding: 20px;
-            font-family: 'Unbounded', sans-serif;
+    setTimeout(() => {
+        const overlay = document.createElement('div');
+        overlay.id = 'redirectOverlay';
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            flex-direction: column;
             align-items: center;
-        ">
-            <!-- Персонаж в режиме загрузки (появляется сверху) -->
-            <div class="welcome-character-container state-loading revealed" style="
-                margin-bottom: 30px;
-                opacity: 0;
-                transform: translateY(-60px) scale(0.9);
-                transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            ">
-                <div class="char-loader">
-                    <div class="loader-dot"></div>
-                    <div class="loader-dot"></div>
-                    <div class="loader-dot"></div>
-                </div>
-                <div class="char-eyes">
-                    <div class="char-eye"><div class="char-pupil"></div></div>
-                    <div class="char-eye"><div class="char-pupil"></div></div>
-                </div>
-                <div class="char-mouth"></div>
-            </div>
-            
-            <!-- Текст (появляется снизу) -->
+            justify-content: center;
+            background: rgba(7, 7, 7, 0.95);
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        `;
+        
+        overlay.innerHTML = `
             <div style="
-                opacity: 0;
-                transform: translateY(60px) scale(0.9);
-                filter: blur(10px);
-                transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+                text-align: center;
+                padding: 20px;
+                font-family: 'Unbounded', sans-serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             ">
-                <h2 style="
-                    font-size: 20px;
-                    font-weight: 700;
-                    color: #ffffff;
-                    margin-bottom: 12px;
-                    letter-spacing: -0.5px;
-                ">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2>
-                <a href="${url}" target="_blank" style="
-                    font-size: 14px;
-                    color: #38bdf8;
-                    text-decoration: none;
-                ">${url}</a>
+                <!-- Персонаж (появляется сверху) -->
+                <div class="welcome-character-container state-loading revealed redirect-character" style="
+                    margin-bottom: 30px;
+                    opacity: 0;
+                    transform: translateY(-60px) scale(0.9);
+                    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                ">
+                    <div class="char-loader">
+                        <div class="loader-dot"></div>
+                        <div class="loader-dot"></div>
+                        <div class="loader-dot"></div>
+                    </div>
+                    <div class="char-eyes">
+                        <div class="char-eye"><div class="char-pupil"></div></div>
+                        <div class="char-eye"><div class="char-pupil"></div></div>
+                    </div>
+                    <div class="char-mouth"></div>
+                </div>
+                
+                <!-- Текст (появляется снизу) -->
+                <div class="redirect-text-block" style="
+                    opacity: 0;
+                    transform: translateY(60px) scale(0.9);
+                    filter: blur(10px);
+                    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+                ">
+                    <h2 style="
+                        font-size: 20px;
+                        font-weight: 700;
+                        color: #ffffff;
+                        margin-bottom: 12px;
+                        letter-spacing: -0.5px;
+                    ">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2>
+                    <a href="${url}" target="_blank" style="
+                        font-size: 14px;
+                        color: #38bdf8;
+                        text-decoration: none;
+                    ">${url}</a>
+                </div>
             </div>
-        </div>
-    `;
-    
-    document.body.appendChild(overlay);
-    
-    // Показываем оверлей
-    requestAnimationFrame(() => {
-        overlay.style.opacity = '1';
+        `;
         
-        const character = overlay.querySelector('.welcome-character-container');
-        const textBlock = overlay.querySelector('div > div:last-child');
+        document.body.appendChild(overlay);
         
-        // Персонаж появляется сверху
+        // Показываем оверлей
+        requestAnimationFrame(() => {
+            overlay.style.opacity = '1';
+            
+            const character = overlay.querySelector('.redirect-character');
+            const textBlock = overlay.querySelector('.redirect-text-block');
+            
+            // Персонаж появляется сверху
+            setTimeout(() => {
+                if (character) {
+                    character.style.opacity = '1';
+                    character.style.transform = 'translateY(0) scale(1)';
+                }
+            }, 100);
+            
+            // Текст появляется снизу
+            setTimeout(() => {
+                if (textBlock) {
+                    textBlock.style.opacity = '1';
+                    textBlock.style.transform = 'translateY(0) scale(1)';
+                    textBlock.style.filter = 'blur(0)';
+                }
+            }, 250);
+        });
+        
+        // 3. Через 1 секунду переходим по ссылке
         setTimeout(() => {
-            character.style.opacity = '1';
-            character.style.transform = 'translateY(0) scale(1)';
-        }, 100);
+            window.open(url, '_blank');
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }, 1000);
         
-        // Текст появляется снизу
-        setTimeout(() => {
-            textBlock.style.opacity = '1';
-            textBlock.style.transform = 'translateY(0) scale(1)';
-            textBlock.style.filter = 'blur(0)';
-        }, 250);
-    });
-    
-}, 400);
+    }, 400);
 }
 
     // Обработчик для ссылки GEOГРАФИЯ
