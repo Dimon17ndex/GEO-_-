@@ -598,13 +598,22 @@ function redirectToLink(url) {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(7, 7, 7, 0.95);
             z-index: 9999;
             opacity: 0;
             transition: opacity 0.5s ease;
+            overflow: hidden;
+            background: transparent;
         `;
         
+        // Анимированные круги на фоне
         overlay.innerHTML = `
+            <div class="redirect-bg-circles">
+                <div class="bg-circle bg-circle-1"></div>
+                <div class="bg-circle bg-circle-2"></div>
+                <div class="bg-circle bg-circle-3"></div>
+                <div class="bg-circle bg-circle-4"></div>
+            </div>
+            
             <div style="
                 text-align: center;
                 padding: 20px;
@@ -612,6 +621,8 @@ function redirectToLink(url) {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                position: relative;
+                z-index: 10;
             ">
                 <!-- Персонаж (появляется сверху) -->
                 <div class="welcome-character-container state-loading revealed redirect-character" style="
@@ -654,6 +665,74 @@ function redirectToLink(url) {
                 </div>
             </div>
         `;
+        
+        // Добавляем стили для кругов
+        const circleStyles = document.createElement('style');
+        circleStyles.textContent = `
+            .redirect-bg-circles {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                pointer-events: none;
+            }
+            .bg-circle {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.06);
+                filter: blur(60px);
+                animation: waveFloat 8s ease-in-out infinite alternate;
+            }
+            .bg-circle-1 {
+                width: 400px;
+                height: 400px;
+                top: -100px;
+                left: -150px;
+                animation-delay: 0s;
+                background: rgba(255, 255, 255, 0.08);
+            }
+            .bg-circle-2 {
+                width: 350px;
+                height: 350px;
+                bottom: -80px;
+                right: -120px;
+                animation-delay: -2s;
+                background: rgba(255, 255, 255, 0.05);
+            }
+            .bg-circle-3 {
+                width: 300px;
+                height: 300px;
+                top: 40%;
+                right: -100px;
+                animation-delay: -4s;
+                background: rgba(255, 255, 255, 0.07);
+            }
+            .bg-circle-4 {
+                width: 250px;
+                height: 250px;
+                bottom: 20%;
+                left: -80px;
+                animation-delay: -6s;
+                background: rgba(255, 255, 255, 0.04);
+            }
+            @keyframes waveFloat {
+                0% {
+                    transform: translate(0, 0) scale(1);
+                    opacity: 0.5;
+                }
+                50% {
+                    transform: translate(30px, -40px) scale(1.15);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(-20px, 30px) scale(0.9);
+                    opacity: 0.6;
+                }
+            }
+        `;
+        document.head.appendChild(circleStyles);
         
         document.body.appendChild(overlay);
         
