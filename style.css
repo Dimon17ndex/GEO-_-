@@ -538,8 +538,7 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     max-width: 320px;
     margin: 20px auto 0 auto;
     opacity: 0;
-    filter: blur(0);
-    transform: translateY(0) scale(1);
+    filter: blur(12px);
     pointer-events: none;
     transition: opacity 0.3s ease, filter 0.3s ease;
 }
@@ -548,7 +547,6 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
 .mobile-wrapper.auth-mode .auth-inline-form {
     opacity: 1;
     filter: blur(0);
-    transform: translateY(0) scale(1);
     pointer-events: auto;
     transition: opacity 0.3s ease, filter 0.3s ease;
     transition-delay: 0.3s;
