@@ -540,7 +540,7 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     opacity: 0;
     filter: blur(12px);
     pointer-events: none;
-    transition: opacity 0.3s ease, filter 0.3s ease;
+    transition: opacity 0.2s ease, filter 0.2s ease; /* Быстрое исчезновение */
 }
 
 /* Появление с задержкой */
@@ -549,17 +549,7 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     filter: blur(0);
     pointer-events: auto;
     transition: opacity 0.3s ease, filter 0.3s ease;
-    transition-delay: 0.3s;
-}
-
-/* Исчезновение — только blur */
-.mobile-wrapper:not(.auth-mode) .auth-inline-form {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translateY(0) scale(1);
-    pointer-events: none;
-    transition: opacity 0.2s ease, filter 0.2s ease;
-    transition-delay: 0s;
+    transition-delay: 0.3s; /* Задержка только при появлении */
 }
 
 .auth-input-container {
