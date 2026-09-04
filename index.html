@@ -208,7 +208,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const unboundedTitle = document.getElementById('unboundedTitle');
     const logoContainer = document.getElementById('logoContainer');
 
-    // Проверка внутри DOMContentLoaded
     console.log('Nav buttons found:', navButtons.length);
     console.log('Page contents found:', pageContents.length);
 
@@ -221,89 +220,76 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     function switchPage(pageId) {
-    console.log('Switching to:', pageId);
-    
-    const currentPage = document.querySelector('.page-content.active');
-    const targetPage = document.getElementById(pageId);
-    
-    if (!targetPage || currentPage === targetPage) return;
-    
-    // Обновляем активную кнопку
-    navButtons.forEach(btn => {
-        if (btn.dataset.page === pageId) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-    
-    // Скрываем текущую страницу
-    if (currentPage) {
-        // Анимируем элементы внутри текущей страницы
-        const currentElements = currentPage.querySelectorAll('.collapsible-element');
-        currentElements.forEach(el => {
-            el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
-            el.style.opacity = '0';
-            el.style.filter = 'blur(12px)';
-            el.style.transform = 'translateY(40px) scale(0.97)';
-            el.style.pointerEvents = 'none';
-        });
-    }
-    
-    // Показываем новую страницу
-    setTimeout(() => {
-        // Скрываем все страницы
-        pageContents.forEach(page => {
-            page.classList.remove('active');
-            page.style.display = 'none';
+        console.log('Switching to:', pageId);
+        
+        const currentPage = document.querySelector('.page-content.active');
+        const targetPage = document.getElementById(pageId);
+        
+        if (!targetPage || currentPage === targetPage) return;
+        
+        navButtons.forEach(btn => {
+            if (btn.dataset.page === pageId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
         });
         
-        // Показываем целевую страницу
-        targetPage.style.display = 'block';
-        targetPage.classList.add('active');
-        
-        // Анимируем элементы внутри новой страницы
-        const targetElements = targetPage.querySelectorAll('.collapsible-element');
-        targetElements.forEach(el => {
-            // Начальное состояние
-            el.style.transition = 'none';
-            el.style.opacity = '0';
-            el.style.filter = 'blur(12px)';
-            el.style.transform = 'translateY(40px) scale(0.97)';
-            el.style.pointerEvents = 'none';
-        });
-        
-        // Запускаем анимацию появления элементов
-        requestAnimationFrame(() => {
-            targetElements.forEach((el, index) => {
-                // Добавляем задержку для каскадного появления
-                setTimeout(() => {
-                    el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
-                    el.style.opacity = '1';
-                    el.style.filter = 'blur(0)';
-                    el.style.transform = 'translateY(0) scale(1)';
-                    el.style.pointerEvents = 'auto';
-                }, index * 50); // Задержка 50мс между элементами
+        if (currentPage) {
+            const currentElements = currentPage.querySelectorAll('.collapsible-element');
+            currentElements.forEach(el => {
+                el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
+                el.style.opacity = '0';
+                el.style.filter = 'blur(12px)';
+                el.style.transform = 'translateY(40px) scale(0.97)';
+                el.style.pointerEvents = 'none';
             });
-        });
-        
-        // Обновляем описание с blur-эффектом
-        if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
-            headerDesc.classList.add('blur-transition');
-            setTimeout(() => {
-                headerDesc.innerHTML = pageDescriptions[pageId];
-                headerDesc.classList.remove('blur-transition');
-            }, 180);
         }
         
-    }, 200);
-}
+        setTimeout(() => {
+            pageContents.forEach(page => {
+                page.classList.remove('active');
+                page.style.display = 'none';
+            });
+            
+            targetPage.style.display = 'block';
+            targetPage.classList.add('active');
+            
+            const targetElements = targetPage.querySelectorAll('.collapsible-element');
+            targetElements.forEach(el => {
+                el.style.transition = 'none';
+                el.style.opacity = '0';
+                el.style.filter = 'blur(12px)';
+                el.style.transform = 'translateY(40px) scale(0.97)';
+                el.style.pointerEvents = 'none';
+            });
+            
+            requestAnimationFrame(() => {
+                targetElements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+                        el.style.opacity = '1';
+                        el.style.filter = 'blur(0)';
+                        el.style.transform = 'translateY(0) scale(1)';
+                        el.style.pointerEvents = 'auto';
+                    }, index * 50);
+                });
+            });
+            
+            if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
+                headerDesc.classList.add('blur-transition');
+                setTimeout(() => {
+                    headerDesc.innerHTML = pageDescriptions[pageId];
+                    headerDesc.classList.remove('blur-transition');
+                }, 180);
+            }
+            
+        }, 200);
+    }
 
-    // Обработчики кнопок навигации
     navButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const pageId = btn.dataset.page;
-            console.log('Button clicked:', pageId);
             if (!pageId) return;
             triggerHaptic();
             switchPage(pageId);
@@ -334,72 +320,69 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const targetTabId = btn.getAttribute('data-tab');
-        const targetContent = document.getElementById(targetTabId);
+        btn.addEventListener('click', () => {
+            const targetTabId = btn.getAttribute('data-tab');
+            const targetContent = document.getElementById(targetTabId);
 
-        if (btn.classList.contains('active')) return;
+            if (btn.classList.contains('active')) return;
 
-        triggerHaptic();
+            triggerHaptic();
 
-        tabBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-        moveIndicator(btn, false);
+            moveIndicator(btn, false);
 
-        const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex' || c.style.display === '');
+            const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex' || c.style.display === '');
 
-        if (currentContent && currentContent !== targetContent) {
-            // Скрываем текущую вкладку
-            currentContent.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
-            currentContent.style.opacity = '0';
-            currentContent.style.filter = 'blur(12px)';
-            currentContent.style.transform = 'translateY(40px) scale(0.97)';
-            currentContent.style.pointerEvents = 'none';
+            if (currentContent && currentContent !== targetContent) {
+                currentContent.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
+                currentContent.style.opacity = '0';
+                currentContent.style.filter = 'blur(12px)';
+                currentContent.style.transform = 'translateY(40px) scale(0.97)';
+                currentContent.style.pointerEvents = 'none';
 
-            setTimeout(() => {
-                currentContent.style.display = 'none';
-                currentContent.style.transition = '';
-                currentContent.style.opacity = '';
-                currentContent.style.filter = '';
-                currentContent.style.transform = '';
-                currentContent.style.pointerEvents = '';
-
-                // Показываем новую вкладку
-                targetContent.style.display = 'flex';
-                targetContent.style.opacity = '0';
-                targetContent.style.filter = 'blur(12px)';
-                targetContent.style.transform = 'translateY(40px) scale(0.97)';
-                targetContent.style.pointerEvents = 'none';
-
-                // Двойной requestAnimationFrame для гарантии
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        targetContent.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
-                        targetContent.style.opacity = '1';
-                        targetContent.style.filter = 'blur(0)';
-                        targetContent.style.transform = 'translateY(0) scale(1)';
-                        targetContent.style.pointerEvents = 'auto';
-                    });
-                });
-
-                // Очищаем стили после анимации
                 setTimeout(() => {
-                    targetContent.style.transition = '';
-                    targetContent.style.opacity = '';
-                    targetContent.style.filter = '';
-                    targetContent.style.transform = '';
-                    targetContent.style.pointerEvents = '';
-                }, 500);
+                    currentContent.style.display = 'none';
+                    currentContent.style.transition = '';
+                    currentContent.style.opacity = '';
+                    currentContent.style.filter = '';
+                    currentContent.style.transform = '';
+                    currentContent.style.pointerEvents = '';
 
-            }, 200);
-        }
+                    targetContent.style.display = 'flex';
+                    targetContent.style.opacity = '0';
+                    targetContent.style.filter = 'blur(12px)';
+                    targetContent.style.transform = 'translateY(40px) scale(0.97)';
+                    targetContent.style.pointerEvents = 'none';
+
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            targetContent.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+                            targetContent.style.opacity = '1';
+                            targetContent.style.filter = 'blur(0)';
+                            targetContent.style.transform = 'translateY(0) scale(1)';
+                            targetContent.style.pointerEvents = 'auto';
+                        });
+                    });
+
+                    setTimeout(() => {
+                        targetContent.style.transition = '';
+                        targetContent.style.opacity = '';
+                        targetContent.style.filter = '';
+                        targetContent.style.transform = '';
+                        targetContent.style.pointerEvents = '';
+                    }, 500);
+
+                }, 200);
+            }
+        });
     });
-});
 
     // ====== ЛОГИКА АВТОРИЗАЦИИ ======
     const profileBtn = document.getElementById('profileBtn');
     const mobileWrapper = document.querySelector('.mobile-wrapper');
+    const authInlineForm = document.getElementById('authInlineForm');
     
     const sheetBackdrop = document.getElementById('sheetBackdrop');
     const bottomSheet = document.getElementById('bottomSheet');
@@ -440,7 +423,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
             mobileWrapper.classList.add('auth-mode');
 
-            // Скрываем все элементы на активной странице
+            // Показываем строку авторизации с задержкой
+            if (authInlineForm) {
+                setTimeout(() => {
+                    authInlineForm.classList.add('visible');
+                }, 300);
+            }
+
             const activePageElements = document.querySelectorAll('.page-content.active .collapsible-element');
             activePageElements.forEach(el => {
                 el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
@@ -488,6 +477,11 @@ window.addEventListener('DOMContentLoaded', () => {
             }, 150);
             profileBtn.setAttribute('title', 'Мой geo.geo');
 
+            // Скрываем строку авторизации
+            if (authInlineForm) {
+                authInlineForm.classList.remove('visible');
+            }
+
             headerDesc.classList.add('blur-transition');
             setTimeout(() => {
                 const activePage = document.querySelector('.page-content.active');
@@ -510,7 +504,6 @@ window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 mobileWrapper.classList.remove('auth-mode');
                 
-                // Возвращаем элементы на активной странице
                 const activePageElements = document.querySelectorAll('.page-content.active .collapsible-element');
                 activePageElements.forEach(el => {
                     el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
@@ -569,184 +562,170 @@ window.addEventListener('DOMContentLoaded', () => {
         currentY = 0;
     });
 
-        // ====== ПЕРЕХОД ПО ССЫЛКЕ С АНИМАЦИЕЙ ======
-function redirectToLink(url) {
-    if (typeof injectGreetingStyles === 'function') {
-        injectGreetingStyles();
-    }
+    // ====== ПЕРЕХОД ПО ССЫЛКЕ С АНИМАЦИЕЙ ======
+    function redirectToLink(url) {
+        if (typeof injectGreetingStyles === 'function') {
+            injectGreetingStyles();
+        }
 
-    // 1. Скрываем все элементы с blur-эффектом
-    const allElements = document.querySelectorAll('.page-content.active .collapsible-element, .bottom-nav');
-    allElements.forEach(el => {
-        el.style.transition = 'transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease';
-        el.style.opacity = '0';
-        el.style.filter = 'blur(12px)';
-        el.style.transform = 'translateY(40px) scale(0.97)';
-        el.style.pointerEvents = 'none';
-    });
-    
-    // Скрываем шапку
-    const headerElements = [logoContainer, unboundedTitle, headerDesc, profileBtn];
-    headerElements.forEach(el => {
-        if (el) {
+        const allElements = document.querySelectorAll('.page-content.active .collapsible-element, .bottom-nav');
+        allElements.forEach(el => {
             el.style.transition = 'transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease';
             el.style.opacity = '0';
             el.style.filter = 'blur(12px)';
-            el.style.transform = 'translateY(20px) scale(0.95)';
-        }
-    });
-    
-    // 2. Через 400мс показываем оверлей
-    setTimeout(() => {
-        const overlay = document.createElement('div');
-        overlay.id = 'redirectOverlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            overflow: hidden;
-            background: transparent;
-        `;
-        
-        overlay.innerHTML = `
-            <!-- Большое размытое лого на фоне справа -->
-            <img src="images/geo_logo.png" alt="" style="
-                position: absolute;
-                top: 45%;
-                right: -15%;
-                width: 900px;
-                height: auto;
-                pointer-events: none;
-                z-index: 1;
-                opacity: 0;
-                filter: blur(15px) brightness(0.9);
-                transform-origin: center right;
-                animation: intenseFloat 6s ease-in-out infinite alternate;
-                transition: opacity 1.5s ease;
-            " class="redirect-bg-logo">
-            
-            <div style="
-                text-align: center;
-                padding: 20px;
-                font-family: 'Unbounded', sans-serif;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                position: relative;
-                z-index: 10;
-            ">
-                <!-- Персонаж -->
-                <div class="welcome-character-container state-loading revealed redirect-character" style="
-                    margin-bottom: 30px;
-                    opacity: 0;
-                    transform: translateY(-60px) scale(0.9);
-                    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-                ">
-                    <div class="char-loader">
-                        <div class="loader-dot"></div>
-                        <div class="loader-dot"></div>
-                        <div class="loader-dot"></div>
-                    </div>
-                    <div class="char-eyes">
-                        <div class="char-eye"><div class="char-pupil"></div></div>
-                        <div class="char-eye"><div class="char-pupil"></div></div>
-                    </div>
-                    <div class="char-mouth"></div>
-                </div>
-                
-                <!-- Текст -->
-                <div class="redirect-text-block" style="
-                    opacity: 0;
-                    transform: translateY(60px) scale(0.9);
-                    filter: blur(10px);
-                    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
-                ">
-                    <h2 style="
-                        font-size: 20px;
-                        font-weight: 700;
-                        color: #ffffff;
-                        margin-bottom: 12px;
-                        letter-spacing: -0.5px;
-                    ">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2>
-                    <a href="${url}" target="_blank" style="
-                        font-size: 14px;
-                        color: #38bdf8;
-                        text-decoration: none;
-                    ">${url}</a>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(overlay);
-        
-        // Показываем оверлей
-        requestAnimationFrame(() => {
-            overlay.style.opacity = '1';
-            
-            const bgLogo = overlay.querySelector('.redirect-bg-logo');
-            const character = overlay.querySelector('.redirect-character');
-            const textBlock = overlay.querySelector('.redirect-text-block');
-            
-            // Лого проявляется плавно
-            setTimeout(() => {
-                if (bgLogo) {
-                    bgLogo.style.opacity = '0.25';
-                }
-            }, 200);
-            
-            // Персонаж появляется сверху
-            setTimeout(() => {
-                if (character) {
-                    character.style.opacity = '1';
-                    character.style.transform = 'translateY(0) scale(1)';
-                }
-            }, 100);
-            
-            // Текст появляется снизу
-            setTimeout(() => {
-                if (textBlock) {
-                    textBlock.style.opacity = '1';
-                    textBlock.style.transform = 'translateY(0) scale(1)';
-                    textBlock.style.filter = 'blur(0)';
-                }
-            }, 250);
-            
-            // Функция моргания персонажа
-            function blinkCharacter() {
-                if (!character || !document.contains(character)) return;
-                character.classList.add('blinking');
-                setTimeout(() => {
-                    if (character) character.classList.remove('blinking');
-                }, 120);
-            }
-            
-            // Моргаем пару раз
-            setTimeout(() => blinkCharacter(), 800);
-            setTimeout(() => blinkCharacter(), 1600);
-            setTimeout(() => blinkCharacter(), 2400);
-            
+            el.style.transform = 'translateY(40px) scale(0.97)';
+            el.style.pointerEvents = 'none';
         });
         
-        // 3. Через 3 секунды переходим по ссылке
-        setTimeout(() => {
-            window.open(url, '_blank');
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
-        }, 3000);
+        const headerElements = [logoContainer, unboundedTitle, headerDesc, profileBtn];
+        headerElements.forEach(el => {
+            if (el) {
+                el.style.transition = 'transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease';
+                el.style.opacity = '0';
+                el.style.filter = 'blur(12px)';
+                el.style.transform = 'translateY(20px) scale(0.95)';
+            }
+        });
         
-    }, 400);
-}
+        setTimeout(() => {
+            const overlay = document.createElement('div');
+            overlay.id = 'redirectOverlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+                overflow: hidden;
+                background: transparent;
+            `;
+            
+            overlay.innerHTML = `
+                <img src="images/geo_logo.png" alt="" style="
+                    position: absolute;
+                    top: 45%;
+                    right: -15%;
+                    width: 900px;
+                    height: auto;
+                    pointer-events: none;
+                    z-index: 1;
+                    opacity: 0;
+                    filter: blur(15px) brightness(0.9);
+                    transform-origin: center right;
+                    animation: intenseFloat 6s ease-in-out infinite alternate;
+                    transition: opacity 1.5s ease;
+                " class="redirect-bg-logo">
+                
+                <div style="
+                    text-align: center;
+                    padding: 20px;
+                    font-family: 'Unbounded', sans-serif;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    position: relative;
+                    z-index: 10;
+                ">
+                    <div class="welcome-character-container state-loading revealed redirect-character" style="
+                        margin-bottom: 30px;
+                        opacity: 0;
+                        transform: translateY(-60px) scale(0.9);
+                        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                    ">
+                        <div class="char-loader">
+                            <div class="loader-dot"></div>
+                            <div class="loader-dot"></div>
+                            <div class="loader-dot"></div>
+                        </div>
+                        <div class="char-eyes">
+                            <div class="char-eye"><div class="char-pupil"></div></div>
+                            <div class="char-eye"><div class="char-pupil"></div></div>
+                        </div>
+                        <div class="char-mouth"></div>
+                    </div>
+                    
+                    <div class="redirect-text-block" style="
+                        opacity: 0;
+                        transform: translateY(60px) scale(0.9);
+                        filter: blur(10px);
+                        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+                    ">
+                        <h2 style="
+                            font-size: 20px;
+                            font-weight: 700;
+                            color: #ffffff;
+                            margin-bottom: 12px;
+                            letter-spacing: -0.5px;
+                        ">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2>
+                        <a href="${url}" target="_blank" style="
+                            font-size: 14px;
+                            color: #38bdf8;
+                            text-decoration: none;
+                        ">${url}</a>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(overlay);
+            
+            requestAnimationFrame(() => {
+                overlay.style.opacity = '1';
+                
+                const bgLogo = overlay.querySelector('.redirect-bg-logo');
+                const character = overlay.querySelector('.redirect-character');
+                const textBlock = overlay.querySelector('.redirect-text-block');
+                
+                setTimeout(() => {
+                    if (bgLogo) {
+                        bgLogo.style.opacity = '0.25';
+                    }
+                }, 200);
+                
+                setTimeout(() => {
+                    if (character) {
+                        character.style.opacity = '1';
+                        character.style.transform = 'translateY(0) scale(1)';
+                    }
+                }, 100);
+                
+                setTimeout(() => {
+                    if (textBlock) {
+                        textBlock.style.opacity = '1';
+                        textBlock.style.transform = 'translateY(0) scale(1)';
+                        textBlock.style.filter = 'blur(0)';
+                    }
+                }, 250);
+                
+                function blinkCharacter() {
+                    if (!character || !document.contains(character)) return;
+                    character.classList.add('blinking');
+                    setTimeout(() => {
+                        if (character) character.classList.remove('blinking');
+                    }, 120);
+                }
+                
+                setTimeout(() => blinkCharacter(), 800);
+                setTimeout(() => blinkCharacter(), 1600);
+                setTimeout(() => blinkCharacter(), 2400);
+                
+            });
+            
+            setTimeout(() => {
+                window.open(url, '_blank');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            }, 3000);
+            
+        }, 400);
+    }
 
-    // Обработчик для ссылки GEOГРАФИЯ
     document.addEventListener('click', (e) => {
         const link = e.target.closest('a[href="https://t.me/geo_rus_grafia"]');
         if (link) {
