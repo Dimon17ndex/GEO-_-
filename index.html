@@ -720,12 +720,20 @@ function redirectToLink(url) {
                 }, 120);
             }
             
-            // Моргаем пару раз: сразу после появления и ещё раз
+            // Моргаем пару раз
             setTimeout(() => blinkCharacter(), 800);
             setTimeout(() => blinkCharacter(), 1600);
             setTimeout(() => blinkCharacter(), 2400);
             
         });
+        
+        // 3. Через 3 секунды переходим по ссылке
+        setTimeout(() => {
+            window.open(url, '_blank');
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }, 3000);
         
     }, 400);
 }
