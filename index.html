@@ -585,7 +585,7 @@ function redirectToLink(url) {
         }
     });
     
-    // 2. Через 400мс показываем оверлей с персонажем
+    // 2. Через 400мс показываем оверлей
     setTimeout(() => {
         const overlay = document.createElement('div');
         overlay.id = 'redirectOverlay';
@@ -605,13 +605,13 @@ function redirectToLink(url) {
             background: transparent;
         `;
         
-        // Анимированные круги на фоне
+        // Радиальные волны
         overlay.innerHTML = `
-            <div class="redirect-bg-circles">
-                <div class="bg-circle bg-circle-1"></div>
-                <div class="bg-circle bg-circle-2"></div>
-                <div class="bg-circle bg-circle-3"></div>
-                <div class="bg-circle bg-circle-4"></div>
+            <div class="radial-waves">
+                <div class="wave wave-1"></div>
+                <div class="wave wave-2"></div>
+                <div class="wave wave-3"></div>
+                <div class="wave wave-4"></div>
             </div>
             
             <div style="
@@ -624,7 +624,7 @@ function redirectToLink(url) {
                 position: relative;
                 z-index: 10;
             ">
-                <!-- Персонаж (появляется сверху) -->
+                <!-- Персонаж -->
                 <div class="welcome-character-container state-loading revealed redirect-character" style="
                     margin-bottom: 30px;
                     opacity: 0;
@@ -643,7 +643,7 @@ function redirectToLink(url) {
                     <div class="char-mouth"></div>
                 </div>
                 
-                <!-- Текст (появляется снизу) -->
+                <!-- Текст -->
                 <div class="redirect-text-block" style="
                     opacity: 0;
                     transform: translateY(60px) scale(0.9);
@@ -666,73 +666,58 @@ function redirectToLink(url) {
             </div>
         `;
         
-        // Добавляем стили для кругов
-        const circleStyles = document.createElement('style');
-        circleStyles.textContent = `
-            .redirect-bg-circles {
+        // Стили для радиальных волн
+        const waveStyles = document.createElement('style');
+        waveStyles.textContent = `
+            .radial-waves {
                 position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 0;
+                height: 0;
                 z-index: 1;
                 pointer-events: none;
             }
-            .bg-circle {
+            .wave {
                 position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
                 border-radius: 50%;
-                background: rgba(255, 255, 255, 0.06);
-                filter: blur(60px);
-                animation: waveFloat 8s ease-in-out infinite alternate;
-            }
-            .bg-circle-1 {
-                width: 400px;
-                height: 400px;
-                top: -100px;
-                left: -150px;
-                animation-delay: 0s;
+                border: 2px solid rgba(255, 255, 255, 0.4);
                 background: rgba(255, 255, 255, 0.08);
+                filter: blur(20px);
+                animation: radialWave 4s ease-out infinite;
             }
-            .bg-circle-2 {
-                width: 350px;
-                height: 350px;
-                bottom: -80px;
-                right: -120px;
-                animation-delay: -2s;
-                background: rgba(255, 255, 255, 0.05);
+            .wave-1 {
+                animation-delay: 0s;
             }
-            .bg-circle-3 {
-                width: 300px;
-                height: 300px;
-                top: 40%;
-                right: -100px;
-                animation-delay: -4s;
-                background: rgba(255, 255, 255, 0.07);
+            .wave-2 {
+                animation-delay: 1s;
             }
-            .bg-circle-4 {
-                width: 250px;
-                height: 250px;
-                bottom: 20%;
-                left: -80px;
-                animation-delay: -6s;
-                background: rgba(255, 255, 255, 0.04);
+            .wave-3 {
+                animation-delay: 2s;
             }
-            @keyframes waveFloat {
+            .wave-4 {
+                animation-delay: 3s;
+            }
+            @keyframes radialWave {
                 0% {
-                    transform: translate(0, 0) scale(1);
-                    opacity: 0.5;
-                }
-                50% {
-                    transform: translate(30px, -40px) scale(1.15);
+                    width: 0px;
+                    height: 0px;
                     opacity: 1;
+                    border-width: 3px;
                 }
                 100% {
-                    transform: translate(-20px, 30px) scale(0.9);
-                    opacity: 0.6;
+                    width: 800px;
+                    height: 800px;
+                    opacity: 0;
+                    border-width: 1px;
                 }
             }
         `;
-        document.head.appendChild(circleStyles);
+        document.head.appendChild(waveStyles);
         
         document.body.appendChild(overlay);
         
@@ -743,7 +728,6 @@ function redirectToLink(url) {
             const character = overlay.querySelector('.redirect-character');
             const textBlock = overlay.querySelector('.redirect-text-block');
             
-            // Персонаж появляется сверху
             setTimeout(() => {
                 if (character) {
                     character.style.opacity = '1';
@@ -751,7 +735,6 @@ function redirectToLink(url) {
                 }
             }, 100);
             
-            // Текст появляется снизу
             setTimeout(() => {
                 if (textBlock) {
                     textBlock.style.opacity = '1';
