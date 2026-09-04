@@ -28,15 +28,15 @@ function injectGreetingStyles() {
 
         /* Контейнер персонажа внутри экрана приветствия */
         .welcome-character-container {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 28px !important;
-            margin-bottom: 30px !important;
-            transform: translateY(20px) !important;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
-        }
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 28px !important;
+    margin-bottom: 30px !important;
+    transform: translateY(20px); /* Уберите !important здесь */
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* И здесь */
+}
 
         .welcome-character-container.revealed {
             transform: translateY(0) !important;
