@@ -558,12 +558,13 @@ window.addEventListener('DOMContentLoaded', () => {
         currentY = 0;
     });
 
-        // ====== ПЕРЕХОД ПО ССЫЛКЕ С АНИМАЦИЕЙ ======
+        // ====== ПЕРЕХОД ПО ССЫЛКЕ С АНИМАЦИЕЙ (БЕЗ РЕАЛЬНОГО ПЕРЕХОДА) ======
 function redirectToLink(url) {
+    // Вызываем инъекцию стилей персонажа
     if (typeof injectGreetingStyles === 'function') {
         injectGreetingStyles();
     }
-
+    
     // 1. Скрываем все элементы с blur-эффектом
     const allElements = document.querySelectorAll('.page-content.active .collapsible-element, .bottom-nav');
     allElements.forEach(el => {
@@ -655,13 +656,7 @@ function redirectToLink(url) {
             }, 100);
         });
         
-        // 3. Через 1 секунду переходим по ссылке
-        setTimeout(() => {
-            window.open(url, '_blank');
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
-        }, 1000);
+        // 3. Пока НЕТ перехода — просто оставляем оверлей
         
     }, 400);
 }
