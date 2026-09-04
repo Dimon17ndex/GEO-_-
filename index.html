@@ -761,14 +761,6 @@ function redirectToLink(url) {
             }, 250);
         });
         
-        // 3. Через 1 секунду переходим по ссылке
-        setTimeout(() => {
-            window.open(url, '_blank');
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
-        }, 1000);
-        
     }, 400);
 }
 
