@@ -605,14 +605,22 @@ function redirectToLink(url) {
             background: transparent;
         `;
         
-        // Боковые светящиеся круги
         overlay.innerHTML = `
-            <div class="side-glow-circles">
-                <div class="glow-circle glow-left-1"></div>
-                <div class="glow-circle glow-right-1"></div>
-                <div class="glow-circle glow-left-2"></div>
-                <div class="glow-circle glow-right-2"></div>
-            </div>
+            <!-- Большое размытое лого на фоне справа -->
+            <img src="images/geo_logo.png" alt="" style="
+                position: absolute;
+                top: 45%;
+                right: -15%;
+                width: 900px;
+                height: auto;
+                pointer-events: none;
+                z-index: 1;
+                opacity: 0;
+                filter: blur(15px) brightness(0.9);
+                transform-origin: center right;
+                animation: intenseFloat 6s ease-in-out infinite alternate;
+                transition: opacity 1.5s ease;
+            " class="redirect-bg-logo">
             
             <div style="
                 text-align: center;
@@ -666,81 +674,24 @@ function redirectToLink(url) {
             </div>
         `;
         
-        // Стили для боковых светящихся кругов
-        const glowStyles = document.createElement('style');
-        glowStyles.textContent = `
-            .side-glow-circles {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
-                pointer-events: none;
-                overflow: hidden;
-            }
-            .glow-circle {
-                position: absolute;
-                border-radius: 50%;
-                filter: blur(40px);
-                transition: opacity 1.5s ease;
-            }
-            .glow-left-1 {
-                width: 300px;
-                height: 300px;
-                left: -100px;
-                top: 15%;
-                background: rgba(255, 255, 255, 0.10);
-                animation: innerGlow 3s ease-in-out infinite alternate;
-            }
-            .glow-right-1 {
-                width: 350px;
-                height: 350px;
-                right: -120px;
-                bottom: 10%;
-                background: rgba(255, 255, 255, 0.08);
-                animation: innerGlow 4s ease-in-out infinite alternate-reverse;
-            }
-            .glow-left-2 {
-                width: 200px;
-                height: 200px;
-                left: -60px;
-                bottom: 30%;
-                background: rgba(255, 255, 255, 0.06);
-                animation: innerGlow 5s ease-in-out infinite alternate;
-                animation-delay: -1s;
-            }
-            .glow-right-2 {
-                width: 250px;
-                height: 250px;
-                right: -80px;
-                top: 35%;
-                background: rgba(255, 255, 255, 0.07);
-                animation: innerGlow 3.5s ease-in-out infinite alternate-reverse;
-                animation-delay: -2s;
-            }
-            @keyframes innerGlow {
-                0% {
-                    opacity: 0.4;
-                    transform: scale(1);
-                }
-                100% {
-                    opacity: 0.9;
-                    transform: scale(1.1);
-                }
-            }
-        `;
-        document.head.appendChild(glowStyles);
-        
         document.body.appendChild(overlay);
         
         // Показываем оверлей
         requestAnimationFrame(() => {
             overlay.style.opacity = '1';
             
+            const bgLogo = overlay.querySelector('.redirect-bg-logo');
             const character = overlay.querySelector('.redirect-character');
             const textBlock = overlay.querySelector('.redirect-text-block');
             
+            // Лого проявляется плавно
+            setTimeout(() => {
+                if (bgLogo) {
+                    bgLogo.style.opacity = '0.25';
+                }
+            }, 200);
+            
+            // Персонаж появляется сверху
             setTimeout(() => {
                 if (character) {
                     character.style.opacity = '1';
@@ -748,6 +699,7 @@ function redirectToLink(url) {
                 }
             }, 100);
             
+            // Текст появляется снизу
             setTimeout(() => {
                 if (textBlock) {
                     textBlock.style.opacity = '1';
