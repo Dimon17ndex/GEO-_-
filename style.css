@@ -557,7 +557,6 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     line-height: 1.4;
     padding: 0 10px;
     min-height: 36px;
-    display: inline; /* Весь текст как единый поток */
 }
 
 .unbounded-title {
@@ -577,7 +576,7 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     margin-bottom: 20px;
     position: relative;
     width: 100%;
-    min-height: 180px; /* Фиксированная высота header */
+    min-height: 180px;
 }
 
 .auth-input-container {
@@ -618,7 +617,8 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     text-align: right;
 }
 
-.auth-login-suffix {
+/* Суффикс в поле ввода */
+.auth-input-container .auth-login-suffix {
     color: #ffffff;
     font-size: 14px;
     font-weight: 500;
@@ -633,23 +633,23 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     color: #38bdf8;
     text-decoration: none;
     cursor: pointer;
-    display: inline; /* Ссылка внутри текстового потока */
+    display: inline;
 }
 
 .accent-link:hover {
     text-decoration: underline;
 }
 
+/* Отображение логина — БЕЗ прямоугольника, большой текст */
 .auth-login-display {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: 0;
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 12px;
-    padding: 0 12px;
-    height: 40px;
+    border: none;
+    padding: 0;
+    height: auto;
     width: 100%;
     box-sizing: border-box;
     opacity: 0;
@@ -664,17 +664,34 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     filter: blur(0);
     transform: translateY(0) scale(1);
     pointer-events: auto;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease;
 }
 
+/* Логин — большой белый текст */
 .auth-display-text {
     color: #ffffff;
-    font-size: 14px;
-    text-align: right;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Unbounded', sans-serif;
+    letter-spacing: -0.5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 60%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Суффикс в отображении — такой же стиль */
+.auth-login-display .auth-login-suffix {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Unbounded', sans-serif;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+    user-select: none;
+    padding: 0;
+    margin: 0;
 }
 
 .auth-edit-btn {
