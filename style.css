@@ -676,3 +676,41 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     text-overflow: ellipsis;
     max-width: 60%;
 }
+
+.auth-edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 15px auto 0 auto;
+    min-height: 42px;
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(40px) scale(0.97);
+    pointer-events: none;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease;
+}
+
+.auth-edit-btn.visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.auth-edit-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.auth-edit-btn:active {
+    transform: scale(0.92);
+}
