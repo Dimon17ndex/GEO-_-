@@ -379,7 +379,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ====== ЛОГИКА АВТОРИЗАЦИИ ======
+        // ====== ЛОГИКА АВТОРИЗАЦИИ ======
     const profileBtn = document.getElementById('profileBtn');
     const mobileWrapper = document.querySelector('.mobile-wrapper');
     const authInlineForm = document.getElementById('authInlineForm');
@@ -425,7 +425,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
             // Показываем строку авторизации плавно
             if (authInlineForm) {
-                authInlineForm.style.visibility = 'visible';
                 setTimeout(() => {
                     authInlineForm.classList.add('visible');
                 }, 300);
@@ -481,11 +480,6 @@ window.addEventListener('DOMContentLoaded', () => {
             // Скрываем строку авторизации плавно
             if (authInlineForm) {
                 authInlineForm.classList.remove('visible');
-                
-                // Через 300мс (после анимации blur) скрываем полностью
-                setTimeout(() => {
-                    authInlineForm.style.visibility = 'hidden';
-                }, 300);
             }
 
             headerDesc.classList.add('blur-transition');
