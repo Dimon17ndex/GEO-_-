@@ -40,9 +40,16 @@
         <span class="auth-display-text" id="authDisplayText"></span>
         <span class="auth-login-suffix">@geo.geo</span>
     </div>
+    
+    <button class="auth-edit-btn" id="authEditBtn" style="display: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Изменить
+    </button>
 </div>
 
-        <!-- Страница "Бот" (активна по умолчанию) -->
         <div class="page-content active" id="page-bot">
             <div class="search-section collapsible-element">
                 <div class="search-bar">
@@ -171,24 +178,19 @@ window.addEventListener('DOMContentLoaded', () => {
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
-        if (tg.setHeaderColor) {
-            tg.setHeaderColor('#070707');
-        }
+        if (tg.setHeaderColor) tg.setHeaderColor('#070707');
     }
 
     function triggerHaptic() {
         if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
             const haptic = window.Telegram.WebApp.HapticFeedback;
             haptic.impactOccurred('light');
-            setTimeout(() => {
-                haptic.impactOccurred('light');
-            }, 70);
+            setTimeout(() => haptic.impactOccurred('light'), 70);
         } else if (navigator.vibrate) {
             navigator.vibrate([15, 40, 15]);
         }
     }
 
-    // ====== SPA НАВИГАЦИЯ ======
     const navButtons = document.querySelectorAll('.nav-icon-btn');
     const pageContents = document.querySelectorAll('.page-content');
     const headerDesc = document.getElementById('headerDesc');
@@ -207,12 +209,10 @@ window.addEventListener('DOMContentLoaded', () => {
         const currentPage = document.querySelector('.page-content.active');
         const targetPage = document.getElementById(pageId);
         if (!targetPage || currentPage === targetPage) return;
-        
         navButtons.forEach(btn => {
             if (btn.dataset.page === pageId) btn.classList.add('active');
             else btn.classList.remove('active');
         });
-        
         if (currentPage) {
             currentPage.querySelectorAll('.collapsible-element').forEach(el => {
                 el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
@@ -222,16 +222,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 el.style.pointerEvents = 'none';
             });
         }
-        
         setTimeout(() => {
-            pageContents.forEach(page => {
-                page.classList.remove('active');
-                page.style.display = 'none';
-            });
-            
+            pageContents.forEach(page => { page.classList.remove('active'); page.style.display = 'none'; });
             targetPage.style.display = 'block';
             targetPage.classList.add('active');
-            
             const targetElements = targetPage.querySelectorAll('.collapsible-element');
             targetElements.forEach(el => {
                 el.style.transition = 'none';
@@ -240,7 +234,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 el.style.transform = 'translateY(40px) scale(0.97)';
                 el.style.pointerEvents = 'none';
             });
-            
             requestAnimationFrame(() => {
                 targetElements.forEach((el, index) => {
                     setTimeout(() => {
@@ -252,7 +245,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     }, index * 50);
                 });
             });
-            
             if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
                 headerDesc.classList.add('blur-transition');
                 setTimeout(() => {
@@ -272,11 +264,10 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ====== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ======
+    // Вкладки
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
     const tabsIndicator = document.querySelector('.tabs-indicator');
-
     function moveIndicator(btn, instant = false) {
         if (instant) tabsIndicator.style.transition = 'none';
         tabsIndicator.style.width = btn.offsetWidth + 'px';
@@ -286,10 +277,8 @@ window.addEventListener('DOMContentLoaded', () => {
             tabsIndicator.style.transition = 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         }
     }
-
     const activeTabBtn = document.querySelector('.tab-btn.active');
     if (activeTabBtn) moveIndicator(activeTabBtn, true);
-
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetTabId = btn.getAttribute('data-tab');
@@ -327,7 +316,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ====== ЛОГИКА АВТОРИЗАЦИИ ======
+    // Авторизация
     const profileBtn = document.getElementById('profileBtn');
     const mobileWrapper = document.querySelector('.mobile-wrapper');
     const authInlineForm = document.getElementById('authInlineForm');
@@ -335,11 +324,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const authInputContainer = document.getElementById('authInputContainer');
     const authLoginDisplay = document.getElementById('authLoginDisplay');
     const authDisplayText = document.getElementById('authDisplayText');
-    
+    const authEditBtn = document.getElementById('authEditBtn');
     const sheetBackdrop = document.getElementById('sheetBackdrop');
     const bottomSheet = document.getElementById('bottomSheet');
     const sheetHandle = document.getElementById('sheetHandle');
-
     let isAuthMode = false;
     let authTypingTimeout = null;
 
@@ -347,7 +335,6 @@ window.addEventListener('DOMContentLoaded', () => {
         triggerHaptic();
         sheetBackdrop.classList.add('active');
     }
-
     function closeSheet() {
         triggerHaptic();
         sheetBackdrop.classList.remove('active');
@@ -357,42 +344,63 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Обработчик ввода логина
+    // Ввод логина с таймером 2 секунды
     if (authLoginInput) {
         authLoginInput.addEventListener('input', () => {
             const value = authLoginInput.value.trim();
             if (authTypingTimeout) clearTimeout(authTypingTimeout);
-            
             if (!value) {
                 authInputContainer.style.display = 'flex';
                 authInputContainer.style.opacity = '1';
                 authInputContainer.style.filter = 'blur(0)';
                 authLoginDisplay.classList.remove('visible');
+                authEditBtn.classList.remove('visible');
                 setTimeout(() => {
                     authLoginDisplay.style.display = 'none';
+                    authEditBtn.style.display = 'none';
                 }, 300);
                 return;
             }
-            
             authTypingTimeout = setTimeout(() => {
                 authInputContainer.style.transition = 'opacity 0.2s ease, filter 0.2s ease';
                 authInputContainer.style.opacity = '0';
                 authInputContainer.style.filter = 'blur(12px)';
-                
                 setTimeout(() => {
                     authInputContainer.style.display = 'none';
                     authInputContainer.style.opacity = '';
                     authInputContainer.style.filter = '';
                     authInputContainer.style.transition = '';
-                    
                     authDisplayText.textContent = value;
                     authLoginDisplay.style.display = 'flex';
-                    
+                    authEditBtn.style.display = 'flex';
                     requestAnimationFrame(() => {
                         authLoginDisplay.classList.add('visible');
+                        setTimeout(() => authEditBtn.classList.add('visible'), 150);
                     });
                 }, 200);
-            }, 1000);
+            }, 2000);
+        });
+    }
+
+    // Кнопка Изменить
+    if (authEditBtn) {
+        authEditBtn.addEventListener('click', () => {
+            triggerHaptic();
+            authLoginDisplay.classList.remove('visible');
+            authEditBtn.classList.remove('visible');
+            setTimeout(() => {
+                authLoginDisplay.style.display = 'none';
+                authEditBtn.style.display = 'none';
+                authInputContainer.style.display = 'flex';
+                authInputContainer.style.opacity = '0';
+                authInputContainer.style.filter = 'blur(12px)';
+                requestAnimationFrame(() => {
+                    authInputContainer.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+                    authInputContainer.style.opacity = '1';
+                    authInputContainer.style.filter = 'blur(0)';
+                });
+                authLoginInput.focus();
+            }, 300);
         });
     }
 
@@ -400,7 +408,6 @@ window.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         triggerHaptic();
         isAuthMode = !isAuthMode;
-
         if (isAuthMode) {
             profileBtn.classList.add('morphing');
             setTimeout(() => {
@@ -409,13 +416,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }, 150);
             profileBtn.setAttribute('title', 'Назад');
             mobileWrapper.classList.add('auth-mode');
-
-            if (authInlineForm) {
-                setTimeout(() => {
-                    authInlineForm.classList.add('visible');
-                }, 300);
-            }
-
+            if (authInlineForm) setTimeout(() => authInlineForm.classList.add('visible'), 300);
             document.querySelectorAll('.page-content.active .collapsible-element').forEach(el => {
                 el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
                 el.style.opacity = '0';
@@ -423,7 +424,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 el.style.transform = 'translateY(40px) scale(0.97)';
                 el.style.pointerEvents = 'none';
             });
-
             headerDesc.classList.add('blur-transition');
             setTimeout(() => {
                 headerDesc.innerHTML = 'Авторизуйтесь с вашим внутренним аккаунтом <a href="#" class="accent-link" id="authLink">@geo.geo</a>';
@@ -433,21 +433,11 @@ window.addEventListener('DOMContentLoaded', () => {
                     openSheet();
                 });
             }, 180);
-
             unboundedTitle.classList.add('blur-transition');
-            setTimeout(() => {
-                unboundedTitle.textContent = 'АВТОРИЗАЦИЯ';
-                unboundedTitle.classList.remove('blur-transition');
-            }, 180);
-
+            setTimeout(() => { unboundedTitle.textContent = 'АВТОРИЗАЦИЯ'; unboundedTitle.classList.remove('blur-transition'); }, 180);
             logoContainer.classList.add('blur-transition');
-            setTimeout(() => {
-                logoContainer.innerHTML = '<span class="at-symbol">@</span>';
-                logoContainer.classList.remove('blur-transition');
-            }, 180);
-
+            setTimeout(() => { logoContainer.innerHTML = '<span class="at-symbol">@</span>'; logoContainer.classList.remove('blur-transition'); }, 180);
             document.getElementById('bottomNav').classList.add('hidden');
-
         } else {
             profileBtn.classList.add('morphing');
             setTimeout(() => {
@@ -455,30 +445,17 @@ window.addEventListener('DOMContentLoaded', () => {
                 profileBtn.classList.remove('morphing');
             }, 150);
             profileBtn.setAttribute('title', 'Мой geo.geo');
-
-            if (authInlineForm) {
-                authInlineForm.classList.remove('visible');
-            }
-
+            if (authInlineForm) authInlineForm.classList.remove('visible');
             headerDesc.classList.add('blur-transition');
             setTimeout(() => {
                 const activePage = document.querySelector('.page-content.active');
                 headerDesc.innerHTML = activePage ? pageDescriptions[activePage.id] : 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>';
                 headerDesc.classList.remove('blur-transition');
             }, 180);
-
             unboundedTitle.classList.add('blur-transition');
-            setTimeout(() => {
-                unboundedTitle.textContent = 'GEOГРАФИЯ';
-                unboundedTitle.classList.remove('blur-transition');
-            }, 180);
-
+            setTimeout(() => { unboundedTitle.textContent = 'GEOГРАФИЯ'; unboundedTitle.classList.remove('blur-transition'); }, 180);
             logoContainer.classList.add('blur-transition');
-            setTimeout(() => {
-                logoContainer.innerHTML = '<img src="images/geo_logo.png" alt="Geo Logo" class="logo">';
-                logoContainer.classList.remove('blur-transition');
-            }, 180);
-
+            setTimeout(() => { logoContainer.innerHTML = '<img src="images/geo_logo.png" alt="Geo Logo" class="logo">'; logoContainer.classList.remove('blur-transition'); }, 180);
             setTimeout(() => {
                 mobileWrapper.classList.remove('auth-mode');
                 document.querySelectorAll('.page-content.active .collapsible-element').forEach(el => {
@@ -489,125 +466,61 @@ window.addEventListener('DOMContentLoaded', () => {
                     el.style.pointerEvents = 'auto';
                 });
             }, 200);
-
             document.getElementById('bottomNav').classList.remove('hidden');
         }
     });
 
-    sheetBackdrop.addEventListener('click', (e) => {
-        if (e.target === sheetBackdrop) closeSheet();
-    });
-
+    sheetBackdrop.addEventListener('click', (e) => { if (e.target === sheetBackdrop) closeSheet(); });
     sheetHandle.addEventListener('click', () => closeSheet());
 
-    let startY = 0;
-    let currentY = 0;
-    let isDragging = false;
-
-    bottomSheet.addEventListener('touchstart', (e) => {
-        startY = e.touches[0].clientY;
-        isDragging = true;
-        bottomSheet.style.transition = 'none';
-    }, { passive: true });
-
-    bottomSheet.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        currentY = e.touches[0].clientY;
-        let diff = currentY - startY;
-        if (diff > 0) bottomSheet.style.transform = `translateY(${diff}px)`;
-    }, { passive: true });
-
+    let startY = 0, currentY = 0, isDragging = false;
+    bottomSheet.addEventListener('touchstart', (e) => { startY = e.touches[0].clientY; isDragging = true; bottomSheet.style.transition = 'none'; }, { passive: true });
+    bottomSheet.addEventListener('touchmove', (e) => { if (!isDragging) return; currentY = e.touches[0].clientY; let diff = currentY - startY; if (diff > 0) bottomSheet.style.transform = `translateY(${diff}px)`; }, { passive: true });
     bottomSheet.addEventListener('touchend', () => {
         if (!isDragging) return;
         isDragging = false;
         let diff = currentY - startY;
-        if (diff > 100) {
-            closeSheet();
-        } else {
-            bottomSheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-            bottomSheet.style.transform = 'translateY(0)';
-        }
-        startY = 0;
-        currentY = 0;
+        if (diff > 100) closeSheet();
+        else { bottomSheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)'; bottomSheet.style.transform = 'translateY(0)'; }
+        startY = 0; currentY = 0;
     });
 
-    // ====== ПЕРЕХОД ПО ССЫЛКЕ ======
+    // Переход по ссылке
     function redirectToLink(url) {
         if (typeof injectGreetingStyles === 'function') injectGreetingStyles();
-
         document.querySelectorAll('.page-content.active .collapsible-element, .bottom-nav').forEach(el => {
             el.style.transition = 'transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease';
-            el.style.opacity = '0';
-            el.style.filter = 'blur(12px)';
-            el.style.transform = 'translateY(40px) scale(0.97)';
-            el.style.pointerEvents = 'none';
+            el.style.opacity = '0'; el.style.filter = 'blur(12px)'; el.style.transform = 'translateY(40px) scale(0.97)'; el.style.pointerEvents = 'none';
         });
-        
         [logoContainer, unboundedTitle, headerDesc, profileBtn].forEach(el => {
-            if (el) {
-                el.style.transition = 'transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease';
-                el.style.opacity = '0';
-                el.style.filter = 'blur(12px)';
-                el.style.transform = 'translateY(20px) scale(0.95)';
-            }
+            if (el) { el.style.transition = 'transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease'; el.style.opacity = '0'; el.style.filter = 'blur(12px)'; el.style.transform = 'translateY(20px) scale(0.95)'; }
         });
-        
         setTimeout(() => {
             const overlay = document.createElement('div');
             overlay.id = 'redirectOverlay';
             overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; transition: opacity 0.5s ease; overflow: hidden; background: transparent;';
-            
-            overlay.innerHTML = `
-                <img src="images/geo_logo.png" alt="" style="position: absolute; top: 45%; right: -15%; width: 900px; height: auto; pointer-events: none; z-index: 1; opacity: 0; filter: blur(15px) brightness(0.9); transform-origin: center right; animation: intenseFloat 6s ease-in-out infinite alternate; transition: opacity 1.5s ease;" class="redirect-bg-logo">
-                <div style="text-align: center; padding: 20px; font-family: 'Unbounded', sans-serif; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10;">
-                    <div class="welcome-character-container state-loading revealed redirect-character" style="margin-bottom: 30px; opacity: 0; transform: translateY(-60px) scale(0.9); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
-                        <div class="char-loader"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
-                        <div class="char-eyes"><div class="char-eye"><div class="char-pupil"></div></div><div class="char-eye"><div class="char-pupil"></div></div></div>
-                        <div class="char-mouth"></div>
-                    </div>
-                    <div class="redirect-text-block" style="opacity: 0; transform: translateY(60px) scale(0.9); filter: blur(10px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;">
-                        <h2 style="font-size: 20px; font-weight: 700; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px;">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2>
-                        <a href="${url}" target="_blank" style="font-size: 14px; color: #38bdf8; text-decoration: none;">${url}</a>
-                    </div>
-                </div>
-            `;
-            
+            overlay.innerHTML = `<img src="images/geo_logo.png" alt="" style="position: absolute; top: 45%; right: -15%; width: 900px; height: auto; pointer-events: none; z-index: 1; opacity: 0; filter: blur(15px) brightness(0.9); transform-origin: center right; animation: intenseFloat 6s ease-in-out infinite alternate; transition: opacity 1.5s ease;" class="redirect-bg-logo"><div style="text-align: center; padding: 20px; font-family: 'Unbounded', sans-serif; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10;"><div class="welcome-character-container state-loading revealed redirect-character" style="margin-bottom: 30px; opacity: 0; transform: translateY(-60px) scale(0.9); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);"><div class="char-loader"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div><div class="char-eyes"><div class="char-eye"><div class="char-pupil"></div></div><div class="char-eye"><div class="char-pupil"></div></div></div><div class="char-mouth"></div></div><div class="redirect-text-block" style="opacity: 0; transform: translateY(60px) scale(0.9); filter: blur(10px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;"><h2 style="font-size: 20px; font-weight: 700; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px;">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2><a href="${url}" target="_blank" style="font-size: 14px; color: #38bdf8; text-decoration: none;">${url}</a></div></div>`;
             document.body.appendChild(overlay);
-            
             requestAnimationFrame(() => {
                 overlay.style.opacity = '1';
                 const bgLogo = overlay.querySelector('.redirect-bg-logo');
                 const character = overlay.querySelector('.redirect-character');
                 const textBlock = overlay.querySelector('.redirect-text-block');
-                
                 setTimeout(() => { if (bgLogo) bgLogo.style.opacity = '0.25'; }, 200);
                 setTimeout(() => { if (character) { character.style.opacity = '1'; character.style.transform = 'translateY(0) scale(1)'; } }, 100);
                 setTimeout(() => { if (textBlock) { textBlock.style.opacity = '1'; textBlock.style.transform = 'translateY(0) scale(1)'; textBlock.style.filter = 'blur(0)'; } }, 250);
-                
-                function blinkCharacter() {
-                    if (!character || !document.contains(character)) return;
-                    character.classList.add('blinking');
-                    setTimeout(() => { if (character) character.classList.remove('blinking'); }, 120);
-                }
+                function blinkCharacter() { if (!character || !document.contains(character)) return; character.classList.add('blinking'); setTimeout(() => { if (character) character.classList.remove('blinking'); }, 120); }
                 setTimeout(() => blinkCharacter(), 800);
                 setTimeout(() => blinkCharacter(), 1600);
                 setTimeout(() => blinkCharacter(), 2400);
             });
-            
-            setTimeout(() => {
-                window.open(url, '_blank');
-                setTimeout(() => window.location.reload(), 500);
-            }, 3000);
+            setTimeout(() => { window.open(url, '_blank'); setTimeout(() => window.location.reload(), 500); }, 3000);
         }, 400);
     }
 
     document.addEventListener('click', (e) => {
         const link = e.target.closest('a[href="https://t.me/geo_rus_grafia"]');
-        if (link) {
-            e.preventDefault();
-            triggerHaptic();
-            redirectToLink('https://t.me/geo_rus_grafia');
-        }
+        if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 });
 </script>
