@@ -556,11 +556,8 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     color: #9ca3af;
     line-height: 1.4;
     padding: 0 10px;
-    min-height: 36px; /* Фиксированная высота */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
+    min-height: 36px;
+    display: inline; /* Весь текст как единый поток */
 }
 
 .unbounded-title {
@@ -636,7 +633,9 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     color: #38bdf8;
     text-decoration: none;
     cursor: pointer;
-    display: inline;
-    margin: 0;
-    padding: 0;
+    display: inline; /* Ссылка внутри текстового потока */
+}
+
+.accent-link:hover {
+    text-decoration: underline;
 }
