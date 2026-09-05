@@ -216,10 +216,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (currentPage) {
             currentPage.querySelectorAll('.collapsible-element').forEach(el => {
                 el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
-                el.style.opacity = '0';
-                el.style.filter = 'blur(12px)';
-                el.style.transform = 'translateY(40px) scale(0.97)';
-                el.style.pointerEvents = 'none';
+                el.style.opacity = '0'; el.style.filter = 'blur(12px)'; el.style.transform = 'translateY(40px) scale(0.97)'; el.style.pointerEvents = 'none';
             });
         }
         setTimeout(() => {
@@ -228,29 +225,19 @@ window.addEventListener('DOMContentLoaded', () => {
             targetPage.classList.add('active');
             const targetElements = targetPage.querySelectorAll('.collapsible-element');
             targetElements.forEach(el => {
-                el.style.transition = 'none';
-                el.style.opacity = '0';
-                el.style.filter = 'blur(12px)';
-                el.style.transform = 'translateY(40px) scale(0.97)';
-                el.style.pointerEvents = 'none';
+                el.style.transition = 'none'; el.style.opacity = '0'; el.style.filter = 'blur(12px)'; el.style.transform = 'translateY(40px) scale(0.97)'; el.style.pointerEvents = 'none';
             });
             requestAnimationFrame(() => {
                 targetElements.forEach((el, index) => {
                     setTimeout(() => {
                         el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
-                        el.style.opacity = '1';
-                        el.style.filter = 'blur(0)';
-                        el.style.transform = 'translateY(0) scale(1)';
-                        el.style.pointerEvents = 'auto';
+                        el.style.opacity = '1'; el.style.filter = 'blur(0)'; el.style.transform = 'translateY(0) scale(1)'; el.style.pointerEvents = 'auto';
                     }, index * 50);
                 });
             });
             if (pageDescriptions[pageId] && !document.querySelector('.mobile-wrapper').classList.contains('auth-mode')) {
                 headerDesc.classList.add('blur-transition');
-                setTimeout(() => {
-                    headerDesc.innerHTML = pageDescriptions[pageId];
-                    headerDesc.classList.remove('blur-transition');
-                }, 180);
+                setTimeout(() => { headerDesc.innerHTML = pageDescriptions[pageId]; headerDesc.classList.remove('blur-transition'); }, 180);
             }
         }, 200);
     }
@@ -264,7 +251,6 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Вкладки
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
     const tabsIndicator = document.querySelector('.tabs-indicator');
@@ -272,10 +258,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (instant) tabsIndicator.style.transition = 'none';
         tabsIndicator.style.width = btn.offsetWidth + 'px';
         tabsIndicator.style.left = btn.offsetLeft + 'px';
-        if (instant) {
-            tabsIndicator.offsetHeight;
-            tabsIndicator.style.transition = 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-        }
+        if (instant) { tabsIndicator.offsetHeight; tabsIndicator.style.transition = 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'; }
     }
     const activeTabBtn = document.querySelector('.tab-btn.active');
     if (activeTabBtn) moveIndicator(activeTabBtn, true);
@@ -291,24 +274,15 @@ window.addEventListener('DOMContentLoaded', () => {
             const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex');
             if (currentContent && currentContent !== targetContent) {
                 currentContent.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
-                currentContent.style.opacity = '0';
-                currentContent.style.filter = 'blur(12px)';
-                currentContent.style.transform = 'translateY(40px) scale(0.97)';
-                currentContent.style.pointerEvents = 'none';
+                currentContent.style.opacity = '0'; currentContent.style.filter = 'blur(12px)'; currentContent.style.transform = 'translateY(40px) scale(0.97)'; currentContent.style.pointerEvents = 'none';
                 setTimeout(() => {
                     currentContent.style.display = 'none';
                     targetContent.style.display = 'flex';
-                    targetContent.style.opacity = '0';
-                    targetContent.style.filter = 'blur(12px)';
-                    targetContent.style.transform = 'translateY(40px) scale(0.97)';
-                    targetContent.style.pointerEvents = 'none';
+                    targetContent.style.opacity = '0'; targetContent.style.filter = 'blur(12px)'; targetContent.style.transform = 'translateY(40px) scale(0.97)'; targetContent.style.pointerEvents = 'none';
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             targetContent.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
-                            targetContent.style.opacity = '1';
-                            targetContent.style.filter = 'blur(0)';
-                            targetContent.style.transform = 'translateY(0) scale(1)';
-                            targetContent.style.pointerEvents = 'auto';
+                            targetContent.style.opacity = '1'; targetContent.style.filter = 'blur(0)'; targetContent.style.transform = 'translateY(0) scale(1)'; targetContent.style.pointerEvents = 'auto';
                         });
                     });
                 }, 200);
@@ -316,7 +290,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Авторизация
+    // ====== АВТОРИЗАЦИЯ ======
     const profileBtn = document.getElementById('profileBtn');
     const mobileWrapper = document.querySelector('.mobile-wrapper');
     const authInlineForm = document.getElementById('authInlineForm');
@@ -330,6 +304,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const sheetHandle = document.getElementById('sheetHandle');
     let isAuthMode = false;
     let authTypingTimeout = null;
+    let isEditMode = false; // Флаг режима редактирования
 
     function openSheet() {
         triggerHaptic();
@@ -344,11 +319,32 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Ввод логина с таймером 2 секунды
+    // Функция скрытия поля и показа логина
+    function showLoginDisplay(value) {
+        authInputContainer.style.transition = 'opacity 0.2s ease, filter 0.2s ease';
+        authInputContainer.style.opacity = '0';
+        authInputContainer.style.filter = 'blur(12px)';
+        setTimeout(() => {
+            authInputContainer.style.display = 'none';
+            authInputContainer.style.opacity = '';
+            authInputContainer.style.filter = '';
+            authInputContainer.style.transition = '';
+            authDisplayText.textContent = value;
+            authLoginDisplay.style.display = 'flex';
+            authEditBtn.style.display = 'flex';
+            requestAnimationFrame(() => {
+                authLoginDisplay.classList.add('visible');
+                setTimeout(() => authEditBtn.classList.add('visible'), 150);
+            });
+        }, 200);
+    }
+
+    // Ввод логина
     if (authLoginInput) {
         authLoginInput.addEventListener('input', () => {
             const value = authLoginInput.value.trim();
             if (authTypingTimeout) clearTimeout(authTypingTimeout);
+            
             if (!value) {
                 authInputContainer.style.display = 'flex';
                 authInputContainer.style.opacity = '1';
@@ -361,23 +357,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 }, 300);
                 return;
             }
+            
+            // Через 2 секунды после остановки ввода
             authTypingTimeout = setTimeout(() => {
-                authInputContainer.style.transition = 'opacity 0.2s ease, filter 0.2s ease';
-                authInputContainer.style.opacity = '0';
-                authInputContainer.style.filter = 'blur(12px)';
-                setTimeout(() => {
-                    authInputContainer.style.display = 'none';
-                    authInputContainer.style.opacity = '';
-                    authInputContainer.style.filter = '';
-                    authInputContainer.style.transition = '';
-                    authDisplayText.textContent = value;
-                    authLoginDisplay.style.display = 'flex';
-                    authEditBtn.style.display = 'flex';
-                    requestAnimationFrame(() => {
-                        authLoginDisplay.classList.add('visible');
-                        setTimeout(() => authEditBtn.classList.add('visible'), 150);
-                    });
-                }, 200);
+                showLoginDisplay(value);
+                isEditMode = false;
             }, 2000);
         });
     }
@@ -386,6 +370,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (authEditBtn) {
         authEditBtn.addEventListener('click', () => {
             triggerHaptic();
+            isEditMode = true;
             authLoginDisplay.classList.remove('visible');
             authEditBtn.classList.remove('visible');
             setTimeout(() => {
@@ -400,6 +385,20 @@ window.addEventListener('DOMContentLoaded', () => {
                     authInputContainer.style.filter = 'blur(0)';
                 });
                 authLoginInput.focus();
+                
+                // Таймер 3 секунды бездействия
+                if (authTypingTimeout) clearTimeout(authTypingTimeout);
+                authTypingTimeout = setTimeout(() => {
+                    const currentValue = authLoginInput.value.trim();
+                    if (currentValue) {
+                        showLoginDisplay(currentValue);
+                    } else {
+                        authInputContainer.style.display = 'flex';
+                        authInputContainer.style.opacity = '1';
+                        authInputContainer.style.filter = 'blur(0)';
+                    }
+                    isEditMode = false;
+                }, 3000);
             }, 300);
         });
     }
@@ -411,7 +410,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (isAuthMode) {
             profileBtn.classList.add('morphing');
             setTimeout(() => {
-                profileBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>`;
+                profileBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
                 profileBtn.classList.remove('morphing');
             }, 150);
             profileBtn.setAttribute('title', 'Назад');
@@ -419,19 +418,13 @@ window.addEventListener('DOMContentLoaded', () => {
             if (authInlineForm) setTimeout(() => authInlineForm.classList.add('visible'), 300);
             document.querySelectorAll('.page-content.active .collapsible-element').forEach(el => {
                 el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
-                el.style.opacity = '0';
-                el.style.filter = 'blur(12px)';
-                el.style.transform = 'translateY(40px) scale(0.97)';
-                el.style.pointerEvents = 'none';
+                el.style.opacity = '0'; el.style.filter = 'blur(12px)'; el.style.transform = 'translateY(40px) scale(0.97)'; el.style.pointerEvents = 'none';
             });
             headerDesc.classList.add('blur-transition');
             setTimeout(() => {
                 headerDesc.innerHTML = 'Авторизуйтесь с вашим внутренним аккаунтом <a href="#" class="accent-link" id="authLink">@geo.geo</a>';
                 headerDesc.classList.remove('blur-transition');
-                document.getElementById('authLink').addEventListener('click', (linkEvent) => {
-                    linkEvent.preventDefault();
-                    openSheet();
-                });
+                document.getElementById('authLink').addEventListener('click', (linkEvent) => { linkEvent.preventDefault(); openSheet(); });
             }, 180);
             unboundedTitle.classList.add('blur-transition');
             setTimeout(() => { unboundedTitle.textContent = 'АВТОРИЗАЦИЯ'; unboundedTitle.classList.remove('blur-transition'); }, 180);
@@ -441,11 +434,12 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             profileBtn.classList.add('morphing');
             setTimeout(() => {
-                profileBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+                profileBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
                 profileBtn.classList.remove('morphing');
             }, 150);
             profileBtn.setAttribute('title', 'Мой geo.geo');
             if (authInlineForm) authInlineForm.classList.remove('visible');
+            if (authTypingTimeout) clearTimeout(authTypingTimeout);
             headerDesc.classList.add('blur-transition');
             setTimeout(() => {
                 const activePage = document.querySelector('.page-content.active');
@@ -460,10 +454,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 mobileWrapper.classList.remove('auth-mode');
                 document.querySelectorAll('.page-content.active .collapsible-element').forEach(el => {
                     el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
-                    el.style.opacity = '1';
-                    el.style.filter = 'blur(0)';
-                    el.style.transform = 'translateY(0) scale(1)';
-                    el.style.pointerEvents = 'auto';
+                    el.style.opacity = '1'; el.style.filter = 'blur(0)'; el.style.transform = 'translateY(0) scale(1)'; el.style.pointerEvents = 'auto';
                 });
             }, 200);
             document.getElementById('bottomNav').classList.remove('hidden');
@@ -485,7 +476,6 @@ window.addEventListener('DOMContentLoaded', () => {
         startY = 0; currentY = 0;
     });
 
-    // Переход по ссылке
     function redirectToLink(url) {
         if (typeof injectGreetingStyles === 'function') injectGreetingStyles();
         document.querySelectorAll('.page-content.active .collapsible-element, .bottom-nav').forEach(el => {
@@ -499,7 +489,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.createElement('div');
             overlay.id = 'redirectOverlay';
             overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; transition: opacity 0.5s ease; overflow: hidden; background: transparent;';
-            overlay.innerHTML = `<img src="images/geo_logo.png" alt="" style="position: absolute; top: 45%; right: -15%; width: 900px; height: auto; pointer-events: none; z-index: 1; opacity: 0; filter: blur(15px) brightness(0.9); transform-origin: center right; animation: intenseFloat 6s ease-in-out infinite alternate; transition: opacity 1.5s ease;" class="redirect-bg-logo"><div style="text-align: center; padding: 20px; font-family: 'Unbounded', sans-serif; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10;"><div class="welcome-character-container state-loading revealed redirect-character" style="margin-bottom: 30px; opacity: 0; transform: translateY(-60px) scale(0.9); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);"><div class="char-loader"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div><div class="char-eyes"><div class="char-eye"><div class="char-pupil"></div></div><div class="char-eye"><div class="char-pupil"></div></div></div><div class="char-mouth"></div></div><div class="redirect-text-block" style="opacity: 0; transform: translateY(60px) scale(0.9); filter: blur(10px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;"><h2 style="font-size: 20px; font-weight: 700; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px;">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2><a href="${url}" target="_blank" style="font-size: 14px; color: #38bdf8; text-decoration: none;">${url}</a></div></div>`;
+            overlay.innerHTML = '<img src="images/geo_logo.png" alt="" style="position: absolute; top: 45%; right: -15%; width: 900px; height: auto; pointer-events: none; z-index: 1; opacity: 0; filter: blur(15px) brightness(0.9); transform-origin: center right; animation: intenseFloat 6s ease-in-out infinite alternate; transition: opacity 1.5s ease;" class="redirect-bg-logo"><div style="text-align: center; padding: 20px; font-family: \'Unbounded\', sans-serif; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10;"><div class="welcome-character-container state-loading revealed redirect-character" style="margin-bottom: 30px; opacity: 0; transform: translateY(-60px) scale(0.9); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);"><div class="char-loader"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div><div class="char-eyes"><div class="char-eye"><div class="char-pupil"></div></div><div class="char-eye"><div class="char-pupil"></div></div></div><div class="char-mouth"></div></div><div class="redirect-text-block" style="opacity: 0; transform: translateY(60px) scale(0.9); filter: blur(10px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;"><h2 style="font-size: 20px; font-weight: 700; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px;">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2><a href="' + url + '" target="_blank" style="font-size: 14px; color: #38bdf8; text-decoration: none;">' + url + '</a></div></div>';
             document.body.appendChild(overlay);
             requestAnimationFrame(() => {
                 overlay.style.opacity = '1';
