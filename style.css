@@ -532,31 +532,51 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     /* Убираем анимацию всей страницы */
 }
 
-.auth-form-wrapper {
+.auth-inline-form {
     width: 100%;
     max-width: 320px;
     margin: 20px auto 0 auto;
-    height: 40px;
-    position: relative;
-    overflow: hidden; /* Обрезаем всё, что выходит */
-}
-
-.auth-inline-form {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
     opacity: 1;
     filter: blur(12px);
     pointer-events: none;
-    transition: filter 0.3s ease, opacity 0.3s ease;
+    visibility: hidden;
+    transition: filter 0.3s ease, visibility 0.3s ease;
 }
 
 .auth-inline-form.visible {
     opacity: 1;
     filter: blur(0);
     pointer-events: auto;
-    transition: filter 0.3s ease, opacity 0.3s ease;
+    visibility: visible;
+    transition: filter 0.3s ease, visibility 0.3s ease;
+}
+
+.header-desc {
+    font-size: 13px;
+    color: #9ca3af;
+    line-height: 1.4;
+    padding: 0 10px;
+    transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease, margin 0.3s ease, padding 0.3s ease;
+}
+
+.unbounded-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease, margin 0.3s ease;
+}
+
+.mobile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    width: 100%;
+    transition: margin 0.3s ease;
 }
 
 .auth-input-container {
