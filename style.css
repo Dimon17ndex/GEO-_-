@@ -532,10 +532,19 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     /* Убираем анимацию всей страницы */
 }
 
-.auth-inline-form {
+.auth-form-wrapper {
     width: 100%;
     max-width: 320px;
     margin: 20px auto 0 auto;
+    height: 40px; /* Фиксированная высота — всегда занимает место */
+    position: relative;
+}
+
+.auth-inline-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     opacity: 1;
     filter: blur(12px);
     pointer-events: none;
@@ -543,7 +552,6 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     transition: filter 0.3s ease, visibility 0.3s ease;
 }
 
-/* Видимое состояние */
 .auth-inline-form.visible {
     opacity: 1;
     filter: blur(0);
