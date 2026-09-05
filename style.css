@@ -556,7 +556,11 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     color: #9ca3af;
     line-height: 1.4;
     padding: 0 10px;
-    transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease, margin 0.3s ease, padding 0.3s ease;
+    min-height: 36px; /* Фиксированная высота */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
 }
 
 .unbounded-title {
@@ -565,7 +569,7 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     font-weight: 700;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
-    transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease, margin 0.3s ease;
+    transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
 }
 
 .mobile-header {
@@ -576,7 +580,7 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     margin-bottom: 20px;
     position: relative;
     width: 100%;
-    transition: margin 0.3s ease;
+    min-height: 180px; /* Фиксированная высота header */
 }
 
 .auth-input-container {
