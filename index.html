@@ -423,8 +423,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
             mobileWrapper.classList.add('auth-mode');
 
-            // Показываем строку авторизации с задержкой
+            // Показываем строку авторизации плавно
             if (authInlineForm) {
+                authInlineForm.style.visibility = 'visible';
                 setTimeout(() => {
                     authInlineForm.classList.add('visible');
                 }, 300);
@@ -477,9 +478,14 @@ window.addEventListener('DOMContentLoaded', () => {
             }, 150);
             profileBtn.setAttribute('title', 'Мой geo.geo');
 
-            // Скрываем строку авторизации
+            // Скрываем строку авторизации плавно
             if (authInlineForm) {
                 authInlineForm.classList.remove('visible');
+                
+                // Через 300мс (после анимации blur) скрываем полностью
+                setTimeout(() => {
+                    authInlineForm.style.visibility = 'hidden';
+                }, 300);
             }
 
             headerDesc.classList.add('blur-transition');
