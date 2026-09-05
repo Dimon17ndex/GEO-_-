@@ -30,10 +30,14 @@
             </p>
         </header>
 
-<!-- Форма авторизации (появляется только в режиме авторизации) -->
 <div class="auth-inline-form" id="authInlineForm">
-    <div class="auth-input-container">
+    <div class="auth-input-container" id="authInputContainer">
         <input type="text" id="auth-login-input" class="auth-login-input" placeholder="ваш логин" autocomplete="username">
+        <span class="auth-login-suffix">@geo.geo</span>
+    </div>
+    
+    <div class="auth-login-display" id="authLoginDisplay" style="display: none;">
+        <span class="auth-display-text" id="authDisplayText"></span>
         <span class="auth-login-suffix">@geo.geo</span>
     </div>
 </div>
@@ -101,27 +105,11 @@
             </main>
         </div>
 
-        <!-- Страница "Поиск" -->
-        <div class="page-content" id="page-search">
-            <!-- Контент будет добавлен позже -->
-        </div>
+        <div class="page-content" id="page-search"></div>
+        <div class="page-content" id="page-favorites"></div>
+        <div class="page-content" id="page-profile"></div>
+        <div class="page-content" id="page-menu"></div>
 
-        <!-- Страница "Избранное" -->
-        <div class="page-content" id="page-favorites">
-            <!-- Контент будет добавлен позже -->
-        </div>
-
-        <!-- Страница "Профиль" -->
-        <div class="page-content" id="page-profile">
-            <!-- Контент будет добавлен позже -->
-        </div>
-
-        <!-- Страница "Меню" -->
-        <div class="page-content" id="page-menu">
-            <!-- Контент будет добавлен позже -->
-        </div>
-
-        <!-- Нижняя панель с кнопками и названиями -->
         <nav class="bottom-nav" id="bottomNav">
             <button class="nav-icon-btn active" data-page="page-bot" title="Бот">
                 <div class="nav-icon-wrapper">
@@ -163,7 +151,6 @@
         </nav>
     </div>
 
-    <!-- Затеняющий фон и нижняя выдвижная вкладка -->
     <div class="sheet-backdrop" id="sheetBackdrop">
         <div class="bottom-sheet" id="bottomSheet">
             <div class="sheet-handle-bar" id="sheetHandle">
@@ -208,9 +195,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const unboundedTitle = document.getElementById('unboundedTitle');
     const logoContainer = document.getElementById('logoContainer');
 
-    console.log('Nav buttons found:', navButtons.length);
-    console.log('Page contents found:', pageContents.length);
-
     const pageDescriptions = {
         'page-bot': 'Этот бот проекта GEOГРАФИЯ поможет в навигации по проекту, он работает в связке с Telegram-каналом <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
         'page-search': 'Поиск по разделам и материалам проекта <a href="https://t.me/geo_rus_grafia" class="accent-link" target="_blank">GEOГРАФИЯ</a>',
@@ -220,24 +204,17 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     function switchPage(pageId) {
-        console.log('Switching to:', pageId);
-        
         const currentPage = document.querySelector('.page-content.active');
         const targetPage = document.getElementById(pageId);
-        
         if (!targetPage || currentPage === targetPage) return;
         
         navButtons.forEach(btn => {
-            if (btn.dataset.page === pageId) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+            if (btn.dataset.page === pageId) btn.classList.add('active');
+            else btn.classList.remove('active');
         });
         
         if (currentPage) {
-            const currentElements = currentPage.querySelectorAll('.collapsible-element');
-            currentElements.forEach(el => {
+            currentPage.querySelectorAll('.collapsible-element').forEach(el => {
                 el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
                 el.style.opacity = '0';
                 el.style.filter = 'blur(12px)';
@@ -283,7 +260,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     headerDesc.classList.remove('blur-transition');
                 }, 180);
             }
-            
         }, 200);
     }
 
@@ -302,60 +278,41 @@ window.addEventListener('DOMContentLoaded', () => {
     const tabsIndicator = document.querySelector('.tabs-indicator');
 
     function moveIndicator(btn, instant = false) {
-        if (instant) {
-            tabsIndicator.style.transition = 'none';
-        }
+        if (instant) tabsIndicator.style.transition = 'none';
         tabsIndicator.style.width = btn.offsetWidth + 'px';
         tabsIndicator.style.left = btn.offsetLeft + 'px';
-        
         if (instant) {
             tabsIndicator.offsetHeight;
             tabsIndicator.style.transition = 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         }
     }
 
-    const activeBtn = document.querySelector('.tab-btn.active');
-    if (activeBtn) {
-        moveIndicator(activeBtn, true);
-    }
+    const activeTabBtn = document.querySelector('.tab-btn.active');
+    if (activeTabBtn) moveIndicator(activeTabBtn, true);
 
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetTabId = btn.getAttribute('data-tab');
             const targetContent = document.getElementById(targetTabId);
-
             if (btn.classList.contains('active')) return;
-
             triggerHaptic();
-
             tabBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
             moveIndicator(btn, false);
-
-            const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex' || c.style.display === '');
-
+            const currentContent = Array.from(tabContents).find(c => c.style.display === 'flex');
             if (currentContent && currentContent !== targetContent) {
                 currentContent.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
                 currentContent.style.opacity = '0';
                 currentContent.style.filter = 'blur(12px)';
                 currentContent.style.transform = 'translateY(40px) scale(0.97)';
                 currentContent.style.pointerEvents = 'none';
-
                 setTimeout(() => {
                     currentContent.style.display = 'none';
-                    currentContent.style.transition = '';
-                    currentContent.style.opacity = '';
-                    currentContent.style.filter = '';
-                    currentContent.style.transform = '';
-                    currentContent.style.pointerEvents = '';
-
                     targetContent.style.display = 'flex';
                     targetContent.style.opacity = '0';
                     targetContent.style.filter = 'blur(12px)';
                     targetContent.style.transform = 'translateY(40px) scale(0.97)';
                     targetContent.style.pointerEvents = 'none';
-
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             targetContent.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
@@ -365,30 +322,26 @@ window.addEventListener('DOMContentLoaded', () => {
                             targetContent.style.pointerEvents = 'auto';
                         });
                     });
-
-                    setTimeout(() => {
-                        targetContent.style.transition = '';
-                        targetContent.style.opacity = '';
-                        targetContent.style.filter = '';
-                        targetContent.style.transform = '';
-                        targetContent.style.pointerEvents = '';
-                    }, 500);
-
                 }, 200);
             }
         });
     });
 
-        // ====== ЛОГИКА АВТОРИЗАЦИИ ======
+    // ====== ЛОГИКА АВТОРИЗАЦИИ ======
     const profileBtn = document.getElementById('profileBtn');
     const mobileWrapper = document.querySelector('.mobile-wrapper');
     const authInlineForm = document.getElementById('authInlineForm');
+    const authLoginInput = document.getElementById('auth-login-input');
+    const authInputContainer = document.getElementById('authInputContainer');
+    const authLoginDisplay = document.getElementById('authLoginDisplay');
+    const authDisplayText = document.getElementById('authDisplayText');
     
     const sheetBackdrop = document.getElementById('sheetBackdrop');
     const bottomSheet = document.getElementById('bottomSheet');
     const sheetHandle = document.getElementById('sheetHandle');
 
     let isAuthMode = false;
+    let authTypingTimeout = null;
 
     function openSheet() {
         triggerHaptic();
@@ -404,6 +357,45 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Обработчик ввода логина
+    if (authLoginInput) {
+        authLoginInput.addEventListener('input', () => {
+            const value = authLoginInput.value.trim();
+            if (authTypingTimeout) clearTimeout(authTypingTimeout);
+            
+            if (!value) {
+                authInputContainer.style.display = 'flex';
+                authInputContainer.style.opacity = '1';
+                authInputContainer.style.filter = 'blur(0)';
+                authLoginDisplay.classList.remove('visible');
+                setTimeout(() => {
+                    authLoginDisplay.style.display = 'none';
+                }, 300);
+                return;
+            }
+            
+            authTypingTimeout = setTimeout(() => {
+                authInputContainer.style.transition = 'opacity 0.2s ease, filter 0.2s ease';
+                authInputContainer.style.opacity = '0';
+                authInputContainer.style.filter = 'blur(12px)';
+                
+                setTimeout(() => {
+                    authInputContainer.style.display = 'none';
+                    authInputContainer.style.opacity = '';
+                    authInputContainer.style.filter = '';
+                    authInputContainer.style.transition = '';
+                    
+                    authDisplayText.textContent = value;
+                    authLoginDisplay.style.display = 'flex';
+                    
+                    requestAnimationFrame(() => {
+                        authLoginDisplay.classList.add('visible');
+                    });
+                }, 200);
+            }, 1000);
+        });
+    }
+
     profileBtn.addEventListener('click', (e) => {
         e.preventDefault();
         triggerHaptic();
@@ -412,26 +404,19 @@ window.addEventListener('DOMContentLoaded', () => {
         if (isAuthMode) {
             profileBtn.classList.add('morphing');
             setTimeout(() => {
-                profileBtn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                    </svg>
-                `;
+                profileBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>`;
                 profileBtn.classList.remove('morphing');
             }, 150);
             profileBtn.setAttribute('title', 'Назад');
-
             mobileWrapper.classList.add('auth-mode');
 
-            // Показываем строку авторизации плавно
             if (authInlineForm) {
                 setTimeout(() => {
                     authInlineForm.classList.add('visible');
                 }, 300);
             }
 
-            const activePageElements = document.querySelectorAll('.page-content.active .collapsible-element');
-            activePageElements.forEach(el => {
+            document.querySelectorAll('.page-content.active .collapsible-element').forEach(el => {
                 el.style.transition = 'transform 0.2s ease, opacity 0.15s ease, filter 0.15s ease';
                 el.style.opacity = '0';
                 el.style.filter = 'blur(12px)';
@@ -443,7 +428,6 @@ window.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 headerDesc.innerHTML = 'Авторизуйтесь с вашим внутренним аккаунтом <a href="#" class="accent-link" id="authLink">@geo.geo</a>';
                 headerDesc.classList.remove('blur-transition');
-                
                 document.getElementById('authLink').addEventListener('click', (linkEvent) => {
                     linkEvent.preventDefault();
                     openSheet();
@@ -467,17 +451,11 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             profileBtn.classList.add('morphing');
             setTimeout(() => {
-                profileBtn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
-                    </svg>
-                `;
+                profileBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
                 profileBtn.classList.remove('morphing');
             }, 150);
             profileBtn.setAttribute('title', 'Мой geo.geo');
 
-            // Скрываем строку авторизации плавно
             if (authInlineForm) {
                 authInlineForm.classList.remove('visible');
             }
@@ -503,9 +481,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             setTimeout(() => {
                 mobileWrapper.classList.remove('auth-mode');
-                
-                const activePageElements = document.querySelectorAll('.page-content.active .collapsible-element');
-                activePageElements.forEach(el => {
+                document.querySelectorAll('.page-content.active .collapsible-element').forEach(el => {
                     el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
                     el.style.opacity = '1';
                     el.style.filter = 'blur(0)';
@@ -519,14 +495,10 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     sheetBackdrop.addEventListener('click', (e) => {
-        if (e.target === sheetBackdrop) {
-            closeSheet();
-        }
+        if (e.target === sheetBackdrop) closeSheet();
     });
 
-    sheetHandle.addEventListener('click', () => {
-        closeSheet();
-    });
+    sheetHandle.addEventListener('click', () => closeSheet());
 
     let startY = 0;
     let currentY = 0;
@@ -542,15 +514,12 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!isDragging) return;
         currentY = e.touches[0].clientY;
         let diff = currentY - startY;
-        if (diff > 0) {
-            bottomSheet.style.transform = `translateY(${diff}px)`;
-        }
+        if (diff > 0) bottomSheet.style.transform = `translateY(${diff}px)`;
     }, { passive: true });
 
     bottomSheet.addEventListener('touchend', () => {
         if (!isDragging) return;
         isDragging = false;
-        
         let diff = currentY - startY;
         if (diff > 100) {
             closeSheet();
@@ -562,14 +531,11 @@ window.addEventListener('DOMContentLoaded', () => {
         currentY = 0;
     });
 
-    // ====== ПЕРЕХОД ПО ССЫЛКЕ С АНИМАЦИЕЙ ======
+    // ====== ПЕРЕХОД ПО ССЫЛКЕ ======
     function redirectToLink(url) {
-        if (typeof injectGreetingStyles === 'function') {
-            injectGreetingStyles();
-        }
+        if (typeof injectGreetingStyles === 'function') injectGreetingStyles();
 
-        const allElements = document.querySelectorAll('.page-content.active .collapsible-element, .bottom-nav');
-        allElements.forEach(el => {
+        document.querySelectorAll('.page-content.active .collapsible-element, .bottom-nav').forEach(el => {
             el.style.transition = 'transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease';
             el.style.opacity = '0';
             el.style.filter = 'blur(12px)';
@@ -577,8 +543,7 @@ window.addEventListener('DOMContentLoaded', () => {
             el.style.pointerEvents = 'none';
         });
         
-        const headerElements = [logoContainer, unboundedTitle, headerDesc, profileBtn];
-        headerElements.forEach(el => {
+        [logoContainer, unboundedTitle, headerDesc, profileBtn].forEach(el => {
             if (el) {
                 el.style.transition = 'transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease';
                 el.style.opacity = '0';
@@ -590,84 +555,19 @@ window.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             const overlay = document.createElement('div');
             overlay.id = 'redirectOverlay';
-            overlay.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999;
-                opacity: 0;
-                transition: opacity 0.5s ease;
-                overflow: hidden;
-                background: transparent;
-            `;
+            overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; transition: opacity 0.5s ease; overflow: hidden; background: transparent;';
             
             overlay.innerHTML = `
-                <img src="images/geo_logo.png" alt="" style="
-                    position: absolute;
-                    top: 45%;
-                    right: -15%;
-                    width: 900px;
-                    height: auto;
-                    pointer-events: none;
-                    z-index: 1;
-                    opacity: 0;
-                    filter: blur(15px) brightness(0.9);
-                    transform-origin: center right;
-                    animation: intenseFloat 6s ease-in-out infinite alternate;
-                    transition: opacity 1.5s ease;
-                " class="redirect-bg-logo">
-                
-                <div style="
-                    text-align: center;
-                    padding: 20px;
-                    font-family: 'Unbounded', sans-serif;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    position: relative;
-                    z-index: 10;
-                ">
-                    <div class="welcome-character-container state-loading revealed redirect-character" style="
-                        margin-bottom: 30px;
-                        opacity: 0;
-                        transform: translateY(-60px) scale(0.9);
-                        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-                    ">
-                        <div class="char-loader">
-                            <div class="loader-dot"></div>
-                            <div class="loader-dot"></div>
-                            <div class="loader-dot"></div>
-                        </div>
-                        <div class="char-eyes">
-                            <div class="char-eye"><div class="char-pupil"></div></div>
-                            <div class="char-eye"><div class="char-pupil"></div></div>
-                        </div>
+                <img src="images/geo_logo.png" alt="" style="position: absolute; top: 45%; right: -15%; width: 900px; height: auto; pointer-events: none; z-index: 1; opacity: 0; filter: blur(15px) brightness(0.9); transform-origin: center right; animation: intenseFloat 6s ease-in-out infinite alternate; transition: opacity 1.5s ease;" class="redirect-bg-logo">
+                <div style="text-align: center; padding: 20px; font-family: 'Unbounded', sans-serif; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10;">
+                    <div class="welcome-character-container state-loading revealed redirect-character" style="margin-bottom: 30px; opacity: 0; transform: translateY(-60px) scale(0.9); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
+                        <div class="char-loader"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
+                        <div class="char-eyes"><div class="char-eye"><div class="char-pupil"></div></div><div class="char-eye"><div class="char-pupil"></div></div></div>
                         <div class="char-mouth"></div>
                     </div>
-                    
-                    <div class="redirect-text-block" style="
-                        opacity: 0;
-                        transform: translateY(60px) scale(0.9);
-                        filter: blur(10px);
-                        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
-                    ">
-                        <h2 style="
-                            font-size: 20px;
-                            font-weight: 700;
-                            color: #ffffff;
-                            margin-bottom: 12px;
-                            letter-spacing: -0.5px;
-                        ">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2>
-                        <a href="${url}" target="_blank" style="
-                            font-size: 14px;
-                            color: #38bdf8;
-                            text-decoration: none;
-                        ">${url}</a>
+                    <div class="redirect-text-block" style="opacity: 0; transform: translateY(60px) scale(0.9); filter: blur(10px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;">
+                        <h2 style="font-size: 20px; font-weight: 700; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px;">ПЕРЕБРАСЫВАЕМ ВАС В НАШ СЕРВИС</h2>
+                        <a href="${url}" target="_blank" style="font-size: 14px; color: #38bdf8; text-decoration: none;">${url}</a>
                     </div>
                 </div>
             `;
@@ -676,53 +576,28 @@ window.addEventListener('DOMContentLoaded', () => {
             
             requestAnimationFrame(() => {
                 overlay.style.opacity = '1';
-                
                 const bgLogo = overlay.querySelector('.redirect-bg-logo');
                 const character = overlay.querySelector('.redirect-character');
                 const textBlock = overlay.querySelector('.redirect-text-block');
                 
-                setTimeout(() => {
-                    if (bgLogo) {
-                        bgLogo.style.opacity = '0.25';
-                    }
-                }, 200);
-                
-                setTimeout(() => {
-                    if (character) {
-                        character.style.opacity = '1';
-                        character.style.transform = 'translateY(0) scale(1)';
-                    }
-                }, 100);
-                
-                setTimeout(() => {
-                    if (textBlock) {
-                        textBlock.style.opacity = '1';
-                        textBlock.style.transform = 'translateY(0) scale(1)';
-                        textBlock.style.filter = 'blur(0)';
-                    }
-                }, 250);
+                setTimeout(() => { if (bgLogo) bgLogo.style.opacity = '0.25'; }, 200);
+                setTimeout(() => { if (character) { character.style.opacity = '1'; character.style.transform = 'translateY(0) scale(1)'; } }, 100);
+                setTimeout(() => { if (textBlock) { textBlock.style.opacity = '1'; textBlock.style.transform = 'translateY(0) scale(1)'; textBlock.style.filter = 'blur(0)'; } }, 250);
                 
                 function blinkCharacter() {
                     if (!character || !document.contains(character)) return;
                     character.classList.add('blinking');
-                    setTimeout(() => {
-                        if (character) character.classList.remove('blinking');
-                    }, 120);
+                    setTimeout(() => { if (character) character.classList.remove('blinking'); }, 120);
                 }
-                
                 setTimeout(() => blinkCharacter(), 800);
                 setTimeout(() => blinkCharacter(), 1600);
                 setTimeout(() => blinkCharacter(), 2400);
-                
             });
             
             setTimeout(() => {
                 window.open(url, '_blank');
-                setTimeout(() => {
-                    window.location.reload();
-                }, 500);
+                setTimeout(() => window.location.reload(), 500);
             }, 3000);
-            
         }, 400);
     }
 
