@@ -536,8 +536,9 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     width: 100%;
     max-width: 320px;
     margin: 20px auto 0 auto;
-    height: 40px; /* Фиксированная высота — всегда занимает место */
+    height: 40px;
     position: relative;
+    overflow: hidden; /* Обрезаем всё, что выходит */
 }
 
 .auth-inline-form {
@@ -548,16 +549,14 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     opacity: 1;
     filter: blur(12px);
     pointer-events: none;
-    visibility: hidden;
-    transition: filter 0.3s ease, visibility 0.3s ease;
+    transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
 .auth-inline-form.visible {
     opacity: 1;
     filter: blur(0);
     pointer-events: auto;
-    visibility: visible;
-    transition: filter 0.3s ease, visibility 0.3s ease;
+    transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
 .auth-input-container {
