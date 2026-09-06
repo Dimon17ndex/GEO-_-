@@ -547,7 +547,26 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 
-    
+const listItems = document.querySelectorAll('.list-item');
+
+listItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+        if (e.target.closest('.item-menu-btn')) return;
+        
+        triggerHaptic();
+        
+        // Панель с кнопками уезжает вниз
+        const bottomNav = document.getElementById('bottomNav');
+        if (bottomNav) {
+            bottomNav.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+            bottomNav.style.transform = 'translateY(100px)';
+            bottomNav.style.opacity = '0';
+            bottomNav.style.filter = 'blur(12px)';
+            bottomNav.style.pointerEvents = 'none';
+        }
+    });
+});
+
 });
 </script>
 </body>
