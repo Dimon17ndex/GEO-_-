@@ -547,52 +547,36 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 
-const listItems = document.querySelectorAll('.list-item');
+    // ====== РАСКРЫТИЕ БЛОКА ======
+    const listItems = document.querySelectorAll('.list-item');
 
-listItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-        if (e.target.closest('.item-menu-btn')) return;
-        
-        triggerHaptic();
-        
-        // Панель с кнопками
-        const bottomNav = document.getElementById('bottomNav');
-        if (bottomNav) {
-            bottomNav.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, filter 1.2s ease';
-            bottomNav.style.transform = 'translateX(-50%) translateY(100px)';
-            bottomNav.style.opacity = '0';
-            bottomNav.style.filter = 'blur(12px)';
-            bottomNav.style.pointerEvents = 'none';
-        }
-        
-        // Шапка — анимируем каждый элемент
-        const logoWrapper = document.getElementById('logoContainer');
-        const title = document.getElementById('unboundedTitle');
-        const desc = document.getElementById('headerDesc');
-        const profileBtn = document.getElementById('profileBtn');
-        
-        [logoWrapper, title, desc, profileBtn].forEach(el => {
-            if (el) {
-                // Сбрасываем предыдущие стили
-                el.style.transition = 'none';
-                el.style.transform = 'translateY(0)';
-                el.style.opacity = '1';
-                el.style.filter = 'blur(0)';
-                
-                // Запускаем анимацию
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        el.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, filter 1.2s ease';
-                        el.style.transform = 'translateY(-100vh)';
-                        el.style.opacity = '0';
-                        el.style.filter = 'blur(12px)';
-                        el.style.pointerEvents = 'none';
-                    });
-                });
+    listItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            if (e.target.closest('.item-menu-btn')) return;
+            
+            triggerHaptic();
+            
+            // Панель с кнопками — медленно вниз
+            const bottomNav = document.getElementById('bottomNav');
+            if (bottomNav) {
+                bottomNav.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, filter 1.2s ease';
+                bottomNav.style.transform = 'translateX(-50%) translateY(100px)';
+                bottomNav.style.opacity = '0';
+                bottomNav.style.filter = 'blur(12px)';
+                bottomNav.style.pointerEvents = 'none';
+            }
+            
+            // Шапка — медленно вверх
+            const header = document.querySelector('.mobile-header');
+            if (header) {
+                header.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, filter 1.2s ease';
+                header.style.transform = 'translateY(-100vh)';
+                header.style.opacity = '0';
+                header.style.filter = 'blur(12px)';
+                header.style.pointerEvents = 'none';
             }
         });
     });
-});
 
 });
 </script>
