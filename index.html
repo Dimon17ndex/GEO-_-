@@ -555,21 +555,21 @@ listItems.forEach(item => {
         
         triggerHaptic();
         
-        // Панель с кнопками уезжает строго вниз
+        // Панель с кнопками — нежно уезжает вниз
         const bottomNav = document.getElementById('bottomNav');
         if (bottomNav) {
-            bottomNav.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+            bottomNav.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease, filter 0.8s ease';
             bottomNav.style.transform = 'translateX(-50%) translateY(100px)';
             bottomNav.style.opacity = '0';
             bottomNav.style.filter = 'blur(12px)';
             bottomNav.style.pointerEvents = 'none';
         }
         
-        // Шапка (лого, название, описание) уезжает вверх
+        // Шапка — нежно уезжает вверх
         const headerElements = [logoContainer, unboundedTitle, headerDesc, profileBtn];
-        headerElements.forEach(el => {
+        headerElements.forEach((el, index) => {
             if (el) {
-                el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+                el.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease, filter 0.8s ease';
                 el.style.transform = 'translateY(-100vh)';
                 el.style.opacity = '0';
                 el.style.filter = 'blur(12px)';
