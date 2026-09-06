@@ -251,7 +251,7 @@ html, body {
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Списки */
+/* Списки — делаем скроллируемыми */
 .tab-content {
     width: 100%;
     flex-direction: column;
@@ -259,6 +259,26 @@ html, body {
     transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
     opacity: 1;
     filter: blur(0);
+    
+    /* Скролл */
+    max-height: calc(100vh - 280px); /* Ограничиваем высоту */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 80px; /* Отступ снизу, чтобы контент не скрывался за панелью */
+    
+    /* Скрываем скроллбар */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.tab-content::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-content.fade-out {
+    opacity: 0;
+    filter: blur(8px);
 }
 
 .tab-content.fade-out {
