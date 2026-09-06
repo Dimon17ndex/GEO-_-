@@ -555,11 +555,11 @@ listItems.forEach(item => {
         
         triggerHaptic();
         
-        // Панель с кнопками уезжает вниз
+        // Панель с кнопками уезжает строго вниз
         const bottomNav = document.getElementById('bottomNav');
         if (bottomNav) {
             bottomNav.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
-            bottomNav.style.transform = 'translateY(100px)';
+            bottomNav.style.transform = 'translateX(-50%) translateY(100px)';
             bottomNav.style.opacity = '0';
             bottomNav.style.filter = 'blur(12px)';
             bottomNav.style.pointerEvents = 'none';
