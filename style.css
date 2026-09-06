@@ -777,12 +777,11 @@ html, body {
     flex-shrink: 0;
 }
 
-/* Вкладки — не сжимаются */
 #page-bot .tabs-row {
     flex-shrink: 0;
     z-index: 10;
     position: relative;
-    background: #070707;
+    background: transparent;
 }
 
 /* Списки — скроллируемая область */
