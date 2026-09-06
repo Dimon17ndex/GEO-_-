@@ -253,7 +253,7 @@ html, body {
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Списки — скроллируемая область */
+/* Списки */
 .tab-content {
     width: 100%;
     flex-direction: column;
@@ -261,21 +261,6 @@ html, body {
     transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
     opacity: 1;
     filter: blur(0);
-    
-    /* Скролл */
-    max-height: calc(100vh - 250px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 80px;
-    
-    /* Скрываем скроллбар */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-.tab-content::-webkit-scrollbar {
-    display: none;
 }
 
 .tab-content.fade-out {
@@ -749,32 +734,45 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     transform: scale(0.92);
 }
 
-/* Принудительно ограничиваем высоту и добавляем скролл */
-#tab-navigation,
-#tab-questions {
-    max-height: calc(100vh - 300px) !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding-bottom: 90px !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
+/* Фиксируем всю страницу — запрещаем скролл */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Запрещаем скролл всей страницы */
+    user-select: none;
+    background: radial-gradient(circle at center, #1C1C1C 0%, #070707 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #ffffff;
 }
 
-#tab-navigation::-webkit-scrollbar,
-#tab-questions::-webkit-scrollbar {
-    display: none !important;
+/* Контейнер страницы Бот */
+#page-bot {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-/* Линия вкладок поверх блоков */
-.tabs-row {
-    z-index: 10 !important;
-    position: relative !important;
-    background: #070707 !important;
+/* Область скролла — только блоки списка */
+#page-bot .tab-content {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+    transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+    opacity: 1;
+    filter: blur(0);
+    
+    /* Скролл */
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 20px;
+    
+    /* Скрываем скроллбар */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-#tab-navigation,
-#tab-questions {
-    max-height: 400px !important;
-    overflow-y: auto !important;
+#page-bot .tab-content::-webkit-scrollbar {
+    display: none;
 }
