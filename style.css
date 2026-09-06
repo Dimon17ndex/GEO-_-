@@ -277,15 +277,13 @@ html, body {
     gap: 12px;
 }
 
-/* Подсветка блоков при наведении (только ПК) */
 @media (hover: hover) {
     .list-item {
-        transition: background 0.25s ease, transform 0.25s ease;
+        transition: background 0.25s ease;
     }
     
     .list-item:hover {
         background: rgba(255, 255, 255, 0.08);
-        transform: scale(1.02);
     }
 }
 
