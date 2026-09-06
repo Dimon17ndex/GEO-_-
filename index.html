@@ -547,7 +547,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 
-    // ====== РАСКРЫТИЕ БЛОКА ======
+        // ====== РАСКРЫТИЕ БЛОКА ======
     const listItems = document.querySelectorAll('.list-item');
 
     listItems.forEach(item => {
@@ -566,15 +566,25 @@ window.addEventListener('DOMContentLoaded', () => {
                 bottomNav.style.pointerEvents = 'none';
             }
             
-            // Шапка — медленно вверх
-            const header = document.querySelector('.mobile-header');
-            if (header) {
-                header.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, filter 1.2s ease';
-                header.style.transform = 'translateY(-100vh)';
-                header.style.opacity = '0';
-                header.style.filter = 'blur(12px)';
-                header.style.pointerEvents = 'none';
-            }
+            // Шапка — медленно вверх, каждый элемент с blur
+            const logoWrapper = document.getElementById('logoContainer');
+            const title = document.getElementById('unboundedTitle');
+            const desc = document.getElementById('headerDesc');
+            const profileBtn = document.getElementById('profileBtn');
+            
+            [logoWrapper, title, desc, profileBtn].forEach((el, index) => {
+                if (el) {
+                    el.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, filter 1.2s ease';
+                    
+                    // Небольшая задержка между элементами для красоты
+                    setTimeout(() => {
+                        el.style.transform = 'translateY(-100vh)';
+                        el.style.opacity = '0';
+                        el.style.filter = 'blur(12px)';
+                        el.style.pointerEvents = 'none';
+                    }, index * 80);
+                }
+            });
         });
     });
 
