@@ -585,15 +585,25 @@ window.addEventListener('DOMContentLoaded', () => {
                 if (el) {
                     el.style.setProperty('transition', 'transform 2s cubic-bezier(0.16, 1, 0.3, 1), opacity 2s ease, filter 2s ease', 'important');
                     
-                    // Используем translateY(-200vh) — гарантированно за экран
                     setTimeout(() => {
-                        el.style.setProperty('transform', 'translateY(-200vh)', 'important');
+                        el.style.setProperty('transform', 'translateY(-100vh)', 'important');
                         el.style.setProperty('opacity', '0', 'important');
                         el.style.setProperty('filter', 'blur(12px)', 'important');
                         el.style.setProperty('pointer-events', 'none', 'important');
                     }, index * 80);
                 }
             });
+            
+            // Нажатый блок — плавно поднимается вверх к краю экрана
+            const rect = item.getBoundingClientRect();
+            const moveUp = rect.top - 20; // 20px от верха
+            
+            item.style.transition = 'transform 2s cubic-bezier(0.16, 1, 0.3, 1)';
+            item.style.zIndex = '100';
+            
+            setTimeout(() => {
+                item.style.transform = `translateY(-${moveUp}px)`;
+            }, 200);
         });
     });
 
