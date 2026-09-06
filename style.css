@@ -216,13 +216,15 @@ html, body {
     height: 20px;
 }
 
-/* Вкладки */
+/* Вкладки (Навигация/Вопросы) — закреплены сверху */
 .tabs-row {
     width: 100%;
     display: flex;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 12px;
     position: relative;
+    z-index: 10; /* Поверх скроллящихся блоков */
+    background: #070707; /* Фон, чтобы блоки скрывались под линией */
 }
 
 .tab-btn {
@@ -251,7 +253,7 @@ html, body {
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Списки — скроллируемые блоки */
+/* Списки — скроллируемая область */
 .tab-content {
     width: 100%;
     flex-direction: column;
@@ -260,13 +262,11 @@ html, body {
     opacity: 1;
     filter: blur(0);
     
-    /* Скролл только для блоков */
-    max-height: calc(100vh - 280px);
+    /* Скролл */
+    max-height: calc(100vh - 250px);
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    
-    /* Отступ снизу для нижней панели */
     padding-bottom: 80px;
     
     /* Скрываем скроллбар */
