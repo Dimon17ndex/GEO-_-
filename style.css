@@ -251,7 +251,7 @@ html, body {
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Списки */
+/* Списки — скроллируемые блоки */
 .tab-content {
     width: 100%;
     flex-direction: column;
@@ -259,48 +259,28 @@ html, body {
     transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
     opacity: 1;
     filter: blur(0);
-}
-
-.tab-content.fade-out {
-    opacity: 0;
-    filter: blur(8px);
-}
-
-/* Контейнер для списков на странице Бот */
-#page-bot {
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 260px); /* Высота между шапкой и панелью */
-}
-
-/* Вкладки (Навигация/Вопросы) — закреплены сверху */
-#page-bot .tabs-row {
-    flex-shrink: 0; /* Не сжимается */
-}
-
-/* Списки — скроллируемая область */
-#page-bot .tab-content {
-    width: 100%;
-    flex-direction: column;
-    gap: 8px;
-    transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
-    opacity: 1;
-    filter: blur(0);
     
-    /* Скролл */
-    flex: 1;
+    /* Скролл только для блоков */
+    max-height: calc(100vh - 280px);
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 20px;
+    
+    /* Отступ снизу для нижней панели */
+    padding-bottom: 80px;
     
     /* Скрываем скроллбар */
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
 
-#page-bot .tab-content::-webkit-scrollbar {
+.tab-content::-webkit-scrollbar {
     display: none;
+}
+
+.tab-content.fade-out {
+    opacity: 0;
+    filter: blur(8px);
 }
 
 .list-item {
