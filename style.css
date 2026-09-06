@@ -277,6 +277,16 @@ html, body {
     gap: 12px;
 }
 
+@media (hover: hover) {
+    .list-item {
+        transition: background 0.25s ease;
+    }
+    
+    .list-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+}
+
 .item-icon-box {
     width: 40px;
     height: 40px;
