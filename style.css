@@ -772,3 +772,9 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     position: relative !important;
     background: #070707 !important;
 }
+
+#tab-navigation,
+#tab-questions {
+    max-height: 400px !important;
+    overflow-y: auto !important;
+}
