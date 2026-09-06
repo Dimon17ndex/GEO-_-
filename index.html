@@ -547,7 +547,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 
-            // ====== РАСКРЫТИЕ БЛОКА ======
+                // ====== РАСКРЫТИЕ БЛОКА ======
     const listItems = document.querySelectorAll('.list-item');
 
     listItems.forEach(item => {
@@ -566,7 +566,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 bottomNav.style.pointerEvents = 'none';
             }
             
-            // Шапка — медленно вверх
+            // Шапка — ещё медленнее вверх
             const logoWrapper = document.getElementById('logoContainer');
             const title = document.getElementById('unboundedTitle');
             const desc = document.getElementById('headerDesc');
@@ -574,8 +574,8 @@ window.addEventListener('DOMContentLoaded', () => {
             
             [logoWrapper, title, desc, profileBtn].forEach((el, index) => {
                 if (el) {
-                    // Принудительно переопределяем transition
-                    el.style.setProperty('transition', 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, filter 1.2s ease', 'important');
+                    // Время увеличено до 2s
+                    el.style.setProperty('transition', 'transform 2s cubic-bezier(0.16, 1, 0.3, 1), opacity 2s ease, filter 2s ease', 'important');
                     
                     setTimeout(() => {
                         el.style.setProperty('transform', 'translateY(-100vh)', 'important');
