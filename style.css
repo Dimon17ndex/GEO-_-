@@ -734,25 +734,41 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     transform: scale(0.92);
 }
 
-/* Фиксируем всю страницу — запрещаем скролл */
+/* Фиксируем страницу */
 html, body {
     width: 100%;
     height: 100%;
-    overflow: hidden; /* Запрещаем скролл всей страницы */
-    user-select: none;
-    background: radial-gradient(circle at center, #1C1C1C 0%, #070707 100%);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    color: #ffffff;
+    overflow: hidden !important;
 }
 
-/* Контейнер страницы Бот */
-#page-bot {
+/* Обёртка */
+.mobile-wrapper {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    align-items: center;
+    padding: 24px 16px;
+    max-width: 480px;
+    margin: 0 auto;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Область скролла — только блоки списка */
+/* Страница Бот */
+#page-bot {
+    display: flex !important;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+}
+
+/* Поиск и вкладки — закреплены */
+#page-bot .search-section,
+#page-bot .tabs-row {
+    flex-shrink: 0;
+}
+
+/* Списки — скроллируемая область */
 #page-bot .tab-content {
     width: 100%;
     flex-direction: column;
@@ -763,10 +779,11 @@ html, body {
     
     /* Скролл */
     flex: 1;
-    overflow-y: auto;
+    overflow-y: auto !important;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     padding-bottom: 20px;
+    min-height: 0;
     
     /* Скрываем скроллбар */
     scrollbar-width: none;
