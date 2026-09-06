@@ -566,16 +566,14 @@ listItems.forEach(item => {
         }
         
         // Шапка — медленно уезжает вверх
-        const headerElements = [logoContainer, unboundedTitle, headerDesc, profileBtn];
-        headerElements.forEach((el, index) => {
-            if (el) {
-                el.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, filter 1.2s ease';
-                el.style.transform = 'translateY(-100vh)';
-                el.style.opacity = '0';
-                el.style.filter = 'blur(12px)';
-                el.style.pointerEvents = 'none';
-            }
-        });
+        const header = document.querySelector('.mobile-header');
+        if (header) {
+            header.style.transition = 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, filter 1.2s ease';
+            header.style.transform = 'translateY(-100vh)';
+            header.style.opacity = '0';
+            header.style.filter = 'blur(12px)';
+            header.style.pointerEvents = 'none';
+        }
     });
 });
 
