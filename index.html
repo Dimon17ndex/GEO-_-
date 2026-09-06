@@ -547,6 +547,46 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 });
+
+// ====== РАСКРЫТИЕ БЛОКА ======
+const listItems = document.querySelectorAll('.list-item');
+
+listItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+        // Игнорируем клик по кнопке "•••"
+        if (e.target.closest('.item-menu-btn')) return;
+        
+        triggerHaptic();
+        
+        const rect = item.getBoundingClientRect();
+        const allElements = document.querySelectorAll('.page-content.active .collapsible-element');
+        
+        allElements.forEach(el => {
+            const elRect = el.getBoundingClientRect();
+            
+            if (elRect.bottom <= rect.top) {
+                // Элементы выше нажатого блока — уезжают вверх
+                el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+                el.style.transform = 'translateY(-100vh)';
+                el.style.opacity = '0';
+                el.style.filter = 'blur(12px)';
+                el.style.pointerEvents = 'none';
+            } else if (elRect.top >= rect.bottom) {
+                // Элементы ниже нажатого блока — уезжают вниз
+                el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, filter 0.3s ease';
+                el.style.transform = 'translateY(100vh)';
+                el.style.opacity = '0';
+                el.style.filter = 'blur(12px)';
+                el.style.pointerEvents = 'none';
+            }
+        });
+        
+        // Сам нажатый блок — плавно перемещается вверх
+        item.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        item.style.transform = `translateY(-${rect.top - 20}px)`;
+        item.style.zIndex = '100';
+    });
+});
 </script>
 </body>
 </html>
