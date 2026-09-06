@@ -782,14 +782,17 @@ html, body {
     overflow: hidden;
 }
 
-/* Поиск — не сжимается */
+/* Поиск — поверх скроллящихся блоков */
 #page-bot .search-section {
     flex-shrink: 0;
+    z-index: 20;
+    position: relative;
 }
 
+/* Вкладки — поверх скроллящихся блоков */
 #page-bot .tabs-row {
     flex-shrink: 0;
-    z-index: 10;
+    z-index: 20;
     position: relative;
     background: transparent;
 }
@@ -818,6 +821,8 @@ html, body {
 
 #page-bot .tab-content::-webkit-scrollbar {
     display: none;
+    z-index: 1;
+    position: relative;
 }
 
 /* Контекстное меню */
