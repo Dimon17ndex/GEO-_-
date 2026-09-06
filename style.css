@@ -734,11 +734,18 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
     transform: scale(0.92);
 }
 
-/* Фиксируем страницу */
+/* ====== СКРОЛЛ ТОЛЬКО ДЛЯ БЛОКОВ СПИСКА ====== */
+
+/* Фиксируем всю страницу */
 html, body {
     width: 100%;
     height: 100%;
     overflow: hidden !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 /* Обёртка */
@@ -750,7 +757,9 @@ html, body {
     max-width: 480px;
     margin: 0 auto;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
+    position: relative;
 }
 
 /* Страница Бот */
@@ -760,12 +769,20 @@ html, body {
     flex: 1;
     min-height: 0;
     width: 100%;
+    overflow: hidden;
 }
 
-/* Поиск и вкладки — закреплены */
-#page-bot .search-section,
+/* Поиск — не сжимается */
+#page-bot .search-section {
+    flex-shrink: 0;
+}
+
+/* Вкладки — не сжимаются */
 #page-bot .tabs-row {
     flex-shrink: 0;
+    z-index: 10;
+    position: relative;
+    background: #070707;
 }
 
 /* Списки — скроллируемая область */
@@ -779,11 +796,11 @@ html, body {
     
     /* Скролл */
     flex: 1;
+    min-height: 0;
     overflow-y: auto !important;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 20px;
-    min-height: 0;
+    padding-bottom: 100px;
     
     /* Скрываем скроллбар */
     scrollbar-width: none;
