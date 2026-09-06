@@ -748,3 +748,27 @@ body:has(.mobile-wrapper.auth-mode) .bottom-nav {
 .auth-edit-btn:active {
     transform: scale(0.92);
 }
+
+/* Принудительно ограничиваем высоту и добавляем скролл */
+#tab-navigation,
+#tab-questions {
+    max-height: calc(100vh - 300px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 90px !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+#tab-navigation::-webkit-scrollbar,
+#tab-questions::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* Линия вкладок поверх блоков */
+.tabs-row {
+    z-index: 10 !important;
+    position: relative !important;
+    background: #070707 !important;
+}
