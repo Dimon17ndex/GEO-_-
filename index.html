@@ -547,7 +547,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 
-                                        // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
+                                            // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
     const listItems = document.querySelectorAll('.list-item');
 
     listItems.forEach(item => {
@@ -556,16 +556,8 @@ window.addEventListener('DOMContentLoaded', () => {
             
             triggerHaptic();
             
-            // Панель с кнопками — исчезает
+            // Все элементы исчезают одновременно
             const bottomNav = document.getElementById('bottomNav');
-            if (bottomNav) {
-                bottomNav.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
-                bottomNav.style.opacity = '0';
-                bottomNav.style.filter = 'blur(12px)';
-                bottomNav.style.pointerEvents = 'none';
-            }
-            
-            // Шапка, поиск, вкладки — исчезают
             const logoWrapper = document.getElementById('logoContainer');
             const title = document.getElementById('unboundedTitle');
             const desc = document.getElementById('headerDesc');
@@ -573,29 +565,18 @@ window.addEventListener('DOMContentLoaded', () => {
             const searchSection = document.querySelector('.search-section');
             const tabsRow = document.querySelector('.tabs-row');
             
-            const elementsToHide = [
-                logoWrapper, title, desc, profileBtn, searchSection, tabsRow
+            const allElements = [
+                bottomNav, logoWrapper, title, desc, profileBtn, searchSection, tabsRow, item
             ];
             
-            elementsToHide.forEach((el, index) => {
+            allElements.forEach(el => {
                 if (el) {
                     el.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
-                    
-                    setTimeout(() => {
-                        el.style.setProperty('opacity', '0', 'important');
-                        el.style.setProperty('filter', 'blur(12px)', 'important');
-                        el.style.setProperty('pointer-events', 'none', 'important');
-                    }, index * 40);
+                    el.style.setProperty('opacity', '0', 'important');
+                    el.style.setProperty('filter', 'blur(12px)', 'important');
+                    el.style.setProperty('pointer-events', 'none', 'important');
                 }
             });
-            
-            // Сам нажатый блок — тоже исчезает с blur
-            item.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
-            setTimeout(() => {
-                item.style.setProperty('opacity', '0', 'important');
-                item.style.setProperty('filter', 'blur(12px)', 'important');
-                item.style.setProperty('pointer-events', 'none', 'important');
-            }, 200);
         });
     });
 
