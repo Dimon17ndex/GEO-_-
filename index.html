@@ -547,7 +547,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 
-                                                    // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
+                                                        // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
     const listItems = document.querySelectorAll('.list-item');
 
     listItems.forEach(item => {
@@ -570,7 +570,7 @@ window.addEventListener('DOMContentLoaded', () => {
             clone.style.opacity = '0';
             clone.style.filter = 'blur(12px)';
             clone.style.transform = 'scale(0.97)';
-            clone.style.transition = 'opacity 0.6s ease, filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+            clone.style.transition = 'opacity 0.6s ease, filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
             clone.style.margin = '0';
             
             document.body.appendChild(clone);
@@ -603,6 +603,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 clone.style.filter = 'blur(0)';
                 clone.style.transform = 'scale(1)';
             }, 300);
+            
+            // После появления — нежно поднимается вверх к краю экрана
+            setTimeout(() => {
+                clone.style.top = '20px';
+            }, 1200);
         });
     });
 });
