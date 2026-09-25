@@ -547,7 +547,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 
-                                // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
+                                    // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
     const listItems = document.querySelectorAll('.list-item');
 
     listItems.forEach(item => {
@@ -559,7 +559,7 @@ window.addEventListener('DOMContentLoaded', () => {
             // Панель с кнопками — исчезает
             const bottomNav = document.getElementById('bottomNav');
             if (bottomNav) {
-                bottomNav.style.transition = 'opacity 1.2s ease, filter 1.2s ease';
+                bottomNav.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
                 bottomNav.style.opacity = '0';
                 bottomNav.style.filter = 'blur(12px)';
                 bottomNav.style.pointerEvents = 'none';
@@ -575,6 +575,29 @@ window.addEventListener('DOMContentLoaded', () => {
             
             const elementsToHide = [
                 logoWrapper, title, desc, profileBtn, searchSection, tabsRow
+            ];
+            
+            elementsToHide.forEach((el, index) => {
+                if (el) {
+                    el.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
+                    
+                    setTimeout(() => {
+                        el.style.setProperty('opacity', '0', 'important');
+                        el.style.setProperty('filter', 'blur(12px)', 'important');
+                        el.style.setProperty('pointer-events', 'none', 'important');
+                    }, index * 40);
+                }
+            });
+            
+            // Сам нажатый блок — тоже исчезает с blur
+            item.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
+            setTimeout(() => {
+                item.style.setProperty('opacity', '0', 'important');
+                item.style.setProperty('filter', 'blur(12px)', 'important');
+                item.style.setProperty('pointer-events', 'none', 'important');
+            }, 200);
+        });
+    });     logoWrapper, title, desc, profileBtn, searchSection, tabsRow
             ];
             
             elementsToHide.forEach((el, index) => {
