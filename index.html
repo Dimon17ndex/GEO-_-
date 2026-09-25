@@ -547,7 +547,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 
-                                                        // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
+                                                            // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
     const listItems = document.querySelectorAll('.list-item');
 
     listItems.forEach(item => {
@@ -604,10 +604,52 @@ window.addEventListener('DOMContentLoaded', () => {
                 clone.style.transform = 'scale(1)';
             }, 300);
             
-            // После появления — нежно поднимается вверх к краю экрана
+            // Копия поднимается вверх
             setTimeout(() => {
                 clone.style.top = '20px';
             }, 1200);
+            
+            // Белый текст увеличивается, подпись исчезает
+            setTimeout(() => {
+                // Скрываем иконку
+                const iconBox = clone.querySelector('.item-icon-box');
+                if (iconBox) {
+                    iconBox.style.transition = 'opacity 0.6s ease, filter 0.6s ease, width 0.6s ease, margin 0.6s ease';
+                    iconBox.style.opacity = '0';
+                    iconBox.style.filter = 'blur(12px)';
+                    setTimeout(() => {
+                        iconBox.style.display = 'none';
+                    }, 600);
+                }
+                
+                // Скрываем подпись
+                const subtitle = clone.querySelector('.item-subtitle');
+                if (subtitle) {
+                    subtitle.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
+                    subtitle.style.opacity = '0';
+                    subtitle.style.filter = 'blur(12px)';
+                }
+                
+                // Скрываем кнопку меню
+                const menuBtn = clone.querySelector('.item-menu-btn');
+                if (menuBtn) {
+                    menuBtn.style.transition = 'opacity 0.6s ease';
+                    menuBtn.style.opacity = '0';
+                }
+                
+                // Увеличиваем белый текст и центрируем
+                const titleEl = clone.querySelector('.item-title');
+                const infoEl = clone.querySelector('.item-info');
+                if (titleEl && infoEl) {
+                    titleEl.style.transition = 'font-size 0.6s ease, transform 0.6s ease';
+                    infoEl.style.transition = 'align-items 0.6s ease';
+                    
+                    titleEl.style.fontSize = '22px';
+                    titleEl.style.textAlign = 'center';
+                    infoEl.style.alignItems = 'center';
+                    infoEl.style.justifyContent = 'center';
+                }
+            }, 2400);
         });
     });
 });
