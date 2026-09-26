@@ -609,9 +609,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 clone.style.top = '20px';
             }, 1200);
             
-                                                // После подъёма: подпись исчезает, текст увеличивается
+                                                            // После подъёма: подпись исчезает, текст увеличивается, стрелочка появляется
             setTimeout(() => {
-                // Скрываем только подпись
+                // Скрываем подпись
                 const subtitle = clone.querySelector('.item-subtitle');
                 if (subtitle) {
                     subtitle.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
@@ -619,7 +619,21 @@ window.addEventListener('DOMContentLoaded', () => {
                     subtitle.style.filter = 'blur(12px)';
                 }
                 
-                // Белый текст — просто увеличиваем
+                // Кнопка «•••» — скрываем и заменяем на стрелочку
+                const menuBtn = clone.querySelector('.item-menu-btn');
+                if (menuBtn) {
+                    menuBtn.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
+                    menuBtn.style.opacity = '0';
+                    menuBtn.style.filter = 'blur(12px)';
+                    
+                    setTimeout(() => {
+                        menuBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 22px; height: 22px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
+                        menuBtn.style.opacity = '1';
+                        menuBtn.style.filter = 'blur(0)';
+                    }, 300);
+                }
+                
+                // Белый текст — увеличиваем
                 const titleEl = clone.querySelector('.item-title');
                 if (titleEl) {
                     titleEl.style.transition = 'font-size 0.6s ease';
