@@ -347,6 +347,7 @@ window.addEventListener('DOMContentLoaded', () => {
         triggerHaptic();
         sheetBackdrop.classList.add('active');
     }
+    
     function closeSheet() {
         triggerHaptic();
         sheetBackdrop.classList.remove('active');
@@ -354,6 +355,20 @@ window.addEventListener('DOMContentLoaded', () => {
             bottomSheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
             bottomSheet.style.transform = '';
         }
+        
+        // Сбрасываем заголовок и текст через 350мс (после закрытия)
+        setTimeout(() => {
+            const sheetTitle = document.querySelector('.sheet-title');
+            const sheetText = document.querySelector('.sheet-text');
+            
+            if (sheetTitle) {
+                sheetTitle.textContent = 'Аккаунт @geo.geo';
+            }
+            
+            if (sheetText) {
+                sheetText.textContent = 'Здесь будет находиться информация и настройки вашего аккаунта внутри проекта GEOГРАФИЯ.';
+            }
+        }, 350);
     }
 
     function showLoginDisplay(value) {
@@ -825,7 +840,11 @@ window.addEventListener('DOMContentLoaded', () => {
                         const sheetTitle = document.querySelector('.sheet-title');
                         const sheetText = document.querySelector('.sheet-text');
                         
-                                                if (sheetText) {
+                        if (sheetTitle) {
+                            sheetTitle.textContent = 'Почему проект GEOГРАФИЯ приостановлен в разработке?';
+                        }
+                        
+                        if (sheetText) {
                             sheetText.innerHTML = `
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px; margin: 0 auto 16px auto; display: block; color: #9ca3af;">
                                     <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
