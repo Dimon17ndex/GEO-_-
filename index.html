@@ -656,20 +656,31 @@ listItems.forEach(item => {
                 });
             }
             
-            // Текст увеличивается
             const titleEl = clone.querySelector('.item-title');
+            const infoEl = clone.querySelector('.item-info');
+            
+            // 1. Плавно скрываем текст
             if (titleEl) {
-                titleEl.style.transition = 'font-size 0.6s ease';
-                titleEl.style.fontSize = '22px';
+                titleEl.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
+                titleEl.style.opacity = '0';
+                titleEl.style.filter = 'blur(8px)';
             }
             
-            // Центрируем текст внутри item-info
-            const infoEl = clone.querySelector('.item-info');
-            if (infoEl) {
-                infoEl.style.transition = 'justify-content 0.6s ease';
-                infoEl.style.justifyContent = 'center';
-                infoEl.style.height = '100%';
-            }
+            // 2. Через 400мс — показываем текст заново, но уже центрированным
+            setTimeout(() => {
+                if (infoEl) {
+                    infoEl.style.transition = 'none';
+                    infoEl.style.justifyContent = 'center';
+                    infoEl.style.height = '100%';
+                }
+                
+                if (titleEl) {
+                    titleEl.style.transition = 'opacity 0.4s ease, filter 0.4s ease, font-size 0.4s ease';
+                    titleEl.style.fontSize = '22px';
+                    titleEl.style.opacity = '1';
+                    titleEl.style.filter = 'blur(0)';
+                }
+            }, 400);
             
             // Квадрат с лого — убираем фон, границы, размеры
             const iconBox = clone.querySelector('.item-icon-box');
