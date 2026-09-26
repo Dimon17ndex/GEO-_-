@@ -573,10 +573,11 @@ window.addEventListener('DOMContentLoaded', () => {
             clone.style.transition = 'opacity 0.6s ease, filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
             clone.style.margin = '0';
             
-            // Сразу убираем «•••» и ставим стрелочку (скрытую)
+                        // Сразу убираем «•••» и ставим стрелочку (скрытую)
             const cloneMenuBtn = clone.querySelector('.item-menu-btn');
             if (cloneMenuBtn) {
-                cloneMenuBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 22px; height: 22px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
+                cloneMenuBtn.className = 'clone-arrow-btn';
+                cloneMenuBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
                 cloneMenuBtn.style.opacity = '0';
                 cloneMenuBtn.style.filter = 'blur(12px)';
                 cloneMenuBtn.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
@@ -627,7 +628,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     subtitle.style.filter = 'blur(12px)';
                 }
                 
-                if (cloneMenuBtn) {
+                                if (cloneMenuBtn) {
                     cloneMenuBtn.style.opacity = '1';
                     cloneMenuBtn.style.filter = 'blur(0)';
                     
@@ -641,7 +642,6 @@ window.addEventListener('DOMContentLoaded', () => {
                         ev.stopPropagation();
                         triggerHaptic();
                         
-                        // Скрываем копию
                         clone.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
                         clone.style.opacity = '0';
                         clone.style.filter = 'blur(12px)';
@@ -649,7 +649,6 @@ window.addEventListener('DOMContentLoaded', () => {
                         setTimeout(() => {
                             clone.remove();
                             
-                            // Возвращаем все элементы
                             allElements.forEach(el => {
                                 if (el) {
                                     el.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
