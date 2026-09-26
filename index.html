@@ -547,7 +547,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 
-                                                                // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
+                                                                    // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
     const listItems = document.querySelectorAll('.list-item');
 
     listItems.forEach(item => {
@@ -627,10 +627,39 @@ window.addEventListener('DOMContentLoaded', () => {
                     subtitle.style.filter = 'blur(12px)';
                 }
                 
-                // Стрелочка появляется
                 if (cloneMenuBtn) {
                     cloneMenuBtn.style.opacity = '1';
                     cloneMenuBtn.style.filter = 'blur(0)';
+                    
+                    // Делаем стрелочку кликабельной
+                    clone.style.pointerEvents = 'auto';
+                    cloneMenuBtn.style.pointerEvents = 'auto';
+                    cloneMenuBtn.style.cursor = 'pointer';
+                    
+                    // Обработчик клика на стрелочку — возвращаем всё обратно
+                    cloneMenuBtn.addEventListener('click', (ev) => {
+                        ev.stopPropagation();
+                        triggerHaptic();
+                        
+                        // Скрываем копию
+                        clone.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
+                        clone.style.opacity = '0';
+                        clone.style.filter = 'blur(12px)';
+                        
+                        setTimeout(() => {
+                            clone.remove();
+                            
+                            // Возвращаем все элементы
+                            allElements.forEach(el => {
+                                if (el) {
+                                    el.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
+                                    el.style.setProperty('opacity', '1', 'important');
+                                    el.style.setProperty('filter', 'blur(0)', 'important');
+                                    el.style.setProperty('pointer-events', 'auto', 'important');
+                                }
+                            });
+                        }, 600);
+                    });
                 }
                 
                 // Текст увеличивается
