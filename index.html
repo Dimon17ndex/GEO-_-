@@ -614,7 +614,7 @@ listItems.forEach(item => {
             clone.style.top = '20px';
         }, 600);
         
-        // Подпись исчезает, стрелочка появляется, текст увеличивается
+        // Подпись исчезает, стрелочка появляется, текст увеличивается + кнопка растягивается
         setTimeout(() => {
             const subtitle = clone.querySelector('.item-subtitle');
             if (subtitle) {
@@ -660,6 +660,14 @@ listItems.forEach(item => {
                 titleEl.style.transition = 'font-size 0.6s ease';
                 titleEl.style.fontSize = '22px';
             }
+            
+            // Кнопка растягивается — становится верхней вкладкой
+            clone.style.transition = 'left 0.6s cubic-bezier(0.16, 1, 0.3, 1), width 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s ease, padding 0.6s ease';
+            clone.style.left = '0px';
+            clone.style.width = '100vw';
+            clone.style.top = '0px';
+            clone.style.borderRadius = '0 0 20px 20px';
+            clone.style.padding = '16px 20px';
         }, 1800);
     });
 });
