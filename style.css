@@ -900,3 +900,52 @@ html, body {
     width: 22px;
     height: 22px;
 }
+
+/* Копия блока — без подсветки */
+.list-item.clone-item {
+    background: rgba(255, 255, 255, 0.04);
+    cursor: default;
+}
+
+/* Копия — выравниваем содержимое по центру */
+.list-item.clone-item {
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Центрируем текст по вертикали */
+.list-item.clone-item .item-info {
+    justify-content: center;
+}
+
+@media (hover: hover) {
+    .list-item.clone-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+    }
+}
+
+/* Стрелочка в копии — как profile-btn */
+.clone-arrow-btn {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    padding: 0;
+    margin: 0;
+}
+
+.clone-arrow-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.clone-arrow-btn svg {
+    width: 22px;
+    height: 22px;
+}
