@@ -654,19 +654,23 @@ listItems.forEach(item => {
                 });
             }
             
+            // Центрируем весь блок по вертикали (лого + текст на одной линии)
+            clone.style.transition += ', align-items 0.6s ease';
+            clone.style.alignItems = 'center';
+            
             // Текст увеличивается
             const titleEl = clone.querySelector('.item-title');
-            const infoEl = clone.querySelector('.item-info');
-            
             if (titleEl) {
                 titleEl.style.transition = 'font-size 0.6s ease';
                 titleEl.style.fontSize = '22px';
             }
             
-            // Центрируем текст по вертикали (на одной линии с лого)
+            // Центрируем текст внутри item-info
+            const infoEl = clone.querySelector('.item-info');
             if (infoEl) {
                 infoEl.style.transition = 'justify-content 0.6s ease';
                 infoEl.style.justifyContent = 'center';
+                infoEl.style.height = 'auto';
             }
             
             // Квадрат с лого — убираем фон, границы, размеры
@@ -690,7 +694,7 @@ listItems.forEach(item => {
             }
             
             // Кнопка растягивается — становится верхней вкладкой
-            clone.style.transition = 'left 0.6s cubic-bezier(0.16, 1, 0.3, 1), width 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s ease, padding 0.6s ease';
+            clone.style.transition = 'left 0.6s cubic-bezier(0.16, 1, 0.3, 1), width 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s ease, padding 0.6s ease, align-items 0.6s ease';
             clone.style.left = '0px';
             clone.style.width = '100vw';
             clone.style.top = '0px';
