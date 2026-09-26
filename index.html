@@ -559,7 +559,7 @@ listItems.forEach(item => {
         // Запоминаем позицию нажатого блока
         const rect = item.getBoundingClientRect();
         
-                // Создаём копию блока-заглушки
+        // Создаём копию блока-заглушки
         const clone = item.cloneNode(true);
         clone.classList.add('clone-item');
         clone.style.position = 'fixed';
@@ -575,8 +575,6 @@ listItems.forEach(item => {
         clone.style.margin = '0';
         clone.style.display = 'flex';
         clone.style.alignItems = 'center';
-        clone.style.justifyContent = 'flex-start';
-        clone.style.paddingLeft = '14px';
         
         // Сразу убираем «•••» и ставим стрелочку (скрытую)
         const cloneMenuBtn = clone.querySelector('.item-menu-btn');
@@ -668,17 +666,12 @@ listItems.forEach(item => {
                 titleEl.style.filter = 'blur(8px)';
             }
             
-                        // 2. Через 400мс — показываем текст заново, но уже центрированным
+            // 2. Через 400мс — показываем текст заново, но уже центрированным
             setTimeout(() => {
                 if (infoEl) {
                     infoEl.style.transition = 'none';
-                    infoEl.style.position = 'absolute';
-                    infoEl.style.left = '0';
-                    infoEl.style.top = '50%';
-                    infoEl.style.transform = 'translateY(-50%)';
-                    infoEl.style.width = '100%';
-                    infoEl.style.paddingLeft = '70px'; // Отступ под лого
-                    infoEl.style.paddingRight = '60px'; // Отступ под стрелочку
+                    infoEl.style.justifyContent = 'center';
+                    infoEl.style.height = '100%';
                 }
                 
                 if (titleEl) {
