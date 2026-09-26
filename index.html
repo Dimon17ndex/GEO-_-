@@ -575,6 +575,7 @@ listItems.forEach(item => {
         clone.style.margin = '0';
         clone.style.display = 'flex';
         clone.style.alignItems = 'center';
+        clone.style.overflow = 'visible';
         
         // Сразу убираем «•••» и ставим стрелочку (скрытую)
         const cloneMenuBtn = clone.querySelector('.item-menu-btn');
@@ -620,7 +621,6 @@ listItems.forEach(item => {
         setTimeout(() => {
             const subtitle = clone.querySelector('.item-subtitle');
             const titleEl = clone.querySelector('.item-title');
-            const infoEl = clone.querySelector('.item-info');
             
             // Запоминаем текст
             const titleText = titleEl ? titleEl.textContent : '';
@@ -660,12 +660,10 @@ listItems.forEach(item => {
                 newTitle.style.whiteSpace = 'nowrap';
                 newTitle.style.overflow = 'hidden';
                 newTitle.style.textOverflow = 'ellipsis';
+                newTitle.style.textAlign = 'center';
                 
-                // Добавляем в item-info (который должен быть relative)
-                if (infoEl) {
-                    infoEl.style.position = 'relative';
-                    infoEl.appendChild(newTitle);
-                }
+                // Добавляем прямо в clone (не в item-info)
+                clone.appendChild(newTitle);
                 
                 // Проявляем новый текст
                 requestAnimationFrame(() => {
