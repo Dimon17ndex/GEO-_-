@@ -656,9 +656,17 @@ listItems.forEach(item => {
             
             // Текст увеличивается
             const titleEl = clone.querySelector('.item-title');
+            const infoEl = clone.querySelector('.item-info');
+            
             if (titleEl) {
                 titleEl.style.transition = 'font-size 0.6s ease';
                 titleEl.style.fontSize = '22px';
+            }
+            
+            // Центрируем текст по вертикали (на одной линии с лого)
+            if (infoEl) {
+                infoEl.style.transition = 'justify-content 0.6s ease';
+                infoEl.style.justifyContent = 'center';
             }
             
             // Квадрат с лого — убираем фон, границы, размеры
