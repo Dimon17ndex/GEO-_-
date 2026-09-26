@@ -561,17 +561,17 @@ listItems.forEach(item => {
         
         // Создаём копию блока-заглушки
         const clone = item.cloneNode(true);
-        clone.classList.add('clone-item'); // Убираем подсветку при наведении
+        clone.classList.add('clone-item');
         clone.style.position = 'fixed';
         clone.style.left = rect.left + 'px';
         clone.style.top = rect.top + 'px';
         clone.style.width = rect.width + 'px';
         clone.style.zIndex = '100';
         clone.style.pointerEvents = 'none';
-        clone.style.opacity = '0';
-        clone.style.filter = 'blur(12px)';
-        clone.style.transform = 'scale(0.97)';
-        clone.style.transition = 'opacity 0.6s ease, filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+        clone.style.opacity = '1';          // ← сразу видима
+        clone.style.filter = 'blur(0)';     // ← сразу чёткая
+        clone.style.transform = 'scale(1)'; // ← без масштаба
+        clone.style.transition = 'top 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, filter 0.6s ease';
         clone.style.margin = '0';
         
         // Сразу убираем «•••» и ставим стрелочку (скрытую)
@@ -584,9 +584,10 @@ listItems.forEach(item => {
             cloneMenuBtn.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
         }
         
+        // Вставляем копию ПОД оригинал (чтобы не было видно разницы)
         document.body.appendChild(clone);
         
-        // Все элементы исчезают одновременно
+        // Все элементы (включая оригинал) исчезают
         const bottomNav = document.getElementById('bottomNav');
         const logoWrapper = document.getElementById('logoContainer');
         const title = document.getElementById('unboundedTitle');
@@ -608,17 +609,10 @@ listItems.forEach(item => {
             }
         });
         
-        // Копия проявляется через blur
-        setTimeout(() => {
-            clone.style.opacity = '1';
-            clone.style.filter = 'blur(0)';
-            clone.style.transform = 'scale(1)';
-        }, 300);
-        
-        // Копия поднимается вверх
+        // Копия поднимается вверх (с задержкой, чтобы исчезновение не было заметно)
         setTimeout(() => {
             clone.style.top = '20px';
-        }, 1200);
+        }, 600);
         
         // Подпись исчезает, стрелочка появляется, текст увеличивается
         setTimeout(() => {
@@ -633,12 +627,10 @@ listItems.forEach(item => {
                 cloneMenuBtn.style.opacity = '1';
                 cloneMenuBtn.style.filter = 'blur(0)';
                 
-                // Делаем стрелочку кликабельной
                 clone.style.pointerEvents = 'auto';
                 cloneMenuBtn.style.pointerEvents = 'auto';
                 cloneMenuBtn.style.cursor = 'pointer';
                 
-                // Обработчик клика на стрелочку — возвращаем всё обратно
                 cloneMenuBtn.addEventListener('click', (ev) => {
                     ev.stopPropagation();
                     triggerHaptic();
@@ -668,7 +660,7 @@ listItems.forEach(item => {
                 titleEl.style.transition = 'font-size 0.6s ease';
                 titleEl.style.fontSize = '22px';
             }
-        }, 2400);
+        }, 1800);
     });
 });
 });
