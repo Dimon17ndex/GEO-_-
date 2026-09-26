@@ -609,20 +609,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 clone.style.top = '20px';
             }, 1200);
             
-            // Белый текст увеличивается, подпись исчезает
+                        // После подъёма: подпись исчезает, текст смещается вниз и центрируется
             setTimeout(() => {
-                // Скрываем иконку
-                const iconBox = clone.querySelector('.item-icon-box');
-                if (iconBox) {
-                    iconBox.style.transition = 'opacity 0.6s ease, filter 0.6s ease, width 0.6s ease, margin 0.6s ease';
-                    iconBox.style.opacity = '0';
-                    iconBox.style.filter = 'blur(12px)';
-                    setTimeout(() => {
-                        iconBox.style.display = 'none';
-                    }, 600);
-                }
-                
-                // Скрываем подпись
+                // Скрываем только подпись
                 const subtitle = clone.querySelector('.item-subtitle');
                 if (subtitle) {
                     subtitle.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
@@ -630,28 +619,15 @@ window.addEventListener('DOMContentLoaded', () => {
                     subtitle.style.filter = 'blur(12px)';
                 }
                 
-                // Скрываем кнопку меню
-                const menuBtn = clone.querySelector('.item-menu-btn');
-                if (menuBtn) {
-                    menuBtn.style.transition = 'opacity 0.6s ease';
-                    menuBtn.style.opacity = '0';
-                }
-                
-                // Увеличиваем белый текст и центрируем
+                // Белый текст — смещаем вниз и центрируем
                 const titleEl = clone.querySelector('.item-title');
-                const infoEl = clone.querySelector('.item-info');
-                if (titleEl && infoEl) {
+                if (titleEl) {
                     titleEl.style.transition = 'font-size 0.6s ease, transform 0.6s ease';
-                    infoEl.style.transition = 'align-items 0.6s ease';
-                    
                     titleEl.style.fontSize = '22px';
+                    titleEl.style.transform = 'translateY(6px)';
                     titleEl.style.textAlign = 'center';
-                    infoEl.style.alignItems = 'center';
-                    infoEl.style.justifyContent = 'center';
                 }
             }, 2400);
-        });
-    });
 });
 </script>
 </body>
