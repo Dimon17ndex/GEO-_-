@@ -689,17 +689,18 @@ listItems.forEach(item => {
                     clone.style.filter = 'blur(12px)';
                     
                     setTimeout(() => {
-                        clone.remove();
-                        
-                        allElements.forEach(el => {
-                            if (el) {
-                                el.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
-                                el.style.setProperty('opacity', '1', 'important');
-                                el.style.setProperty('filter', 'blur(0)', 'important');
-                                el.style.setProperty('pointer-events', 'auto', 'important');
-                            }
-                        });
-                    }, 600);
+    clone.remove();
+    
+    allElements.forEach(el => {
+        if (el) {
+            // Сбрасываем inline-стили, возвращаем управление CSS
+            el.style.removeProperty('transition');
+            el.style.removeProperty('opacity');
+            el.style.removeProperty('filter');
+            el.style.removeProperty('pointer-events');
+        }
+    });
+}, 600);
                 });
             }
             
