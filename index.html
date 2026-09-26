@@ -568,9 +568,9 @@ listItems.forEach(item => {
         clone.style.width = rect.width + 'px';
         clone.style.zIndex = '100';
         clone.style.pointerEvents = 'none';
-        clone.style.opacity = '1';          // ← сразу видима
-        clone.style.filter = 'blur(0)';     // ← сразу чёткая
-        clone.style.transform = 'scale(1)'; // ← без масштаба
+        clone.style.opacity = '1';
+        clone.style.filter = 'blur(0)';
+        clone.style.transform = 'scale(1)';
         clone.style.transition = 'top 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, filter 0.6s ease';
         clone.style.margin = '0';
         
@@ -584,10 +584,10 @@ listItems.forEach(item => {
             cloneMenuBtn.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
         }
         
-        // Вставляем копию ПОД оригинал (чтобы не было видно разницы)
+        // Вставляем копию ПОД оригинал
         document.body.appendChild(clone);
         
-        // Все элементы (включая оригинал) исчезают
+        // Все элементы исчезают
         const bottomNav = document.getElementById('bottomNav');
         const logoWrapper = document.getElementById('logoContainer');
         const title = document.getElementById('unboundedTitle');
@@ -609,12 +609,12 @@ listItems.forEach(item => {
             }
         });
         
-        // Копия поднимается вверх (с задержкой, чтобы исчезновение не было заметно)
+        // Копия поднимается вверх
         setTimeout(() => {
             clone.style.top = '20px';
         }, 600);
         
-        // Подпись исчезает, стрелочка появляется, текст увеличивается + кнопка растягивается
+        // Подпись исчезает, стрелочка появляется, текст увеличивается, кнопка растягивается
         setTimeout(() => {
             const subtitle = clone.querySelector('.item-subtitle');
             if (subtitle) {
@@ -659,6 +659,26 @@ listItems.forEach(item => {
             if (titleEl) {
                 titleEl.style.transition = 'font-size 0.6s ease';
                 titleEl.style.fontSize = '22px';
+            }
+            
+            // Квадрат с лого — убираем фон, границы, размеры
+            const iconBox = clone.querySelector('.item-icon-box');
+            const logo = clone.querySelector('.list-logo');
+            
+            if (iconBox) {
+                iconBox.style.transition = 'background 0.6s ease, border-radius 0.6s ease, width 0.6s ease, height 0.6s ease, box-shadow 0.6s ease';
+                iconBox.style.background = 'transparent';
+                iconBox.style.borderRadius = '0';
+                iconBox.style.boxShadow = 'none';
+                iconBox.style.width = 'auto';
+                iconBox.style.height = 'auto';
+            }
+            
+            // Лого увеличивается
+            if (logo) {
+                logo.style.transition = 'width 0.6s ease, height 0.6s ease';
+                logo.style.width = '40px';
+                logo.style.height = '40px';
             }
             
             // Кнопка растягивается — становится верхней вкладкой
