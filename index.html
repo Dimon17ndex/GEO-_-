@@ -616,19 +616,63 @@ listItems.forEach(item => {
             clone.style.top = '20px';
         }, 600);
         
-        // Подпись удаляется из потока, стрелочка появляется, текст центрируется, кнопка растягивается
+        // Подпись удаляется, стрелочка появляется, текст заменяется на новый (центрированный), кнопка растягивается
         setTimeout(() => {
             const subtitle = clone.querySelector('.item-subtitle');
+            const titleEl = clone.querySelector('.item-title');
+            const infoEl = clone.querySelector('.item-info');
+            
+            // Запоминаем текст
+            const titleText = titleEl ? titleEl.textContent : '';
+            
+            // Скрываем старый текст и подпись
             if (subtitle) {
                 subtitle.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
                 subtitle.style.opacity = '0';
                 subtitle.style.filter = 'blur(12px)';
-                
-                // Через 400мс — удаляем подпись из потока
-                setTimeout(() => {
-                    subtitle.style.display = 'none';
-                }, 400);
             }
+            if (titleEl) {
+                titleEl.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
+                titleEl.style.opacity = '0';
+                titleEl.style.filter = 'blur(8px)';
+            }
+            
+            // Через 400мс — удаляем старые и создаём новый центрированный текст
+            setTimeout(() => {
+                if (subtitle) subtitle.style.display = 'none';
+                if (titleEl) titleEl.style.display = 'none';
+                
+                // Создаём новый текст — независимый, по центру по вертикали с лого
+                const newTitle = document.createElement('span');
+                newTitle.className = 'item-title-new';
+                newTitle.textContent = titleText;
+                newTitle.style.position = 'absolute';
+                newTitle.style.left = '70px';
+                newTitle.style.right = '60px';
+                newTitle.style.top = '50%';
+                newTitle.style.transform = 'translateY(-50%)';
+                newTitle.style.fontSize = '22px';
+                newTitle.style.fontWeight = '600';
+                newTitle.style.color = '#ffffff';
+                newTitle.style.opacity = '0';
+                newTitle.style.filter = 'blur(8px)';
+                newTitle.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
+                newTitle.style.whiteSpace = 'nowrap';
+                newTitle.style.overflow = 'hidden';
+                newTitle.style.textOverflow = 'ellipsis';
+                
+                // Добавляем в item-info (который должен быть relative)
+                if (infoEl) {
+                    infoEl.style.position = 'relative';
+                    infoEl.appendChild(newTitle);
+                }
+                
+                // Проявляем новый текст
+                requestAnimationFrame(() => {
+                    newTitle.style.opacity = '1';
+                    newTitle.style.filter = 'blur(0)';
+                });
+            }, 400);
             
             if (cloneMenuBtn) {
                 cloneMenuBtn.style.opacity = '1';
@@ -659,21 +703,6 @@ listItems.forEach(item => {
                         });
                     }, 600);
                 });
-            }
-            
-            // Текст увеличивается
-            const titleEl = clone.querySelector('.item-title');
-            if (titleEl) {
-                titleEl.style.transition = 'font-size 0.6s ease';
-                titleEl.style.fontSize = '22px';
-            }
-            
-            // Центрируем текст (после удаления подписи он один в item-info)
-            const infoEl = clone.querySelector('.item-info');
-            if (infoEl) {
-                infoEl.style.transition = 'justify-content 0.6s ease';
-                infoEl.style.justifyContent = 'center';
-                infoEl.style.height = '100%';
             }
             
             // Квадрат с лого — убираем фон, границы, размеры
