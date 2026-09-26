@@ -609,7 +609,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 clone.style.top = '20px';
             }, 1200);
             
-                                    // После подъёма: подпись исчезает, текст увеличивается и центрируется
+                                                // После подъёма: подпись исчезает, текст увеличивается
             setTimeout(() => {
                 // Скрываем только подпись
                 const subtitle = clone.querySelector('.item-subtitle');
@@ -619,13 +619,11 @@ window.addEventListener('DOMContentLoaded', () => {
                     subtitle.style.filter = 'blur(12px)';
                 }
                 
-                // Белый текст — увеличиваем и центрируем по горизонтали
+                // Белый текст — просто увеличиваем
                 const titleEl = clone.querySelector('.item-title');
                 if (titleEl) {
-                    titleEl.style.transition = 'font-size 0.6s ease, text-align 0.6s ease';
+                    titleEl.style.transition = 'font-size 0.6s ease';
                     titleEl.style.fontSize = '22px';
-                    titleEl.style.textAlign = 'center';
-                    titleEl.style.width = '100%';
                 }
             }, 2400);
         });
