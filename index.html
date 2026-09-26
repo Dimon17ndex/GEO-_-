@@ -278,14 +278,12 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Закрытие при клике в любом месте
     document.addEventListener('click', (e) => {
         if (contextMenu && !contextMenu.contains(e.target)) {
             contextMenu.classList.remove('active');
         }
     });
 
-    // Закрытие при скролле
     document.addEventListener('scroll', () => {
         if (contextMenu) contextMenu.classList.remove('active');
     });
@@ -547,192 +545,191 @@ window.addEventListener('DOMContentLoaded', () => {
         if (link) { e.preventDefault(); triggerHaptic(); redirectToLink('https://t.me/geo_rus_grafia'); }
     });
 
-                                                                    // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
-const listItems = document.querySelectorAll('.list-item');
+    // ====== ИСЧЕЗНОВЕНИЕ ПРИ КЛИКЕ НА БЛОК ======
+    const listItems = document.querySelectorAll('.list-item');
 
-listItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-        if (e.target.closest('.item-menu-btn')) return;
-        
-        triggerHaptic();
-        
-        // Запоминаем позицию нажатого блока
-        const rect = item.getBoundingClientRect();
-        
-        // Создаём копию блока-заглушки
-        const clone = item.cloneNode(true);
-        clone.classList.add('clone-item');
-        clone.style.position = 'fixed';
-        clone.style.left = rect.left + 'px';
-        clone.style.top = rect.top + 'px';
-        clone.style.width = rect.width + 'px';
-        clone.style.zIndex = '100';
-        clone.style.pointerEvents = 'none';
-        clone.style.opacity = '1';
-        clone.style.filter = 'blur(0)';
-        clone.style.transform = 'scale(1)';
-        clone.style.transition = 'top 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, filter 0.6s ease';
-        clone.style.margin = '0';
-        clone.style.display = 'flex';
-        clone.style.alignItems = 'center';
-        clone.style.overflow = 'visible';
-        
-        // Сразу убираем «•••» и ставим стрелочку (скрытую)
-        const cloneMenuBtn = clone.querySelector('.item-menu-btn');
-        if (cloneMenuBtn) {
-            cloneMenuBtn.className = 'clone-arrow-btn';
-            cloneMenuBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
-            cloneMenuBtn.style.opacity = '0';
-            cloneMenuBtn.style.filter = 'blur(12px)';
-            cloneMenuBtn.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
-        }
-        
-        // Вставляем копию ПОД оригинал
-        document.body.appendChild(clone);
-        
-        // Все элементы исчезают
-        const bottomNav = document.getElementById('bottomNav');
-        const logoWrapper = document.getElementById('logoContainer');
-        const title = document.getElementById('unboundedTitle');
-        const desc = document.getElementById('headerDesc');
-        const profileBtn = document.getElementById('profileBtn');
-        const searchSection = document.querySelector('.search-section');
-        const tabsRow = document.querySelector('.tabs-row');
-        
-        const allElements = [
-            bottomNav, logoWrapper, title, desc, profileBtn, searchSection, tabsRow, item
-        ];
-        
-        allElements.forEach(el => {
-            if (el) {
-                el.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
-                el.style.setProperty('opacity', '0', 'important');
-                el.style.setProperty('filter', 'blur(12px)', 'important');
-                el.style.setProperty('pointer-events', 'none', 'important');
-            }
-        });
-        
-        // Копия поднимается вверх
-        setTimeout(() => {
-            clone.style.top = '20px';
-        }, 600);
-        
-        // Подпись удаляется, стрелочка появляется, текст заменяется на новый (центрированный), кнопка растягивается
-        setTimeout(() => {
-            const subtitle = clone.querySelector('.item-subtitle');
-            const titleEl = clone.querySelector('.item-title');
+    listItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            if (e.target.closest('.item-menu-btn')) return;
             
-            // Запоминаем текст
-            const titleText = titleEl ? titleEl.textContent : '';
+            triggerHaptic();
             
-            // Скрываем старый текст и подпись
-            if (subtitle) {
-                subtitle.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
-                subtitle.style.opacity = '0';
-                subtitle.style.filter = 'blur(12px)';
-            }
-            if (titleEl) {
-                titleEl.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
-                titleEl.style.opacity = '0';
-                titleEl.style.filter = 'blur(8px)';
-            }
+            // Запоминаем позицию нажатого блока
+            const rect = item.getBoundingClientRect();
             
-            // Через 400мс — удаляем старые и создаём новый центрированный текст
-            setTimeout(() => {
-                if (subtitle) subtitle.style.display = 'none';
-                if (titleEl) titleEl.style.display = 'none';
-                
-                // Создаём новый текст — независимый, по центру по вертикали с лого
-                const newTitle = document.createElement('span');
-                newTitle.className = 'item-title-new';
-                newTitle.textContent = titleText;
-                newTitle.style.position = 'absolute';
-                newTitle.style.left = '70px';
-                newTitle.style.right = '60px';
-                newTitle.style.top = '50%';
-                newTitle.style.transform = 'translateY(-50%)';
-                newTitle.style.fontSize = '22px';
-                newTitle.style.fontWeight = '600';
-                newTitle.style.color = '#ffffff';
-                newTitle.style.opacity = '0';
-                newTitle.style.filter = 'blur(8px)';
-                newTitle.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
-                newTitle.style.whiteSpace = 'nowrap';
-                newTitle.style.overflow = 'hidden';
-                newTitle.style.textOverflow = 'ellipsis';
-                newTitle.style.textAlign = 'center';
-                
-                // Добавляем прямо в clone (не в item-info)
-                clone.appendChild(newTitle);
-                
-                // Проявляем новый текст
-                requestAnimationFrame(() => {
-                    newTitle.style.opacity = '1';
-                    newTitle.style.filter = 'blur(0)';
-                });
-            }, 400);
+            // Создаём копию блока-заглушки
+            const clone = item.cloneNode(true);
+            clone.classList.add('clone-item');
+            clone.style.position = 'fixed';
+            clone.style.left = rect.left + 'px';
+            clone.style.top = rect.top + 'px';
+            clone.style.width = rect.width + 'px';
+            clone.style.zIndex = '100';
+            clone.style.pointerEvents = 'none';
+            clone.style.opacity = '1';
+            clone.style.filter = 'blur(0)';
+            clone.style.transform = 'scale(1)';
+            clone.style.transition = 'top 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, filter 0.6s ease';
+            clone.style.margin = '0';
+            clone.style.display = 'flex';
+            clone.style.alignItems = 'center';
+            clone.style.overflow = 'visible';
             
+            // Сразу убираем «•••» и ставим стрелочку (скрытую)
+            const cloneMenuBtn = clone.querySelector('.item-menu-btn');
             if (cloneMenuBtn) {
-                cloneMenuBtn.style.opacity = '1';
-                cloneMenuBtn.style.filter = 'blur(0)';
+                cloneMenuBtn.className = 'clone-arrow-btn';
+                cloneMenuBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
+                cloneMenuBtn.style.opacity = '0';
+                cloneMenuBtn.style.filter = 'blur(12px)';
+                cloneMenuBtn.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
+            }
+            
+            // Вставляем копию ПОД оригинал
+            document.body.appendChild(clone);
+            
+            // Все элементы исчезают (БЕЗ profileBtn — чтобы не ломать его плавность)
+            const bottomNav = document.getElementById('bottomNav');
+            const logoWrapper = document.getElementById('logoContainer');
+            const title = document.getElementById('unboundedTitle');
+            const desc = document.getElementById('headerDesc');
+            const searchSection = document.querySelector('.search-section');
+            const tabsRow = document.querySelector('.tabs-row');
+            
+            const allElements = [
+                bottomNav, logoWrapper, title, desc, searchSection, tabsRow, item
+            ];
+            
+            allElements.forEach(el => {
+                if (el) {
+                    el.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
+                    el.style.setProperty('opacity', '0', 'important');
+                    el.style.setProperty('filter', 'blur(12px)', 'important');
+                    el.style.setProperty('pointer-events', 'none', 'important');
+                }
+            });
+            
+            // Копия поднимается вверх
+            setTimeout(() => {
+                clone.style.top = '20px';
+            }, 600);
+            
+            // Подпись удаляется, стрелочка появляется, текст заменяется на новый (центрированный), кнопка растягивается
+            setTimeout(() => {
+                const subtitle = clone.querySelector('.item-subtitle');
+                const titleEl = clone.querySelector('.item-title');
                 
-                clone.style.pointerEvents = 'auto';
-                cloneMenuBtn.style.pointerEvents = 'auto';
-                cloneMenuBtn.style.cursor = 'pointer';
+                // Запоминаем текст
+                const titleText = titleEl ? titleEl.textContent : '';
                 
-                cloneMenuBtn.addEventListener('click', (ev) => {
-                    ev.stopPropagation();
-                    triggerHaptic();
+                // Скрываем старый текст и подпись
+                if (subtitle) {
+                    subtitle.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
+                    subtitle.style.opacity = '0';
+                    subtitle.style.filter = 'blur(12px)';
+                }
+                if (titleEl) {
+                    titleEl.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
+                    titleEl.style.opacity = '0';
+                    titleEl.style.filter = 'blur(8px)';
+                }
+                
+                // Через 400мс — удаляем старые и создаём новый центрированный текст
+                setTimeout(() => {
+                    if (subtitle) subtitle.style.display = 'none';
+                    if (titleEl) titleEl.style.display = 'none';
                     
-                    clone.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
-                    clone.style.opacity = '0';
-                    clone.style.filter = 'blur(12px)';
+                    // Создаём новый текст — независимый, по центру по вертикали с лого
+                    const newTitle = document.createElement('span');
+                    newTitle.className = 'item-title-new';
+                    newTitle.textContent = titleText;
+                    newTitle.style.position = 'absolute';
+                    newTitle.style.left = '70px';
+                    newTitle.style.right = '60px';
+                    newTitle.style.top = '50%';
+                    newTitle.style.transform = 'translateY(-50%)';
+                    newTitle.style.fontSize = '22px';
+                    newTitle.style.fontWeight = '600';
+                    newTitle.style.color = '#ffffff';
+                    newTitle.style.opacity = '0';
+                    newTitle.style.filter = 'blur(8px)';
+                    newTitle.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
+                    newTitle.style.whiteSpace = 'nowrap';
+                    newTitle.style.overflow = 'hidden';
+                    newTitle.style.textOverflow = 'ellipsis';
+                    newTitle.style.textAlign = 'center';
                     
-                    setTimeout(() => {
-                        clone.remove();
+                    // Добавляем прямо в clone (не в item-info)
+                    clone.appendChild(newTitle);
+                    
+                    // Проявляем новый текст
+                    requestAnimationFrame(() => {
+                        newTitle.style.opacity = '1';
+                        newTitle.style.filter = 'blur(0)';
+                    });
+                }, 400);
+                
+                if (cloneMenuBtn) {
+                    cloneMenuBtn.style.opacity = '1';
+                    cloneMenuBtn.style.filter = 'blur(0)';
+                    
+                    clone.style.pointerEvents = 'auto';
+                    cloneMenuBtn.style.pointerEvents = 'auto';
+                    cloneMenuBtn.style.cursor = 'pointer';
+                    
+                    cloneMenuBtn.addEventListener('click', (ev) => {
+                        ev.stopPropagation();
+                        triggerHaptic();
                         
-                        allElements.forEach(el => {
-                            if (el) {
-                                el.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
-                                el.style.setProperty('opacity', '1', 'important');
-                                el.style.setProperty('filter', 'blur(0)', 'important');
-                                el.style.setProperty('pointer-events', 'auto', 'important');
-                            }
-                        });
-                    }, 600);
-                });
-            }
-            
-            // Квадрат с лого — убираем фон, границы, размеры
-            const iconBox = clone.querySelector('.item-icon-box');
-            const logo = clone.querySelector('.list-logo');
-            
-            if (iconBox) {
-                iconBox.style.transition = 'background 0.6s ease, border-radius 0.6s ease, width 0.6s ease, height 0.6s ease, box-shadow 0.6s ease';
-                iconBox.style.background = 'transparent';
-                iconBox.style.borderRadius = '0';
-                iconBox.style.boxShadow = 'none';
-                iconBox.style.width = 'auto';
-                iconBox.style.height = 'auto';
-            }
-            
-            // Лого увеличивается
-            if (logo) {
-                logo.style.transition = 'width 0.6s ease, height 0.6s ease';
-                logo.style.width = '40px';
-                logo.style.height = '40px';
-            }
-            
-            // Кнопка растягивается — становится верхней вкладкой
-            clone.style.transition = 'left 0.6s cubic-bezier(0.16, 1, 0.3, 1), width 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s ease, padding 0.6s ease';
-            clone.style.left = '0px';
-            clone.style.width = '100vw';
-            clone.style.top = '0px';
-            clone.style.borderRadius = '0 0 20px 20px';
-            clone.style.padding = '16px 20px';
-        }, 1800);
+                        clone.style.transition = 'opacity 0.6s ease, filter 0.6s ease';
+                        clone.style.opacity = '0';
+                        clone.style.filter = 'blur(12px)';
+                        
+                        setTimeout(() => {
+                            clone.remove();
+                            
+                            allElements.forEach(el => {
+                                if (el) {
+                                    el.style.setProperty('transition', 'opacity 0.6s ease, filter 0.6s ease', 'important');
+                                    el.style.setProperty('opacity', '1', 'important');
+                                    el.style.setProperty('filter', 'blur(0)', 'important');
+                                    el.style.setProperty('pointer-events', 'auto', 'important');
+                                }
+                            });
+                        }, 600);
+                    });
+                }
+                
+                // Квадрат с лого — убираем фон, границы, размеры
+                const iconBox = clone.querySelector('.item-icon-box');
+                const logo = clone.querySelector('.list-logo');
+                
+                if (iconBox) {
+                    iconBox.style.transition = 'background 0.6s ease, border-radius 0.6s ease, width 0.6s ease, height 0.6s ease, box-shadow 0.6s ease';
+                    iconBox.style.background = 'transparent';
+                    iconBox.style.borderRadius = '0';
+                    iconBox.style.boxShadow = 'none';
+                    iconBox.style.width = 'auto';
+                    iconBox.style.height = 'auto';
+                }
+                
+                // Лого увеличивается
+                if (logo) {
+                    logo.style.transition = 'width 0.6s ease, height 0.6s ease';
+                    logo.style.width = '40px';
+                    logo.style.height = '40px';
+                }
+                
+                // Кнопка растягивается — становится верхней вкладкой
+                clone.style.transition = 'left 0.6s cubic-bezier(0.16, 1, 0.3, 1), width 0.6s cubic-bezier(0.16, 1, 0.3, 1), top 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s ease, padding 0.6s ease';
+                clone.style.left = '0px';
+                clone.style.width = '100vw';
+                clone.style.top = '0px';
+                clone.style.borderRadius = '0 0 20px 20px';
+                clone.style.padding = '16px 20px';
+            }, 1800);
+        });
     });
-});
 });
 </script>
 </body>
